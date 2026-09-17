@@ -24,6 +24,14 @@ for (const path of PAGES) {
     expect(await overflows(page)).toBeLessThanOrEqual(0);
   });
 
+  test(`${path} reflows to 320px even with a wide fallback font`, async ({ page }) => {
+    // CI runs on Linux where system-ui is wider than Segoe UI; Verdana is wider still.
+    await page.setViewportSize({ width: 320, height: 256 });
+    await page.goto(path);
+    await page.addStyleTag({ content: "* { font-family: Verdana, sans-serif !important; }" });
+    expect(await overflows(page)).toBeLessThanOrEqual(0);
+  });
+
   test(`${path} survives the 1.4.12 text-spacing override`, async ({ page }) => {
     await page.setViewportSize({ width: 320, height: 256 });
     await page.goto(path);

@@ -604,6 +604,8 @@
 
   .field {
     display: grid;
+    /* minmax(0, 1fr), not auto: a text input's intrinsic size (size=20) must not set the column width. */
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space-1);
     margin-block-end: var(--space-4);
 
@@ -620,10 +622,12 @@
       display: flex;
       gap: var(--space-2);
       align-items: center;
+      min-inline-size: 0;
     }
 
     input[type="text"] {
-      flex: 1;
+      flex: 1 1 0;
+      inline-size: 100%;
       min-inline-size: 0;
       min-block-size: var(--size-target);
       padding-inline: var(--space-3);

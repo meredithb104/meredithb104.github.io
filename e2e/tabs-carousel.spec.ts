@@ -8,6 +8,10 @@ import { expect, test } from "@playwright/test";
 
 const TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa", "best-practice"];
 
+/** Let every running CSS animation finish; axe measuring a slide mid-fade reads it as low contrast. */
+const settle = (page: import("@playwright/test").Page) =>
+  page.evaluate(() => Promise.all(document.getAnimations().map((a) => a.finished)).then(() => undefined));
+
 test("the tablist is one tab stop; arrows select; Tab lands on the panel", async ({ page }) => {
   await page.goto("/#lab");
   const tablist = page.getByRole("tablist", { name: "Carousel demo" });
@@ -109,6 +113,7 @@ test("tabs and carousel states are axe-clean in light and dark", async ({ page }
     await page.getByRole("button", { name: "Next slide" }).click();
     await page.getByRole("tab", { name: "How it's built" }).click();
     await page.getByRole("tab", { name: "Demo" }).click();
+    await settle(page);
     const results = await new AxeBuilder({ page }).withTags(TAGS).analyze();
     const summary = results.violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(", ")}`).join("\n");
     expect(summary, `${theme}: ${summary}`).toBe("");

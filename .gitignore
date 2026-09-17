@@ -5,6 +5,9 @@ dist-ssr
 .DS_Store
 # generated from tokens/tokens.json
 src/styles/tokens.css
+# generated from writing/*.md by scripts/build-posts.ts
+/posts/
+public/feed.xml
 # playwright
 test-results
 playwright-report

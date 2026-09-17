@@ -5,7 +5,7 @@ import { expect, test } from "@playwright/test";
  * that only a browser can run.
  */
 
-const PAGES = ["/", "/accessibility.html"] as const;
+const PAGES = ["/", "/accessibility.html", "/posts/", "/posts/accessibility-is-a-build-error/"] as const;
 
 // The user-agent stylesheet WCAG 1.4.12 describes: the page must not lose content or function.
 const TEXT_SPACING_CSS = `

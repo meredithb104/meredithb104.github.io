@@ -17,6 +17,7 @@ The site is the portfolio piece: the source is meant to be read. It is the sibli
 | Live-region announcer | [`src/lib/announce.ts`](src/lib/announce.ts) | Polite and assertive regions mounted empty at startup, re-mounted if detached, cleared before each message so repeats are announced. |
 | Modern CSS, no preprocessor | [`src/styles/`](src/styles/) | Cascade layers, nesting, container queries (the case-study columns respond to their own width, not the viewport), `:has()`, logical properties, `color-mix()`, `forced-colors`, `prefers-reduced-motion`. |
 | Architecture diagrams as inline SVG | [`index.html`](index.html) | `role="img"` with `<title>` and `<desc>`, styled from tokens, remapped to system colors under forced colors, and captioned in prose. |
+| Posts from Markdown | [`writing/`](writing/), [`scripts/build-posts.ts`](scripts/build-posts.ts), [`scripts/posts-lib.ts`](scripts/posts-lib.ts) | One Markdown file per post becomes a static page at `/posts/<slug>/`, an archive at `/posts/`, an Atom feed, and the newest three on the landing page. The build refuses a post with an image lacking alt text, a skipped heading level, an `h1` in the body, or bad front matter. `writing/README.md` has the format. |
 | Accessibility statement | [`accessibility.html`](accessibility.html) | Conformance claim, test method, known limitations, how to report a problem. |
 | Case studies | [`index.html`](index.html) | Architecture and process for two private TypeScript applications (a Slack app and a Discord bot), written from the code without publishing it. |
 
@@ -24,7 +25,8 @@ The site is the portfolio piece: the source is meant to be read. It is the sibli
 
 ```bash
 npm install
-npm run dev          # compiles tokens, starts Vite on :5173
+npm run dev          # compiles tokens and posts, starts Vite on :5173
+npm run posts        # rebuilds posts/, public/feed.xml, and the Writing block in index.html
 npm test             # tokens + Vitest (unit, component, jsdom axe)
 npm run test:e2e     # production build + Playwright: axe in Chromium, keyboard walk, reflow
 npm run check        # lint + typecheck + both test suites
@@ -38,6 +40,7 @@ Playwright needs a browser once: `npx playwright install chromium`.
 Every push runs, in order, and deploys only if all of it passes:
 
 1. **Token build.** 81 contrast pairs. A failing pair is a failed build, not a warning.
+   **Posts build.** Every Markdown post is validated: alt text on every image, no skipped heading levels, one `h1`, complete front matter.
 2. **Vitest** (jsdom): contrast math against WCAG reference values; keyboard and state behavior of each custom element; an axe pass over the real source HTML of both pages, plus structural checks (one `h1`, skip link first, every nav target focusable, every diagram titled, described, and captioned).
 3. **Playwright** (Chromium, against the production build): axe-core with the WCAG 2.0/2.1/2.2 A and AA rule sets and best practices, on both pages in all four theme states and after driving the tabs and carousel; keyboard tests for the tablist, the slide picker, and Previous/Next; a full keyboard walk asserting every focusable element is reachable, scrolled into view, and not obscured by the sticky header; reflow at 320 px and at a 200% zoom equivalent; the WCAG 1.4.12 text-spacing override; reduced motion; and 24 px minimum target size.
 
@@ -51,8 +54,11 @@ The whole site is one HTML document per page, one CSS file, and one JavaScript m
 
 ```
 index.html, accessibility.html   the pages; complete without JavaScript
+writing/*.md                     posts, one file each; see writing/README.md
+posts/, public/feed.xml          generated from writing/ (git-ignored)
 tokens/tokens.json               design tokens, source of truth
 scripts/build-tokens.ts          tokens -> src/styles/tokens.css, with contrast enforcement
+scripts/build-posts.ts           writing/*.md -> posts/, feed.xml, landing-page block (posts-lib.ts holds the rules)
 src/lib/                         contrast math, live-region announcer
 src/components/                  custom elements (light DOM, progressive enhancement)
 src/styles/                      base.css (layers, reset, focus), site.css (layout, components)

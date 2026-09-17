@@ -80,7 +80,7 @@ export function escapeHtml(s: string): string {
  *  - headings start at h2 (the post title is the h1) and never skip a level;
  *  - every image has alt text;
  *  - every heading gets an id so it can be linked to;
- *  - table header cells carry scope="col".
+ *  - table header cells carry scope="col", and tables sit in a focusable scroll region.
  */
 export function renderMarkdown(markdown: string): { html: string; words: number } {
   let lastLevel = 1;
@@ -112,7 +112,10 @@ export function renderMarkdown(markdown: string): { html: string; words: number 
       },
     },
   });
-  const html = marked.parse(markdown) as string;
+  // Data tables may scroll sideways under WCAG 1.4.10; the wrapper is focusable so keyboard users can scroll it.
+  const html = (marked.parse(markdown) as string)
+    .replaceAll("<table>", '<div class="table-scroll" role="region" aria-label="Table, scrolls sideways on narrow screens" tabindex="0"><table>')
+    .replaceAll("</table>", "</table></div>");
   const words = markdown
     .replace(/```[\s\S]*?```/g, " ")
     .split(/\s+/)

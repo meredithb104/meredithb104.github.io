@@ -78,6 +78,8 @@ describe("renderMarkdown enforces the site's rules", () => {
     const { html } = renderMarkdown(["| A | B |", "| --- | --- |", "| 1 | 2 |"].join("\n"));
     expect(html).toContain('<th scope="col">A</th>');
     expect(html).toContain("<td>1</td>");
+    expect(html).toContain('<div class="table-scroll" role="region" aria-label="Table, scrolls sideways on narrow screens" tabindex="0"><table>');
+    expect(html).toContain("</table></div>");
   });
 
   it("does not count fenced code as words", () => {

@@ -1147,6 +1147,27 @@
 
   .table-scroll {
     overflow-x: auto;
+    max-inline-size: 100%;
+    margin-block: var(--space-4);
+
+    table {
+      border-collapse: collapse;
+      inline-size: 100%;
+      min-inline-size: 36rem;
+
+      th,
+      td {
+        text-align: start;
+        vertical-align: top;
+        padding: var(--space-2) var(--space-3);
+        border-block-end: var(--size-border) solid var(--color-border-subtle);
+      }
+
+      th {
+        font-weight: var(--font-weight-bold);
+      }
+    }
+
     /* Keyboard users can scroll it (WCAG 2.1.1), so it is focusable and labelled in the HTML. */
     &:focus-visible {
       outline-offset: 0;

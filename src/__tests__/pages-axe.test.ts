@@ -33,7 +33,7 @@ async function scan(): Promise<axe.AxeResults> {
 const format = (v: axe.Result[]): string =>
   v.map((x) => `${x.id}: ${x.help}\n  ${x.nodes.map((n) => n.target.join(" ")).join("\n  ")}`).join("\n");
 
-describe.each(["index.html", "accessibility.html", "posts/index.html", "posts/accessibility-is-a-build-error/index.html"])("%s (jsdom axe)", (file) => {
+describe.each(["index.html", "accessibility.html", "posts/index.html", "posts/accessibility-is-a-build-error/index.html", "posts/talkover-revisited/index.html"])("%s (jsdom axe)", (file) => {
   it("has no axe violations", async () => {
     loadPage(file);
     const results = await scan();

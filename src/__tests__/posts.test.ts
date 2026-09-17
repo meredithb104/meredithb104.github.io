@@ -74,6 +74,12 @@ describe("renderMarkdown enforces the site's rules", () => {
     expect(html).toContain('<img src="pic.png" alt="A braille display on a desk" title="Mantis Q40" loading="lazy" />');
   });
 
+  it("gives table header cells scope=col", () => {
+    const { html } = renderMarkdown(["| A | B |", "| --- | --- |", "| 1 | 2 |"].join("\n"));
+    expect(html).toContain('<th scope="col">A</th>');
+    expect(html).toContain("<td>1</td>");
+  });
+
   it("does not count fenced code as words", () => {
     expect(renderMarkdown("one two\n\n```\nlots of code words here\n```\n\nthree").words).toBe(3);
   });
@@ -91,6 +97,9 @@ describe("reading time and ordering", () => {
     const out = publishable(input);
     expect(out.map((p) => p.date)).toEqual(["2026-02-01", "2026-01-01"]);
     expect(input[0]!.date).toBe("2026-01-01");
+    // Same-day posts keep input order (the build passes later file names first).
+    const same = [{ ...mk("2026-05-05"), slug: "later" }, { ...mk("2026-05-05"), slug: "earlier" }];
+    expect(publishable(same).map((p) => p.slug)).toEqual(["later", "earlier"]);
   });
 });
 

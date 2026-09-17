@@ -2,7 +2,7 @@
 
 One Markdown file per post. The build turns each file into a page at `/posts/<slug>/`, lists the newest three on the landing page, and writes the Atom feed.
 
-File name: `YYYY-MM-DD-slug.md`. The date prefix is dropped from the URL.
+File name: `YYYY-MM-DD-slug.md`. The date prefix is dropped from the URL. Posts list newest first; two posts on the same day list in reverse file-name order, so the later name comes first.
 
 Front matter, all required except `tags` and `draft`:
 

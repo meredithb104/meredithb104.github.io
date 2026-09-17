@@ -79,7 +79,8 @@ export function escapeHtml(s: string): string {
  * Markdown to HTML with the site's rules enforced:
  *  - headings start at h2 (the post title is the h1) and never skip a level;
  *  - every image has alt text;
- *  - every heading gets an id so it can be linked to.
+ *  - every heading gets an id so it can be linked to;
+ *  - table header cells carry scope="col".
  */
 export function renderMarkdown(markdown: string): { html: string; words: number } {
   let lastLevel = 1;
@@ -97,6 +98,12 @@ export function renderMarkdown(markdown: string): { html: string; words: number 
           .replace(/[^a-z0-9]+/g, "-")
           .replace(/^-+|-+$/g, "");
         return `<h${depth} id="${id}">${text}</h${depth}>\n`;
+      },
+      tablecell(token: Tokens.TableCell): string {
+        const content = this.parser.parseInline(token.tokens);
+        const align = token.align ? ` style="text-align:${token.align}"` : "";
+        const tag = token.header ? `th scope="col"` : "td";
+        return `<${tag}${align}>${content}</${token.header ? "th" : "td"}>\n`;
       },
       image({ href, text, title }: Tokens.Image): string {
         if (!text || !text.trim()) throw new PostError(`Image without alt text: ${href}. Every image needs alt text, or alt="" with a reason in the Markdown.`);
@@ -127,7 +134,7 @@ export function formatDate(iso: string): string {
   });
 }
 
-/** Newest first; drafts excluded. */
+/** Newest first; drafts excluded. The sort is stable, so same-day posts keep the order the build passed in (later file name first). */
 export function publishable(posts: Post[]): Post[] {
   return posts.filter((p) => !p.draft).toSorted((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
 }

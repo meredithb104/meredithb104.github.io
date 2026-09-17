@@ -42,7 +42,11 @@ const END = "<!-- posts:end -->";
 
 let files: string[] = [];
 try {
-  files = readdirSync(srcDir).filter((f) => f.endsWith(".md") && f.toLowerCase() !== "readme.md");
+  // Reverse alphabetical, so that among posts with the same date the later file name lists first.
+  files = readdirSync(srcDir)
+    .filter((f) => f.endsWith(".md") && f.toLowerCase() !== "readme.md")
+    .toSorted()
+    .toReversed();
 } catch {
   files = [];
 }

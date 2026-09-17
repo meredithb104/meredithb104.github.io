@@ -1,6 +1,6 @@
 ---
 title: Accessibility is a build error, not a review comment
-date: 2026-09-18
+date: 2026-09-17
 description: I made this site refuse to compile when a color pair fails WCAG contrast. Here is why, and what it caught on day one.
 tags: design tokens, WCAG, tooling
 ---

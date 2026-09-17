@@ -87,6 +87,8 @@ test("all interactive targets are at least 24 by 24 CSS pixels (2.5.8)", async (
       .filter((el) => el.offsetParent !== null || el.matches(".skip-link"))
       // A radio inside its <label> is operated through the 44px label, which is the real target.
       .filter((el) => !(el instanceof HTMLInputElement && el.type === "radio" && el.closest("label")))
+      // 2.5.8 exempts inline links in a sentence; a wrapped one also reports only its first line box.
+      .filter((el) => !(el.tagName === "A" && getComputedStyle(el).display === "inline" && el.closest("p, li, dd, figcaption")))
       .map((el) => {
         const r = el.getBoundingClientRect();
         return { label: (el.getAttribute("aria-label") ?? el.textContent ?? el.id).trim().slice(0, 30), w: r.width, h: r.height };

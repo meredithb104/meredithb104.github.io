@@ -1,0 +1,65 @@
+# meredithb104.github.io
+
+**Portfolio of Meredith Boyce, front-end engineer.** Live at **https://meredithb104.github.io/**
+
+Static HTML, hand-written CSS, and a few kilobytes of TypeScript. No framework runtime. Built to WCAG 2.2 AA, with contrast enforced at build time and axe-core run in a real browser on every push.
+
+The site is the portfolio piece: the source is meant to be read. It is the sibling of [Commons UI](https://github.com/meredithb104/commons-ui), my React component library, and shares its token pipeline and testing philosophy, minus React.
+
+## What's in it
+
+| Piece | Where | What it shows |
+| --- | --- | --- |
+| Design tokens with contrast enforcement | [`tokens/tokens.json`](tokens/tokens.json), [`scripts/build-tokens.ts`](scripts/build-tokens.ts) | Any color token can declare what it sits on and the ratio it needs. The build computes 81 pairs across three themes with the WCAG 2.x formula and exits non-zero if one fails. Runs directly under Node 24 with native type stripping; no build step for the build step. |
+| Shared contrast math | [`src/lib/contrast.ts`](src/lib/contrast.ts) | One module used by the Node build and the browser, tested against published WCAG reference values. Ratios are truncated, never rounded up past a threshold. |
+| Four light-DOM custom elements | [`src/components/`](src/components/) | `<theme-picker>`, `<contrast-checker>`, `<work-filter>`, `<site-nav>`. Each enhances HTML that already works; none uses shadow DOM, so tokens and the focus ring apply everywhere. |
+| Live-region announcer | [`src/lib/announce.ts`](src/lib/announce.ts) | Polite and assertive regions mounted empty at startup, re-mounted if detached, cleared before each message so repeats are announced. |
+| Modern CSS, no preprocessor | [`src/styles/`](src/styles/) | Cascade layers, nesting, container queries (the case-study columns respond to their own width, not the viewport), `:has()`, logical properties, `color-mix()`, `forced-colors`, `prefers-reduced-motion`. |
+| Architecture diagrams as inline SVG | [`index.html`](index.html) | `role="img"` with `<title>` and `<desc>`, styled from tokens, remapped to system colors under forced colors, and captioned in prose. |
+| Accessibility statement | [`accessibility.html`](accessibility.html) | Conformance claim, test method, known limitations, how to report a problem. |
+| Case studies | [`index.html`](index.html) | Architecture and process for two private TypeScript applications (a Slack app and a Discord bot), written from the code without publishing it. |
+
+## Run it
+
+```bash
+npm install
+npm run dev          # compiles tokens, starts Vite on :5173
+npm test             # tokens + Vitest (unit, component, jsdom axe)
+npm run test:e2e     # production build + Playwright: axe in Chromium, keyboard walk, reflow
+npm run check        # lint + typecheck + both test suites
+npm run build        # tokens -> typecheck -> Vite build into dist/
+```
+
+Playwright needs a browser once: `npx playwright install chromium`.
+
+## How it is tested
+
+Every push runs, in order, and deploys only if all of it passes:
+
+1. **Token build.** 81 contrast pairs. A failing pair is a failed build, not a warning.
+2. **Vitest** (jsdom): contrast math against WCAG reference values; keyboard and state behavior of each custom element; an axe pass over the real source HTML of both pages, plus structural checks (one `h1`, skip link first, every nav target focusable, every diagram titled, described, and captioned).
+3. **Playwright** (Chromium, against the production build): axe-core with the WCAG 2.0/2.1/2.2 A and AA rule sets and best practices, on both pages in all four theme states; a full keyboard walk asserting every focusable element is reachable, scrolled into view, and not obscured by the sticky header; reflow at 320 px and at a 200% zoom equivalent; the WCAG 1.4.12 text-spacing override; reduced motion; and 24 px minimum target size.
+
+axe finds roughly a third of accessibility problems. The rest is in the tests that describe behavior (where focus went, what was announced) and in using the site with a screen reader, which I do.
+
+## Performance
+
+The whole site is one HTML document per page, one CSS file, and one JavaScript module (about 7 kB, under 3 kB gzipped). No web fonts, no analytics, no third-party requests. The theme is applied by a two-line inline script before first paint, so there is no flash. Section highlighting uses `IntersectionObserver`, so nothing runs on scroll.
+
+## Structure
+
+```
+index.html, accessibility.html   the pages; complete without JavaScript
+tokens/tokens.json               design tokens, source of truth
+scripts/build-tokens.ts          tokens -> src/styles/tokens.css, with contrast enforcement
+src/lib/                         contrast math, live-region announcer
+src/components/                  custom elements (light DOM, progressive enhancement)
+src/styles/                      base.css (layers, reset, focus), site.css (layout, components)
+src/__tests__/                   Vitest
+e2e/                             Playwright
+.github/workflows/ci.yml         test, build, deploy to GitHub Pages
+```
+
+## License
+
+MIT for the code. The words and the case studies are mine; please don't pass them off as yours.

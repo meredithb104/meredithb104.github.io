@@ -1,0 +1,201 @@
+/*
+ * Base layer. Everything reads from tokens.css (generated, contrast-checked).
+ * Cascade layers keep specificity flat: reset < base < layout < components < utilities.
+ */
+@layer reset, base, layout, components, utilities;
+
+@layer reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  body,
+  h1,
+  h2,
+  h3,
+  p,
+  ul,
+  ol,
+  dl,
+  dd,
+  figure {
+    margin: 0;
+  }
+
+  ul[role="list"],
+  ol[role="list"] {
+    padding: 0;
+    list-style: none;
+  }
+
+  img,
+  svg {
+    display: block;
+    max-inline-size: 100%;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+    color: inherit;
+  }
+}
+
+@layer base {
+  html {
+    font-family: var(--font-family-sans);
+    font-size: 100%; /* never lock the user's zoom or text-size preference */
+    line-height: var(--font-line-height-body);
+    -webkit-text-size-adjust: 100%;
+    /* WCAG 2.4.11 Focus Not Obscured: in-page anchors land below the sticky header. */
+    scroll-padding-block-start: calc(var(--header-height, 4rem) + var(--space-4));
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    min-block-size: 100dvh;
+    background: var(--color-bg);
+    color: var(--color-text);
+    text-wrap: pretty;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Focus: one ring, everywhere, always visible. WCAG 2.4.7 / 2.4.11 / 2.4.13. */
+  :focus-visible {
+    outline: var(--size-focus-ring) solid var(--color-focus);
+    outline-offset: var(--size-focus-offset);
+    border-radius: var(--radius-sm);
+  }
+
+  /* Forced colors (Windows High Contrast): keep outlines and borders system-drawn. */
+  @media (forced-colors: active) {
+    :focus-visible {
+      outline: 3px solid CanvasText;
+    }
+    button,
+    [role="button"] {
+      border: 2px solid ButtonText;
+    }
+    a {
+      color: LinkText;
+    }
+  }
+
+  h1,
+  h2,
+  h3 {
+    line-height: var(--font-line-height-tight);
+    font-weight: var(--font-weight-bold);
+    text-wrap: balance;
+  }
+  h1 {
+    font-size: var(--font-size-3xl);
+    letter-spacing: -0.01em;
+  }
+  h2 {
+    font-size: var(--font-size-2xl);
+  }
+  h3 {
+    font-size: var(--font-size-xl);
+  }
+
+  p,
+  li,
+  dd,
+  dt {
+    max-inline-size: var(--size-measure); /* WCAG 1.4.8 line length */
+  }
+
+  a {
+    color: var(--color-primary);
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.18em;
+    transition: color var(--motion-duration-fast) var(--motion-easing-standard);
+
+    &:hover {
+      color: var(--color-primary-hover);
+      text-decoration-thickness: 0.14em;
+    }
+  }
+
+  code,
+  kbd {
+    font-family: var(--font-family-mono);
+    font-size: 0.925em;
+    background: var(--color-code-bg);
+    color: var(--color-code-text);
+    padding: 0.1em 0.35em;
+    border-radius: var(--radius-sm);
+  }
+
+  kbd {
+    border: var(--size-border) solid var(--color-border);
+    border-block-end-width: 2px;
+  }
+
+  abbr[title] {
+    text-decoration-style: dotted;
+    cursor: help;
+  }
+
+  hr {
+    border: 0;
+    border-block-start: var(--size-border) solid var(--color-border-subtle);
+    margin-block: var(--space-6);
+  }
+
+  ::selection {
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+  }
+}
+
+@layer utilities {
+  /* Screen-reader-only text. WCAG 1.3.1 / 4.1.2 helper. */
+  .visually-hidden:not(:focus):not(:active) {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* Skip link: first focusable element on the page. WCAG 2.4.1 Bypass Blocks. */
+  .skip-link {
+    position: absolute;
+    inset-block-start: var(--space-2);
+    inset-inline-start: var(--space-2);
+    z-index: 100;
+    padding: var(--space-2) var(--space-4);
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    border-radius: var(--radius-md);
+    font-weight: var(--font-weight-medium);
+    transform: translateY(-200%);
+
+    &:focus {
+      transform: none;
+    }
+  }
+
+  .measure {
+    max-inline-size: var(--size-measure);
+  }
+
+  .muted {
+    color: var(--color-text-muted);
+  }
+}

@@ -1,0 +1,745 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meredith Boyce, front-end engineer</title>
+    <meta
+      name="description"
+      content="Meredith Boyce is a blind front-end engineer in Boston. TypeScript, React, HTML, CSS, Node. Accessible-by-default component libraries, Slack and Discord apps, WCAG 2.2 AA."
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0F1419" media="(prefers-color-scheme: dark)" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Meredith Boyce, front-end engineer" />
+    <meta
+      property="og:description"
+      content="Front ends where the accessible path is the only path. TypeScript, React, HTML, CSS, Node. WCAG 2.2 AA, contrast enforced at build time."
+    />
+    <meta property="og:url" content="https://meredithb104.github.io/" />
+    <meta property="og:image" content="https://meredithb104.github.io/og-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Meredith Boyce, front-end engineer. Front ends where the accessible path is the only path. TypeScript, React, HTML, CSS, WCAG 2.2."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href="https://meredithb104.github.io/" />
+    <!-- Apply a saved theme before first paint. Tiny, inline, no flash. -->
+    <script>
+      try {
+        var t = localStorage.getItem("theme");
+        if (t === "light" || t === "dark" || t === "high-contrast") document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    </script>
+    <script type="module" src="/src/main.ts"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="/">Meredith Boyce</a>
+        <site-nav class="site-nav">
+          <nav aria-label="Sections">
+            <ul role="list">
+              <li><a href="#about">About</a></li>
+              <li><a href="#work">Work</a></li>
+              <li><a href="#case-studies">Case studies</a></li>
+              <li><a href="#approach">Approach</a></li>
+              <li><a href="#lab">Lab</a></li>
+              <li><a href="#skills">Skills</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </nav>
+        </site-nav>
+      </div>
+    </header>
+
+    <main id="main" tabindex="-1" class="wrap">
+      <section class="hero" aria-labelledby="hero-h">
+        <div>
+          <p class="eyebrow">Front-end engineer · Boston, MA</p>
+          <h1 id="hero-h">I build front ends where the accessible path is the only path.</h1>
+        </div>
+        <p class="lede measure">
+          I'm Meredith Boyce. I'm a blind front-end engineer: I use a screen reader and a braille display all day,
+          and I've spent six years auditing other people's component libraries for the same dozen mistakes. I write
+          TypeScript, HTML, and CSS that pass the audit before it starts.
+        </p>
+        <ul class="facts" role="list" aria-label="At a glance">
+          <li>TypeScript</li>
+          <li>React</li>
+          <li>Node</li>
+          <li>WCAG 2.2</li>
+          <li>Screen reader user</li>
+          <li>Open to front-end and accessibility roles</li>
+        </ul>
+        <div class="cta-row">
+          <a class="button" href="#work">See my work</a>
+          <a class="button button--secondary" href="https://github.com/meredithb104">
+            <svg aria-hidden="true" viewBox="0 0 16 16" fill="currentColor">
+              <path
+                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"
+              />
+            </svg>
+            GitHub
+          </a>
+          <a class="button button--secondary" href="https://www.linkedin.com/in/meredith-boyce/">LinkedIn</a>
+        </div>
+      </section>
+
+      <section id="about" class="section flow" tabindex="-1" aria-labelledby="about-h">
+        <h2 id="about-h">About</h2>
+        <p>
+          Most accessibility work happens after the fact: an audit, a spreadsheet of findings, a sprint of
+          patches, and then the same findings a year later. I'd rather build so that the findings can't happen.
+          That means using the platform before reaching for ARIA, treating a contrast failure as a build error, and
+          testing the behavior a screen reader user notices first, not just the markup.
+        </p>
+        <p>
+          I work across the stack when a project needs it. The two bots in the case studies below are TypeScript
+          on Node with Firestore, scheduled jobs, and language-model integrations, and they were built for real
+          people with real deadlines: a household coordinating medical care, and a nonprofit running a social media
+          pipeline with volunteers.
+        </p>
+        <p>
+          Outside of engineering, I'm the volunteer program and project coordinator for
+          <a href="https://www.linkedin.com/company/thendproj">The NDProj</a>, a community for neurodivergent and
+          chronically ill students in higher education.
+        </p>
+      </section>
+
+      <section id="work" class="section" tabindex="-1" aria-labelledby="work-h">
+        <h2 id="work-h">Work</h2>
+        <p class="section-lede measure">
+          Filter by what you're hiring for. Everything with a public repository links to it; the two private
+          applications have full case studies below.
+        </p>
+        <work-filter>
+          <div class="chip-row" data-filters role="group" aria-label="Filter projects"></div>
+          <p class="status" data-status role="status" aria-live="polite"></p>
+          <ul class="card-grid" role="list">
+            <li class="card" data-tags="front-end accessibility design-systems testing">
+              <h3>Commons UI</h3>
+              <p class="card-meta">
+                <span class="tag">React 19</span><span class="tag">TypeScript</span><span class="tag">Vite</span
+                ><span class="tag">Vitest</span><span class="tag">axe-core</span>
+              </p>
+              <p>
+                Accessible-by-default React components for organizers, advocates, and mutual-aid networks. Design
+                tokens declare which colors sit on which backgrounds; the build computes every pair with the WCAG
+                formula and refuses to emit CSS if one fails. Accordion, tabs, dialog, switch, form errors, live
+                regions, each with keyboard tests and an axe scan.
+              </p>
+              <p class="card-links">
+                <a href="https://meredithb104.github.io/commons-ui/">Live demo</a>
+                <a href="https://github.com/meredithb104/commons-ui">Source on GitHub</a>
+              </p>
+            </li>
+            <li class="card" data-tags="back-end ai-integration">
+              <h3>MedConnect</h3>
+              <p class="card-meta">
+                <span class="tag">TypeScript</span><span class="tag">Slack Bolt</span><span class="tag">Firestore</span
+                ><span class="tag">Gemini</span><span class="tag">Google Calendar</span>
+              </p>
+              <p>
+                A Slack app that turns appointment screenshots and one-line messages into structured records,
+                calendar events, and timed reminders for a household coordinating medical care across many
+                clinicians. Private repository.
+              </p>
+              <p class="card-links">
+                <a href="#medconnect">Read the case study</a>
+              </p>
+            </li>
+            <li class="card" data-tags="back-end ai-integration">
+              <h3>PlannerBot</h3>
+              <p class="card-meta">
+                <span class="tag">TypeScript</span><span class="tag">discord.js</span><span class="tag">Firestore</span
+                ><span class="tag">Gemini</span><span class="tag">node-cron</span>
+              </p>
+              <p>
+                A Discord bot for a nonprofit: projects, to-dos, events, and a social media pipeline from idea to
+                approved to posted, with alt text as a hard requirement. About 7,600 lines across 70 modules.
+                Private repository.
+              </p>
+              <p class="card-links">
+                <a href="#plannerbot">Read the case study</a>
+              </p>
+            </li>
+            <li class="card" data-tags="design-systems accessibility">
+              <h3>The NDProj brand system</h3>
+              <p class="card-meta">
+                <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">Headless Chrome</span>
+              </p>
+              <p>
+                Logo, LinkedIn covers, and post templates for a nonprofit, written as HTML and CSS and rendered to
+                PNG with headless Chrome so every asset is reproducible from source. The palette is sampled from
+                the logo and documented with its contrast ratios, including which colors are never allowed for
+                text.
+              </p>
+            </li>
+            <li class="card" data-tags="front-end accessibility design-systems testing">
+              <h3>This site</h3>
+              <p class="card-meta">
+                <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">TypeScript</span
+                ><span class="tag">Web Components</span><span class="tag">Playwright</span>
+              </p>
+              <p>
+                No framework runtime. Static HTML, cascade layers, container queries, and four small custom
+                elements. The same token pipeline as Commons UI, ported to TypeScript and run natively by Node.
+                Audited with axe-core in a real browser on every push.
+              </p>
+              <p class="card-links">
+                <a href="https://github.com/meredithb104/meredithb104.github.io">Source on GitHub</a>
+                <a href="/accessibility.html">Accessibility statement</a>
+              </p>
+            </li>
+          </ul>
+        </work-filter>
+      </section>
+
+      <section id="case-studies" class="section" tabindex="-1" aria-labelledby="cases-h">
+        <h2 id="cases-h">Case studies</h2>
+        <p class="section-lede measure">
+          Two production TypeScript applications I can't publish the source for. Here is how they're built and how
+          they run.
+        </p>
+
+        <article id="medconnect" class="case" tabindex="-1" aria-labelledby="medconnect-h">
+          <div class="case-header">
+            <p class="eyebrow">Slack app · Node · Firestore · Gemini</p>
+            <h3 id="medconnect-h">MedConnect: appointments from screenshots to reminders</h3>
+            <p class="measure">
+              Coordinating care across many clinicians means appointments arrive as portal screenshots, confirmation
+              emails, and half-remembered phone calls. MedConnect lives in the household's Slack and turns each of
+              those into a structured record, a calendar event, and reminders for the patient and a support person.
+            </p>
+          </div>
+
+          <div class="case-body">
+            <figure class="diagram">
+              <svg viewBox="0 0 760 300" role="img" aria-labelledby="mc-title mc-desc">
+                <title id="mc-title">MedConnect architecture</title>
+                <desc id="mc-desc">
+                  Slack sends slash commands, button clicks, and mentions to a Slack Bolt app over HTTP. The app
+                  calls services that book appointments, match doctors, and build calendar files. Services call
+                  Gemini to classify and extract data from text and images, write records to Firestore, and create
+                  Google Calendar events. Cron jobs read Firestore and send reminder direct messages back to Slack.
+                </desc>
+                <defs>
+                  <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+                    <path class="arrowhead" d="M0 0 L10 5 L0 10 z" />
+                  </marker>
+                </defs>
+                <rect class="box" x="10" y="110" width="130" height="70" rx="8" />
+                <text class="label" x="75" y="140" text-anchor="middle">Slack workspace</text>
+                <text class="sublabel" x="75" y="158" text-anchor="middle">commands · mentions</text>
+
+                <rect class="box box--accent" x="190" y="95" width="170" height="100" rx="8" />
+                <text class="label" x="275" y="125" text-anchor="middle">Slack Bolt app (HTTP)</text>
+                <text class="sublabel" x="275" y="145" text-anchor="middle">commands · interactions</text>
+                <text class="sublabel" x="275" y="162" text-anchor="middle">events (text or image)</text>
+
+                <rect class="box" x="410" y="95" width="150" height="100" rx="8" />
+                <text class="label" x="485" y="125" text-anchor="middle">Services</text>
+                <text class="sublabel" x="485" y="145" text-anchor="middle">book · match doctor</text>
+                <text class="sublabel" x="485" y="162" text-anchor="middle">calendar · ics</text>
+
+                <rect class="box" x="410" y="10" width="150" height="60" rx="8" />
+                <text class="label" x="485" y="35" text-anchor="middle">Gemini (REST)</text>
+                <text class="sublabel" x="485" y="53" text-anchor="middle">classify · extract JSON</text>
+
+                <rect class="box box--store" x="610" y="60" width="140" height="60" rx="8" />
+                <text class="label" x="680" y="85" text-anchor="middle">Firestore</text>
+                <text class="sublabel" x="680" y="103" text-anchor="middle">appointments · doctors</text>
+
+                <rect class="box" x="610" y="160" width="140" height="60" rx="8" />
+                <text class="label" x="680" y="185" text-anchor="middle">Google Calendar</text>
+                <text class="sublabel" x="680" y="203" text-anchor="middle">events</text>
+
+                <rect class="box" x="190" y="225" width="170" height="60" rx="8" />
+                <text class="label" x="275" y="250" text-anchor="middle">Cron jobs</text>
+                <text class="sublabel" x="275" y="268" text-anchor="middle">reminders · follow-ups</text>
+
+                <path class="edge" d="M140 145 H188" />
+                <path class="edge" d="M360 145 H408" />
+                <path class="edge" d="M485 95 V72" />
+                <path class="edge" d="M560 130 L608 100" />
+                <path class="edge" d="M560 165 L608 185" />
+                <path class="edge edge--dashed" d="M360 255 C 500 255, 560 200, 608 118" />
+                <path class="edge edge--dashed" d="M190 255 C 120 255, 90 230, 78 182" />
+              </svg>
+              <figcaption>
+                Slack calls one Bolt app over HTTP. Feature modules register their own commands, interactions, and
+                events. Shared services book appointments, and cron jobs read Firestore to send reminders back as
+                direct messages. Dashed lines are scheduled, not user-triggered.
+              </figcaption>
+            </figure>
+
+            <div class="case-columns">
+              <div>
+                <h4>How a screenshot becomes an appointment</h4>
+                <ol>
+                  <li>
+                    Someone @mentions the bot with an image. The handler checks the sender against an owner plus an
+                    allowlist of trusted uploaders from the environment; anyone else gets a polite refusal, and the
+                    image is never downloaded.
+                  </li>
+                  <li>
+                    One channel receives several kinds of screenshot (appointments, referrals, lab orders), so the
+                    image is <strong>classified before it is routed</strong>: a cheap Gemini vision call returns a
+                    type, and each type's handler either claims the mention or lets it fall through.
+                  </li>
+                  <li>
+                    The claiming handler asks Gemini for a typed JSON shape (title, date, times, category, doctor
+                    hint, address). Prompts live next to the type they produce; unparseable output is an error, not
+                    a guess.
+                  </li>
+                  <li>
+                    The doctor hint is matched against the directory with a fuzzy matcher: substring or
+                    Levenshtein distance for whole names, then per-token matching that ignores titles like
+                    "Dr." so they can't match every doctor at once. <strong>No match means the bot asks</strong>,
+                    with a one-click "add this doctor" flow, rather than booking with the wrong clinician.
+                  </li>
+                  <li>
+                    A single <code>bookAppointment</code> service creates the Google Calendar event, writes the
+                    Firestore record with the event ID, and formats the Slack card. The slash command and the
+                    mention path both call it, so there is one place where booking can be wrong.
+                  </li>
+                </ol>
+
+                <h4>Scheduled jobs</h4>
+                <ul>
+                  <li>
+                    <strong>40-minute reminders</strong> run every five minutes and pick appointments in a 35 to 45
+                    minute window. Each record stores <code>reminderSentAt</code>, so the job is idempotent across
+                    restarts and never DMs twice.
+                  </li>
+                  <li>
+                    <strong>Next-day follow-up</strong> at 11:00 America/New_York asks how yesterday's visit went and
+                    opens the record for visit notes and next steps.
+                  </li>
+                  <li>
+                    <strong>Referral and lab-order reminders</strong> nudge until the referral is resolved, and
+                    <strong>support-person reminders</strong> go to the second person on an appointment.
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <h4>Structure</h4>
+                <dl>
+                  <dt>Entry points</dt>
+                  <dd>
+                    Slash commands <code>/appointment</code>, <code>/doctor</code>, <code>/directory</code>,
+                    <code>/find</code>; @mentions with text or an image; button and modal interactions.
+                  </dd>
+                  <dt>Layout</dt>
+                  <dd>
+                    <code>commands/</code>, <code>interactions/</code>, <code>events/</code>, <code>jobs/</code>,
+                    <code>services/</code>, <code>db/</code>, <code>types/</code>, <code>utils/</code>. Each feature
+                    exports a <code>register(app)</code> function; <code>index.ts</code> is only wiring.
+                  </dd>
+                  <dt>Data</dt>
+                  <dd>
+                    Typed Firestore documents: <code>Appointment</code>, <code>DoctorCard</code>,
+                    <code>Referral</code>, <code>TestReferral</code>. Optional fields are documented at the type,
+                    including which Slack ID is set by which UI control.
+                  </dd>
+                  <dt>Integrations</dt>
+                  <dd>
+                    Gemini over plain <code>fetch</code> (no SDK: one small function per prompt shape, typed return).
+                    Google Calendar through a service account. A hand-written RFC 5545 <code>.ics</code> generator
+                    with a VTIMEZONE block, so a support person without calendar access can still import the event.
+                  </dd>
+                  <dt>Runtime</dt>
+                  <dd>
+                    Node in a Docker image on Railway, restart-on-failure. Unhandled rejections and exceptions are
+                    logged with a prefix per module so production logs can be grepped by feature.
+                  </dd>
+                </dl>
+
+                <h4>Decisions I'd defend</h4>
+                <ul>
+                  <li>Classify before parse, because the channel is not a reliable signal of content.</li>
+                  <li>Never invent a doctor. Ambiguity becomes a question with a button, not a best guess.</li>
+                  <li>Idempotency lives on the record, not in process memory, so restarts are safe.</li>
+                  <li>Slow work is visible work: the bot replies "Reading that referral…" immediately, then posts the result, so nobody wonders whether the mention landed.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article id="plannerbot" class="case" tabindex="-1" aria-labelledby="plannerbot-h">
+          <div class="case-header">
+            <p class="eyebrow">Discord bot · Node · Firestore · Gemini · Google Calendar</p>
+            <h3 id="plannerbot-h">PlannerBot: a project and social media pipeline for volunteers</h3>
+            <p class="measure">
+              The NDProj runs on volunteers with limited hours. PlannerBot lives in the team's Discord and gives
+              them projects with tasks, to-dos with subtasks, events with conflict checks, and a social media
+              pipeline where nothing is posted without a caption, a graphic, alt text, and an approval.
+            </p>
+          </div>
+
+          <div class="case-body">
+            <figure class="diagram">
+              <svg viewBox="0 0 760 320" role="img" aria-labelledby="pb-title pb-desc">
+                <title id="pb-title">PlannerBot architecture</title>
+                <desc id="pb-desc">
+                  Discord sends slash commands, component interactions, and mentions to a discord.js client. A
+                  registry dispatches buttons, selects, and modals by custom ID prefix. Services render cards, run
+                  readiness checks, and schedule events. They call Gemini to extract fields and draft captions,
+                  Google Calendar to check conflicts, and Firestore to store projects, to-dos, events, posts, and
+                  settings. Cron jobs post digests and reminders to Discord. An instance lock document in Firestore
+                  makes an old deployment stand down when a new one starts.
+                </desc>
+                <rect class="box" x="10" y="120" width="130" height="70" rx="8" />
+                <text class="label" x="75" y="150" text-anchor="middle">Discord server</text>
+                <text class="sublabel" x="75" y="168" text-anchor="middle">commands · buttons · mentions</text>
+
+                <rect class="box box--accent" x="190" y="95" width="170" height="120" rx="8" />
+                <text class="label" x="275" y="123" text-anchor="middle">discord.js client</text>
+                <text class="sublabel" x="275" y="143" text-anchor="middle">one command per file</text>
+                <text class="sublabel" x="275" y="160" text-anchor="middle">registry by customId prefix</text>
+                <text class="sublabel" x="275" y="177" text-anchor="middle">@mention intent routing</text>
+                <text class="sublabel" x="275" y="199" text-anchor="middle">isActive() at every entry</text>
+
+                <rect class="box" x="410" y="95" width="150" height="120" rx="8" />
+                <text class="label" x="485" y="123" text-anchor="middle">Services</text>
+                <text class="sublabel" x="485" y="143" text-anchor="middle">cards · threads</text>
+                <text class="sublabel" x="485" y="160" text-anchor="middle">readiness · cadence</text>
+                <text class="sublabel" x="485" y="177" text-anchor="middle">scheduling · metrics</text>
+
+                <rect class="box" x="410" y="10" width="150" height="60" rx="8" />
+                <text class="label" x="485" y="35" text-anchor="middle">Gemini (REST)</text>
+                <text class="sublabel" x="485" y="53" text-anchor="middle">extract · draft · ideas</text>
+
+                <rect class="box box--store" x="610" y="70" width="140" height="70" rx="8" />
+                <text class="label" x="680" y="97" text-anchor="middle">Firestore</text>
+                <text class="sublabel" x="680" y="115" text-anchor="middle">projects · todos · events</text>
+                <text class="sublabel" x="680" y="130" text-anchor="middle">posts · settings</text>
+
+                <rect class="box" x="610" y="170" width="140" height="60" rx="8" />
+                <text class="label" x="680" y="195" text-anchor="middle">Google Calendar</text>
+                <text class="sublabel" x="680" y="213" text-anchor="middle">conflict checks</text>
+
+                <rect class="box" x="190" y="245" width="170" height="60" rx="8" />
+                <text class="label" x="275" y="270" text-anchor="middle">Cron jobs (9:00)</text>
+                <text class="sublabel" x="275" y="288" text-anchor="middle">digest · cadence · metrics</text>
+
+                <rect class="box box--store" x="610" y="255" width="140" height="50" rx="8" />
+                <text class="label" x="680" y="277" text-anchor="middle">Instance lock</text>
+                <text class="sublabel" x="680" y="293" text-anchor="middle">settings/instance:active</text>
+
+                <path class="edge" d="M140 155 H188" />
+                <path class="edge" d="M360 155 H408" />
+                <path class="edge" d="M485 95 V72" />
+                <path class="edge" d="M560 130 L608 110" />
+                <path class="edge" d="M560 175 L608 195" />
+                <path class="edge edge--dashed" d="M360 275 C 500 275, 560 230, 608 135" />
+                <path class="edge edge--dashed" d="M190 275 C 120 275, 90 240, 78 192" />
+                <path class="edge edge--dashed" d="M275 215 C 275 240, 400 300, 608 285" />
+              </svg>
+              <figcaption>
+                The same shape as MedConnect with discord.js in place of Bolt, plus an instance lock: each
+                deployment claims a Firestore document on start and the previous one goes quiet when the claim
+                changes. Dashed lines are scheduled or infrastructural.
+              </figcaption>
+            </figure>
+
+            <div class="case-columns">
+              <div>
+                <h4>The post pipeline</h4>
+                <p>
+                  One record per post through its whole life: <em>Idea → Drafted → In review → Approved → Posted</em>.
+                  Planned posts are the calendar; posted ones are the log; the same document is both.
+                </p>
+                <ol>
+                  <li>
+                    <strong>Capture.</strong> An @mention is routed by intent (post, to-do, or event) with explicit
+                    heuristics, then Gemini extracts topic, platform, owner, date, and content pillar. Attachments
+                    become files on the record.
+                  </li>
+                  <li>
+                    <strong>Private by default.</strong> Each post's card lives in its own private thread with the
+                    requester and owner; the channel gets a one-line pointer. Cards that predate this are migrated
+                    the next time they redraw.
+                  </li>
+                  <li>
+                    <strong>Readiness, not vibes.</strong> "Request review" runs a pre-flight checklist. A missing
+                    caption or a leftover <code>[placeholder]</code> blocks submission; missing hashtags, graphic,
+                    alt text, pillar, or date are warnings. The same rules drive the weekly cadence report, so the
+                    checklist and the report never disagree.
+                  </li>
+                  <li>
+                    <strong>Alt text is required to count.</strong> A post with a graphic and no alt text is not a
+                    finished post. The "copy caption" action sends caption, hashtags, and alt text as three separate
+                    messages so that a long-press on a phone copies exactly one.
+                  </li>
+                  <li>
+                    <strong>Drafting is assisted, not automatic.</strong> A "write draft" button asks what to steer
+                    toward, generates in the organization's documented voice with per-platform rules, and previews
+                    privately with shorter / warmer / more direct / try again. Nothing is saved until someone
+                    chooses it, and facts that weren't supplied come back as placeholders, never invented.
+                  </li>
+                </ol>
+
+                <h4>Cards that stay current</h4>
+                <p>
+                  Every record renders to a "card" message. When anything changes, the card is edited in place if it
+                  is still the newest message in its channel, otherwise deleted and re-sent at the bottom so it stays
+                  next to where people type. Duplicates in one channel collapse to one. Nobody is ever asked to press
+                  Refresh.
+                </p>
+              </div>
+
+              <div>
+                <h4>Structure</h4>
+                <dl>
+                  <dt>Commands</dt>
+                  <dd>
+                    One slash command per file (<code>/project</code>, <code>/todo</code>, <code>/post</code>,
+                    <code>/event</code>, <code>/stats</code>), listed once in <code>commands/index.ts</code>.
+                  </dd>
+                  <dt>Interactions</dt>
+                  <dd>
+                    Buttons, selects, and modals are keyed by <code>customId</code> prefix
+                    (<code>prefix:arg1:arg2</code>). A registry holds three handler maps; each feature module
+                    registers into them; one dispatcher splits the ID and calls the handler with its arguments.
+                  </dd>
+                  <dt>Jobs</dt>
+                  <dd>
+                    node-cron at 9:00: weekly digest, post reminders, content cadence, monthly social stats,
+                    metrics refresh from Instagram and LinkedIn providers, and release notes to a docs channel.
+                  </dd>
+                  <dt>Documentation</dt>
+                  <dd>
+                    A README for engineers and an HTML field guide for the team, served by the bot and pinned in
+                    Discord. Release notes are posted automatically on deploy.
+                  </dd>
+                </dl>
+
+                <h4>Two production problems, solved</h4>
+                <div class="callout">
+                  <p>
+                    <strong>Overlapping deploys.</strong> Railway starts the new container before stopping the old
+                    one, and for those seconds Discord delivers every message and cron tick to both. A subtask once
+                    got two threads and a delete cascade ran halfway. Fix: on ready, each instance writes its ID to a
+                    settings document and subscribes to it; the moment a newer instance claims it, the older one
+                    ignores messages, interactions, and cron until it is stopped. The lock is per bot user, so a dev
+                    bot beside prod never silences prod.
+                  </p>
+                  <p>
+                    <strong>Testing without touching prod.</strong> Feature branches run as a second Discord
+                    application in the same server with jobs disabled, no docs channel, and a separate lock.
+                    Component interactions always route to the app that owns the message, so prod cards and dev
+                    cards can't cross.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section id="approach" class="section" tabindex="-1" aria-labelledby="approach-h">
+        <h2 id="approach-h">How I work</h2>
+        <p class="section-lede measure">Five rules that show up in every project above, and in this page's source.</p>
+        <ol class="principles">
+          <li>
+            <div>
+              <strong>Accessibility is a build error, not a review comment.</strong>
+              The tokens on this site declare which colors sit on which backgrounds. The build computes every pair
+              and refuses to emit CSS if one fails. While building this page, the check caught me asking a focus
+              ring to contrast with both the page and a dark button; that isn't the ring's adjacent color, and the
+              build said so before a reviewer had to.
+            </div>
+          </li>
+          <li>
+            <div>
+              <strong>Use the platform before you use ARIA.</strong>
+              Real buttons, real labels, native radio groups, native <code>&lt;dialog&gt;</code>. ARIA only where
+              HTML has no answer: <code>aria-pressed</code> on a filter toggle, <code>aria-current</code> on the
+              section you're reading.
+            </div>
+          </li>
+          <li>
+            <div>
+              <strong>Focus goes where the user's attention should go.</strong>
+              Skip links land on a focusable main. In-page links move focus to the section. Error summaries take
+              focus. Nothing is <code>disabled</code> while it works, because disabled controls vanish from the tab
+              order and go silent.
+            </div>
+          </li>
+          <li>
+            <div>
+              <strong>Never color alone.</strong>
+              Every state is also text: "Pass" and "Fail", a check mark on the pressed filter, an underline on the
+              current section. Icons are hidden from assistive tech and sit next to a visible label.
+            </div>
+          </li>
+          <li>
+            <div>
+              <strong>Test the behavior, not just the markup.</strong>
+              axe-core catches missing names and bad roles; it cannot tell you focus went nowhere on submit. This
+              site runs axe in a real browser on every push, and also tabs through the page, resizes it to 320
+              pixels, and checks that nothing scrolls sideways.
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section id="lab" class="section" tabindex="-1" aria-labelledby="lab-h">
+        <h2 id="lab-h">Lab</h2>
+        <p class="section-lede measure">
+          Two small things from this page's own source. Both are plain custom elements around native form controls;
+          the HTML works before the JavaScript arrives.
+        </p>
+        <div class="lab-grid">
+          <div class="panel">
+            <h3>Theme</h3>
+            <p>
+              Three themes from one token file, all contrast-checked at build. Your choice is remembered and applied
+              before first paint next time. Windows high-contrast mode is handled separately with system colors.
+            </p>
+            <theme-picker>
+              <fieldset>
+                <legend>Choose a theme</legend>
+                <div class="radio-row">
+                  <label class="radio-option"><input type="radio" name="theme" value="auto" checked /> Match system</label>
+                  <label class="radio-option"><input type="radio" name="theme" value="light" /> Light</label>
+                  <label class="radio-option"><input type="radio" name="theme" value="dark" /> Dark</label>
+                  <label class="radio-option"><input type="radio" name="theme" value="high-contrast" /> High contrast</label>
+                </div>
+              </fieldset>
+            </theme-picker>
+          </div>
+
+          <div class="panel">
+            <h3>Contrast checker</h3>
+            <p>
+              The same 30 lines of WCAG math the build runs, live. Results are words, not just colors, and the
+              summary is announced once you stop typing.
+            </p>
+            <contrast-checker>
+              <form aria-label="Contrast checker">
+                <div class="field">
+                  <label for="cc-fg">Text color</label>
+                  <span class="hint" id="cc-fg-hint">Hex, like #1B1F24</span>
+                  <div class="field-row">
+                    <input
+                      type="text"
+                      id="cc-fg"
+                      data-role="fg-hex"
+                      value="#1B1F24"
+                      autocomplete="off"
+                      spellcheck="false"
+                      aria-describedby="cc-fg-hint cc-fg-error"
+                    />
+                    <input type="color" data-role="fg-picker" value="#1b1f24" aria-label="Pick text color" />
+                  </div>
+                  <p class="error" id="cc-fg-error" data-error="fg"></p>
+                </div>
+                <div class="field">
+                  <label for="cc-bg">Background color</label>
+                  <span class="hint" id="cc-bg-hint">Hex, like #FFFFFF</span>
+                  <div class="field-row">
+                    <input
+                      type="text"
+                      id="cc-bg"
+                      data-role="bg-hex"
+                      value="#FFFFFF"
+                      autocomplete="off"
+                      spellcheck="false"
+                      aria-describedby="cc-bg-hint cc-bg-error"
+                    />
+                    <input type="color" data-role="bg-picker" value="#ffffff" aria-label="Pick background color" />
+                  </div>
+                  <p class="error" id="cc-bg-error" data-error="bg"></p>
+                </div>
+              </form>
+              <div class="swatch" data-swatch aria-hidden="true">
+                <span class="swatch-large">Large text 24px</span>
+                <span>Normal text at 16px looks like this.</span>
+              </div>
+              <div class="contrast-result" data-result></div>
+            </contrast-checker>
+          </div>
+        </div>
+      </section>
+
+      <section id="skills" class="section" tabindex="-1" aria-labelledby="skills-h">
+        <h2 id="skills-h">Skills</h2>
+        <dl class="skills">
+          <div>
+            <dt>Languages</dt>
+            <dd>TypeScript (strict, everywhere), JavaScript, HTML, CSS, SVG. Comfortable in Kotlin and Java for Android.</dd>
+          </div>
+          <div>
+            <dt>Front end</dt>
+            <dd>
+              React 19, web components, design tokens, cascade layers, container queries, forced-colors and
+              reduced-motion support, Vite.
+            </dd>
+          </div>
+          <div>
+            <dt>Back end and integrations</dt>
+            <dd>
+              Node, Slack Bolt, discord.js, Firestore, Google Calendar API, REST integrations with language models,
+              node-cron, Docker, Railway.
+            </dd>
+          </div>
+          <div>
+            <dt>Accessibility</dt>
+            <dd>
+              WCAG 2.2 AA and AAA criteria, WAI-ARIA Authoring Practices, daily screen reader and braille display
+              use, manual audits, remediation plans, accessibility statements.
+            </dd>
+          </div>
+          <div>
+            <dt>Testing</dt>
+            <dd>Vitest, Testing Library, user-event, axe-core, Playwright, keyboard and focus-order tests, GitHub Actions.</dd>
+          </div>
+          <div>
+            <dt>Ways of working</dt>
+            <dd>
+              Plain-language documentation, field guides for non-engineers, small reviewable pull requests,
+              volunteer coordination.
+            </dd>
+          </div>
+        </dl>
+      </section>
+
+      <section id="contact" class="section flow" tabindex="-1" aria-labelledby="contact-h">
+        <h2 id="contact-h">Contact</h2>
+        <p class="measure">
+          I'm open to front-end, design-systems, and accessibility engineering roles, remote or in the Boston area.
+          The fastest way to reach me is LinkedIn.
+        </p>
+        <div class="cta-row">
+          <a class="button" href="https://www.linkedin.com/in/meredith-boyce/">Message me on LinkedIn</a>
+          <a class="button button--secondary" href="https://github.com/meredithb104">GitHub profile</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <ul role="list">
+          <li><a href="/accessibility.html">Accessibility statement</a></li>
+          <li><a href="https://github.com/meredithb104/meredithb104.github.io">Source for this site</a></li>
+          <li><a href="https://github.com/meredithb104/commons-ui">Commons UI</a></li>
+        </ul>
+        <p>
+          Built by Meredith Boyce with HTML, CSS, and TypeScript. No analytics, no cookies, no tracking. Your theme
+          choice is stored in your browser only.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

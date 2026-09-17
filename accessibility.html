@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Accessibility statement, Meredith Boyce</title>
+    <meta
+      name="description"
+      content="Accessibility statement for meredithb104.github.io: WCAG 2.2 AA conformance, how it was tested, known limitations, and how to report a problem."
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0F1419" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href="https://meredithb104.github.io/accessibility.html" />
+    <script>
+      try {
+        var t = localStorage.getItem("theme");
+        if (t === "light" || t === "dark" || t === "high-contrast") document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    </script>
+    <script type="module" src="/src/main.ts"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="/">Meredith Boyce</a>
+        <div class="site-nav">
+          <nav aria-label="Site">
+            <ul role="list">
+              <li><a href="/#work">Work</a></li>
+              <li><a href="/#case-studies">Case studies</a></li>
+              <li><a href="/#contact">Contact</a></li>
+              <li><a href="/accessibility.html" aria-current="page">Accessibility</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <main id="main" tabindex="-1" class="wrap prose">
+      <p class="eyebrow">Accessibility statement</p>
+      <h1>This site is built to WCAG 2.2 Level AA</h1>
+      <p class="measure">
+        I'm a blind engineer, so this page is the one I care most about getting right. This statement says what
+        the site conforms to, how I checked, what I know isn't perfect, and how to tell me when something is wrong.
+        Last reviewed: <time datetime="2026-09-17">17 September 2026</time>.
+      </p>
+
+      <h2>Conformance</h2>
+      <p>
+        <a href="https://meredithb104.github.io/">meredithb104.github.io</a> is intended to conform to the
+        <a href="https://www.w3.org/TR/WCAG22/">Web Content Accessibility Guidelines (WCAG) 2.2</a> at Level AA,
+        and meets several AAA criteria where they were cheap to meet: body text contrast of 7:1 or better in every
+        theme (1.4.6), 44-pixel targets (2.5.5), and no time limits or motion beyond short transitions that stop
+        entirely under <code>prefers-reduced-motion</code> (2.3.3).
+      </p>
+
+      <h2>What the site does</h2>
+      <ul>
+        <li>Semantic HTML with one <code>h1</code> per page, landmarks for header, navigation, main, and footer, and a skip link that lands on a focusable main.</li>
+        <li>A single visible focus indicator on every interactive element, 3 pixels wide with a 2-pixel offset, contrast-checked against every background it can appear on (2.4.7, 2.4.11, 2.4.13).</li>
+        <li>In-page navigation moves keyboard focus to the target section, and the sticky header is only sticky when it fits on one row so it can't obscure a focused element (2.4.11).</li>
+        <li>Three themes (light, dark, high contrast) compiled from one token file; the build fails if any text/background pair drops below its required ratio. Windows forced-colors mode is styled with system colors rather than overridden.</li>
+        <li>Every state is expressed in text as well as color: Pass and Fail in the contrast checker, a check mark and bold weight on the active filter, an underline on the current section (1.4.1).</li>
+        <li>Nothing here is disabled while it works, and no control requires dragging, a specific pointer, or a path-based gesture (2.5.1, 2.5.7).</li>
+        <li>Content reflows to a 320-pixel-wide viewport with no horizontal scrolling, survives 200% zoom and user text-spacing overrides, and line length is capped at 68 characters (1.4.4, 1.4.10, 1.4.12, 1.4.8).</li>
+        <li>Diagrams are inline SVG with a title and long description, plus a caption that says the same thing in prose.</li>
+        <li>No cookies, analytics, or third-party scripts. The theme choice is saved in your browser's local storage and never leaves it.</li>
+      </ul>
+
+      <h2>How it was tested</h2>
+      <p>Every push to the repository runs the following before anything deploys:</p>
+      <ol>
+        <li><strong>Token contrast build.</strong> 81 color pairs across three themes, checked with the WCAG 2.x relative-luminance formula. A failing pair stops the build.</li>
+        <li><strong>Unit and component tests</strong> with Vitest: keyboard behavior of the theme picker, the filter, and the contrast checker, plus the contrast math against the published WCAG example values.</li>
+        <li><strong>axe-core in a real browser</strong> with Playwright, using the WCAG 2.0, 2.1, and 2.2 A and AA rule sets and best-practice rules, on both pages and in all three themes. Zero violations is the pass condition.</li>
+        <li><strong>Keyboard walk</strong> with Playwright: the first Tab reaches the skip link, every interactive element is reachable in order, and the focused element is always inside the viewport.</li>
+        <li><strong>Reflow</strong> at 320 by 256 pixels: no horizontal scrollbar on either page.</li>
+      </ol>
+      <p>
+        Beyond the automated checks, I use the site the way I use everything else: with a screen reader and a
+        braille display, keyboard only. Automated tools find roughly a third of accessibility problems; the rest is
+        judgment, which is why the case studies describe behavior and not just markup.
+      </p>
+
+      <h2>Known limitations</h2>
+      <ul>
+        <li>
+          The native color picker (<code>&lt;input type="color"&gt;</code>) in the contrast checker is a browser
+          control and its accessibility varies by browser. The adjacent hex text field does everything the picker
+          does, and the two stay in sync.
+        </li>
+        <li>
+          The contrast checker's preview swatch shows sample text in exactly the two colors you enter. If you enter
+          a failing pair, that sample fails by design; the verdict is in the table beside it, in words, and the
+          swatch is hidden from assistive technology.
+        </li>
+        <li>
+          The architecture diagrams are simplified. The long description and caption are the reliable source; the
+          picture is a summary.
+        </li>
+        <li>
+          Contrast is enforced for colors defined in the token file. If you override the theme with a browser
+          extension or a user stylesheet, the site will respect it but can't vouch for the result.
+        </li>
+      </ul>
+
+      <h2>Report a problem</h2>
+      <p class="measure">
+        If anything on this site is hard to use with your assistive technology, please tell me. Open an issue on
+        the <a href="https://github.com/meredithb104/meredithb104.github.io/issues">GitHub repository</a> or
+        <a href="https://www.linkedin.com/in/meredith-boyce/">message me on LinkedIn</a>. Say which page, what you
+        were trying to do, and what browser and assistive technology you use, and I'll fix it and tell you when I
+        have.
+      </p>
+
+      <h2>Technical details</h2>
+      <p class="measure">
+        HTML, CSS, and TypeScript compiled with Vite. No framework runtime. Tested in Chromium via Playwright, and
+        used daily by me with a screen reader and a braille display on Windows. Source, tests, and this statement are in the
+        <a href="https://github.com/meredithb104/meredithb104.github.io">public repository</a>.
+      </p>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <ul role="list">
+          <li><a href="/">Home</a></li>
+          <li><a href="https://github.com/meredithb104/meredithb104.github.io">Source for this site</a></li>
+        </ul>
+        <p>Built by Meredith Boyce with HTML, CSS, and TypeScript. No analytics, no cookies, no tracking.</p>
+      </div>
+    </footer>
+  </body>
+</html>

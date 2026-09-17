@@ -1,0 +1,10 @@
+node_modules
+dist
+dist-ssr
+*.local
+.DS_Store
+# generated from tokens/tokens.json
+src/styles/tokens.css
+# playwright
+test-results
+playwright-report

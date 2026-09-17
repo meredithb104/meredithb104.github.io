@@ -105,7 +105,7 @@ test("the slide picker is a roving tablist and hidden slides are not reachable",
   expect(box!.width).toBeGreaterThanOrEqual(24);
   expect(box!.height).toBeGreaterThanOrEqual(24);
 
-  // On a phone the picker fits one centered row: 18px dots on a 24px pitch (the 2.5.8 spacing exception),
+  // On a phone the picker fits one centered row: 17px dots on a 25px pitch (the 2.5.8 spacing exception),
   // with Previous, the counter, and Next on the row above.
   await page.setViewportSize({ width: 375, height: 812 });
   const dots = carousel.locator(".carousel-dot");

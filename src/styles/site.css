@@ -1108,14 +1108,14 @@
     justify-content: center;
     gap: var(--space-1);
 
-    /* 18px dots at a 24px pitch: 2.5.8 allows targets under 24px when their 24px circles do not
-       overlap, and twelve of them (282px) fit one centered row on a 375px phone. */
+    /* 17px dots at a 25px pitch: 2.5.8 allows targets under 24px when their 24px circles do not
+       overlap, and twelve of them (292px) fit one centered row on a 375px phone. */
     @media (max-width: 40em) {
-      gap: 6px;
+      gap: 8px;
 
       .carousel-dot {
-        inline-size: 18px;
-        block-size: 18px;
+        inline-size: 17px;
+        block-size: 17px;
       }
     }
   }

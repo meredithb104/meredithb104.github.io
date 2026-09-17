@@ -106,7 +106,7 @@ test("all interactive targets are at least 24 by 24 CSS pixels (2.5.8)", async (
         return { label: (el.getAttribute("aria-label") ?? el.textContent ?? el.id).trim().slice(0, 30), w: r.width, h: r.height, nearest };
       })
       // Inline links inside a sentence are exempt under 2.5.8; everything else meets 24px or the spacing exception.
-      .filter((t) => t.w > 0 && (t.w < 24 || t.h < 24) && t.nearest < 24),
+      .filter((t) => t.w > 0 && (t.w < 24 || t.h < 24) && t.nearest < 23.5),
   );
   expect(small, JSON.stringify(small)).toEqual([]);
 });

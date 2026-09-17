@@ -15,8 +15,7 @@
   }
 
   .site-header {
-    background: color-mix(in srgb, var(--color-bg) 92%, transparent);
-    backdrop-filter: blur(8px);
+    background: var(--color-bg-subtle);
     border-block-end: var(--size-border) solid var(--color-border-subtle);
     padding-block: var(--space-3);
 
@@ -27,31 +26,57 @@
       gap: var(--space-3) var(--space-5);
     }
 
-    /* Sticky only when it fits on one row; a tall sticky header would obscure focus (2.4.11). */
-    @media (min-width: 60em) {
+    /* Sticky only when the full nav fits on one row (72em and up); below that the nav collapses behind a Menu button and the header is not sticky, so it can never obscure focus (2.4.11). */
+    @media (min-width: 72em) {
       position: sticky;
       inset-block-start: 0;
       z-index: 10;
       min-block-size: var(--header-height);
+      background: color-mix(in srgb, var(--color-bg-subtle) 92%, transparent);
+      backdrop-filter: blur(8px);
     }
   }
 
+  /* Wordmark: monogram plus name. Large enough to read as the site's name, not a nav item. */
   .brand {
-    font-weight: var(--font-weight-bold);
-    font-size: var(--font-size-lg);
-    color: var(--color-text);
-    text-decoration: none;
-    min-block-size: var(--size-target);
     display: inline-flex;
     align-items: center;
+    gap: var(--space-3);
+    min-block-size: var(--size-target);
+    font-weight: var(--font-weight-bold);
+    font-size: clamp(1.25rem, 1rem + 1.2vw, 1.5rem);
+    letter-spacing: -0.015em;
+    color: var(--color-text);
+    text-decoration: none;
+
+    .brand-mark {
+      inline-size: 2rem;
+      block-size: 2rem;
+      flex: none;
+      color: var(--color-primary);
+    }
 
     &:hover {
       color: var(--color-primary);
+    }
+
+    @media (forced-colors: active) {
+      .brand-mark {
+        forced-color-adjust: none;
+        color: CanvasText;
+      }
     }
   }
 
   .site-nav {
     margin-inline-start: auto;
+
+    nav {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
 
     ul {
       display: flex;
@@ -70,7 +95,7 @@
       font-weight: var(--font-weight-medium);
 
       &:hover {
-        background: var(--color-bg-subtle);
+        background: var(--color-surface);
         color: var(--color-primary);
       }
 
@@ -80,6 +105,67 @@
         text-decoration-thickness: 0.14em;
         text-underline-offset: 0.3em;
         color: var(--color-primary);
+      }
+    }
+  }
+
+  /* The Menu button exists only once the script runs; the list is always in the HTML. */
+  .nav-toggle {
+    display: none;
+    align-items: center;
+    gap: var(--space-2);
+    min-block-size: var(--size-target);
+    padding: var(--space-2) var(--space-4);
+    border: var(--size-border-strong) solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+
+    &[aria-expanded="true"] {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+  }
+
+  @media (max-width: 71.99em) {
+    /* Phone header: wordmark and Menu on one row, the list on its own full-width row beneath. */
+    .site-header > .wrap:has(.site-nav[data-collapsible]) {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: var(--space-2) var(--space-3);
+    }
+
+    .site-nav[data-collapsible] {
+      display: contents; /* the custom element carries no semantics; its children become grid items */
+
+      .nav-toggle {
+        display: inline-flex;
+        grid-column: 2;
+        grid-row: 1;
+      }
+
+      nav {
+        display: block;
+        grid-column: 1 / -1;
+        grid-row: 2;
+      }
+
+      ul {
+        flex-direction: column;
+        gap: 0;
+        padding-block: var(--space-2);
+        border-block-start: var(--size-border) solid var(--color-border-subtle);
+      }
+
+      a {
+        padding-block: var(--space-2);
+      }
+
+      &:not([data-open="true"]) nav {
+        display: none;
       }
     }
   }
@@ -116,6 +202,11 @@
     text-transform: uppercase;
     color: var(--color-accent);
     margin-block-end: var(--space-3);
+
+    @media (max-width: 40em) {
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+    }
   }
 
   .flow > * + * {
@@ -154,6 +245,10 @@
       font-size: var(--font-size-xl);
       line-height: 1.45;
       color: var(--color-text-muted);
+
+      @media (max-width: 40em) {
+        font-size: var(--font-size-lg);
+      }
     }
   }
 
@@ -169,12 +264,46 @@
       font-size: var(--font-size-sm);
       color: var(--color-text);
     }
+
+    /* On a phone, six pills stack into a column; a separated inline list reads faster. */
+    @media (max-width: 40em) {
+      display: block;
+      font-size: var(--font-size-sm);
+      color: var(--color-text-muted);
+      max-inline-size: var(--size-measure);
+
+      li {
+        display: inline;
+        padding: 0;
+        border: 0;
+        color: inherit;
+
+        &:not(:last-child)::after {
+          content: " \00B7 ";
+          color: var(--color-accent);
+        }
+      }
+    }
   }
 
   .cta-row {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-3);
+
+    /* Two per row on a phone; the first (primary) spans the row. */
+    @media (max-width: 40em) {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+
+      > :first-child {
+        grid-column: 1 / -1;
+      }
+
+      .button {
+        padding-inline: var(--space-3);
+      }
+    }
   }
 
   /* ---- Buttons ------------------------------------------------------- */

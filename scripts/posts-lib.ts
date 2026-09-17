@@ -164,8 +164,8 @@ const SITE = "https://meredithb104.github.io";
 
 const NAV = `
       <div class="wrap">
-        <a class="brand" href="/">Meredith Boyce</a>
-        <div class="site-nav">
+        <a class="brand" href="/"><svg class="brand-mark" aria-hidden="true" viewBox="0 0 64 64" width="32" height="32"><rect width="64" height="64" rx="14" fill="currentColor"/><text x="32" y="43" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="30" font-weight="700" fill="var(--color-on-primary)">MB</text></svg><span>Meredith Boyce</span></a>
+        <site-nav class="site-nav">
           <nav aria-label="Site">
             <ul role="list">
               <li><a href="/#work">Work</a></li>
@@ -175,7 +175,7 @@ const NAV = `
               <li><a href="/#contact">Contact</a></li>
             </ul>
           </nav>
-        </div>
+        </site-nav>
       </div>`;
 
 const FOOTER = `

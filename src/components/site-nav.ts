@@ -1,18 +1,78 @@
 /**
- * <site-nav>: marks the in-page link for the section currently in view with
- * aria-current="location". Pure enhancement: the links work without it, and
- * the state is shown with an underline as well as color.
+ * <site-nav>: two enhancements to a plain <nav><ul> of links.
  *
- * IntersectionObserver instead of a scroll listener: no work on the main
- * thread while scrolling, which is most of what "snappy" means here.
+ * 1. On narrow screens the list collapses behind a "Menu" button. The
+ *    button is created by the script, so without JavaScript the full list
+ *    simply shows. aria-expanded and aria-controls describe the state;
+ *    Escape closes and returns focus to the button; choosing a link closes.
+ *    CSS decides when it applies (the [data-collapsible] attribute plus a
+ *    width query), so resizing never leaves the menu stuck closed.
+ *
+ * 2. Marks the in-page link for the section currently in view with
+ *    aria-current="location" (underline as well as color). Uses
+ *    IntersectionObserver, so nothing runs on scroll.
  */
 export class SiteNav extends HTMLElement {
   private observer: IntersectionObserver | undefined;
   private readonly visible = new Map<string, number>();
+  private toggle: HTMLButtonElement | undefined;
+  private list: HTMLElement | undefined;
 
   connectedCallback(): void {
-    if (!("IntersectionObserver" in window)) return;
-    const links = [...this.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')];
+    const nav = this.querySelector("nav");
+    const list = nav?.querySelector("ul");
+    if (!nav || !list) return;
+    this.list = list;
+    this.setupToggle(nav, list);
+    this.setupCurrentSection();
+  }
+
+  disconnectedCallback(): void {
+    this.observer?.disconnect();
+    this.removeEventListener("keydown", this.onKeydown);
+  }
+
+  private setupToggle(nav: HTMLElement, list: HTMLElement): void {
+    if (this.toggle) return;
+    list.id ||= "site-nav-list";
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "nav-toggle";
+    button.setAttribute("aria-expanded", "false");
+    button.setAttribute("aria-controls", list.id);
+    button.innerHTML = `<svg aria-hidden="true" viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 5h14M3 10h14M3 15h14"/></svg> Menu`;
+    button.addEventListener("click", () => this.setOpen(!this.isOpen()));
+    // Before the <nav>, not inside it, so the header grid can place the button beside the wordmark
+    // and the list on its own row. The button still names the list through aria-controls.
+    nav.before(button);
+    this.toggle = button;
+    this.dataset["collapsible"] = "true";
+    this.addEventListener("keydown", this.onKeydown);
+    list.addEventListener("click", (e) => {
+      if ((e.target as Element).closest("a")) this.setOpen(false, false);
+    });
+  }
+
+  isOpen(): boolean {
+    return this.dataset["open"] === "true";
+  }
+
+  setOpen(open: boolean, focusToggle = false): void {
+    this.dataset["open"] = open ? "true" : "false";
+    this.toggle?.setAttribute("aria-expanded", open ? "true" : "false");
+    if (focusToggle) this.toggle?.focus();
+  }
+
+  private readonly onKeydown = (event: KeyboardEvent): void => {
+    if (event.key === "Escape" && this.isOpen()) {
+      event.preventDefault();
+      this.setOpen(false, true);
+    }
+  };
+
+  private setupCurrentSection(): void {
+    if (!("IntersectionObserver" in window) || !this.list) return;
+    const links = [...this.list.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')];
     const targets = links
       .map((a) => document.getElementById(decodeURIComponent(a.hash.slice(1))))
       .filter((el): el is HTMLElement => el !== null);
@@ -37,10 +97,6 @@ export class SiteNav extends HTMLElement {
       { rootMargin: "-20% 0px -60% 0px", threshold: [0, 0.25, 0.5, 1] },
     );
     for (const t of targets) this.observer.observe(t);
-  }
-
-  disconnectedCallback(): void {
-    this.observer?.disconnect();
   }
 }
 

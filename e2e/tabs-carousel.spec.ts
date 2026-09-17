@@ -113,10 +113,11 @@ test("the slide picker is a roving tablist and hidden slides are not reachable",
   expect(rows).toBe(1);
   const pitch = await dots.evaluateAll((els) => (els[1] as HTMLElement).offsetLeft - (els[0] as HTMLElement).offsetLeft);
   expect(pitch).toBeGreaterThanOrEqual(24);
-  const top = (sel: string) => carousel.locator(sel).evaluate((e) => Math.round(e.getBoundingClientRect().top));
-  const prevY = await top(".carousel-button >> nth=0");
-  const counterY = await top(".carousel-counter");
-  const nextY = await top(".carousel-button >> nth=1");
+  // Read all three in one evaluation: the page may still be smooth-scrolling after the resize.
+  const { prevY, counterY, nextY } = await carousel.locator(".carousel-controls").evaluate((c) => {
+    const y = (sel: string) => Math.round(c.querySelector(sel)!.getBoundingClientRect().top);
+    return { prevY: y(".carousel-button:first-child"), counterY: y(".carousel-counter"), nextY: y(".carousel-picker + .carousel-button") };
+  });
   expect(Math.abs(prevY - nextY)).toBeLessThan(4);
   expect(Math.abs(prevY - counterY)).toBeLessThan(16);
 });

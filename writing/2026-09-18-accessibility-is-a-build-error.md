@@ -1,15 +1,17 @@
 ---
 title: Accessibility is a build error, not a review comment
 date: 2026-09-18
-description: Why this site refuses to compile when a color pair fails WCAG contrast, and what that changed about how I work.
+description: I made this site refuse to compile when a color pair fails WCAG contrast. Here is why, and what it caught on day one.
 tags: design tokens, WCAG, tooling
 ---
 
-Most accessibility work happens after the fact. Someone audits, someone writes a spreadsheet of findings, a team patches for a sprint, and a year later the same findings return. I have written that spreadsheet more times than I can count. This site is my attempt to make one class of finding impossible.
+I have written the same finding hundreds of times: insufficient contrast, secondary text, dark mode, 1.4.3, fails. I have written it for enterprise clients, for a state agency, and for freelance clients who paid me to find it. Every time, somebody fixed it, and every time, it came back a release later.
+
+I am done writing that finding. On this site, it cannot exist.
 
 ## The rule
 
-Every color in this site's design tokens can declare what it sits on and the ratio it needs:
+Every color in my design tokens can say what it sits on and the ratio it owes:
 
 ```json
 "textMuted": {
@@ -19,24 +21,24 @@ Every color in this site's design tokens can declare what it sits on and the rat
 }
 ```
 
-When the tokens compile, a script computes every declared pair with the WCAG 2.x relative-luminance formula. If any pair falls below its ratio, the script prints the pair, the ratio it got, and the ratio it needed, and it exits without writing a single line of CSS. The site cannot build. Eighty-one pairs across three themes are checked on every push.
+When the tokens compile, a script checks every pair with the WCAG 2.x formula. If one pair is short, the script prints the pair, the ratio it got, and the ratio it needed, and it exits. No CSS is written. The site does not build. Eighty-one pairs, three themes, every push.
 
-## What the build caught
+## What it caught on day one
 
-While I was building the page, the check stopped me. I had asked the focus ring to reach 3:1 against the page background and against the primary button. The build reported 1.55:1 for the button in the light theme and refused to continue.
+I asked the focus ring to hit 3:1 against the page and against the primary button. The build stopped me: 1.55:1 against the button in the light theme.
 
-The build was right, and I was wrong about the requirement. The ring sits two pixels outside the control, so its adjacent color is the page, not the button. I removed the button from the ring's list, the pairs passed, and the mistake never reached a reviewer, a pull request, or a user.
+The build was right. The ring sits two pixels outside the control, so the color next to it is the page, not the button. I had written a requirement that does not exist in WCAG, and the build would not let me ship it. Nobody reviewed that mistake. Nobody had to.
 
-That is the whole argument in one incident. A reviewer might have caught it. A reviewer might also have been tired, or new, or busy. The build is never any of those things.
+## Why tokens and not a linter
 
-## Why the token file, and not a linter
+A linter looks at a rendered page. It cannot see the theme that is not active, the state nobody triggered, or the component that is not on the page it was pointed at. I know this because I run linters for a living, and then I test by hand, because the linter missed something.
 
-Linters run on rendered pages and report what they see. They cannot see a theme that is not active, a state that is not triggered, or a component that is not on the page they were pointed at. A token file is the one place where every color and every background is declared together, before any of them is rendered. Checking there means checking everything, once, in a few milliseconds.
+A token file is the one place where every color and every background exist together before any of them is drawn. Check there, and you have checked all of it, in milliseconds, before a human looks.
 
-The same principle applies beyond color. On this site, a post with an image that has no alt text does not build. A post whose headings skip a level does not build. The rule is always the same: if a machine can decide it, the machine decides it before a human has to.
+I apply the same rule to anything a machine can decide. On this site, a post with an image and no alt text does not build. A post whose headings skip a level does not build. If a machine can decide it, the machine decides it first.
 
-## What it changed
+## What is left for me
 
-I stopped writing a certain kind of finding. "Insufficient contrast on secondary text in dark mode" used to be a line in every audit I delivered. On projects that adopt this pattern, it is not a finding anymore, because it is not possible. That leaves the audit for the problems that need a person: focus that goes nowhere, a live region that mounts with content and never speaks, a carousel that moves when nobody asked.
+The audit still has work in it: focus that lands on the body after a dialog closes, a live region that mounts with its message already inside and never speaks, a carousel that moves because nobody stopped it. Those need a person with a screen reader. I am that person.
 
-Those are the findings worth a human's time. Contrast never was.
+Contrast never needed me. It needed a build step.

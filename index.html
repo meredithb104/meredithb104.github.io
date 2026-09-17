@@ -3,19 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Meredith Boyce, front-end engineer</title>
+    <title>Meredith Boyce, accessibility engineer</title>
     <meta
       name="description"
-      content="Meredith Boyce is a blind front-end engineer in Boston. TypeScript, React, HTML, CSS, Node. Accessible-by-default component libraries, Slack and Discord apps, WCAG 2.2 AA."
+      content="Meredith Boyce is a blind accessibility engineer and front-end developer in Boston. WCAG 2.2 audits and remediation, accessible-by-default component libraries, TypeScript, React, HTML, CSS, Node."
     />
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0F1419" media="(prefers-color-scheme: dark)" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Meredith Boyce, front-end engineer" />
+    <meta property="og:title" content="Meredith Boyce, accessibility engineer" />
     <meta
       property="og:description"
-      content="Front ends where the accessible path is the only path. TypeScript, React, HTML, CSS, Node. WCAG 2.2 AA, contrast enforced at build time."
+      content="Accessibility engineer who also builds the front end. WCAG 2.2 audits, remediation, and component libraries where the accessible path is the only path. TypeScript, React, HTML, CSS."
     />
     <meta property="og:url" content="https://meredithb104.github.io/" />
     <meta property="og:image" content="https://meredithb104.github.io/og-card.png" />
@@ -23,7 +23,7 @@
     <meta property="og:image:height" content="630" />
     <meta
       property="og:image:alt"
-      content="Meredith Boyce, front-end engineer. Front ends where the accessible path is the only path. TypeScript, React, HTML, CSS, WCAG 2.2."
+      content="Meredith Boyce, accessibility engineer. Front ends where the accessible path is the only path. WCAG 2.2, TypeScript, React, HTML, CSS."
     />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -62,21 +62,23 @@
     <main id="main" tabindex="-1" class="wrap">
       <section class="hero" aria-labelledby="hero-h">
         <div>
-          <p class="eyebrow">Front-end engineer · Boston, MA</p>
+          <p class="eyebrow">Accessibility engineer · Front-end developer · Boston, MA</p>
           <h1 id="hero-h">I build front ends where the accessible path is the only path.</h1>
         </div>
         <p class="lede measure">
-          I'm Meredith Boyce. I'm a blind front-end engineer: I use a screen reader and a braille display all day,
-          and I've spent six years auditing other people's component libraries for the same dozen mistakes. I write
-          TypeScript, HTML, and CSS that pass the audit before it starts.
+          I'm Meredith Boyce, an accessibility engineer who also builds the front end. I'm blind: I use a screen
+          reader and a braille display all day, and I've spent six years auditing other people's component libraries
+          for the same dozen mistakes. I audit against WCAG 2.2, write the remediation, and then write the TypeScript,
+          HTML, and CSS that pass the audit before it starts.
         </p>
         <ul class="facts" role="list" aria-label="At a glance">
+          <li>WCAG 2.2 audits</li>
+          <li>WAI-ARIA APG</li>
+          <li>Screen reader user</li>
           <li>TypeScript</li>
           <li>React</li>
           <li>Node</li>
-          <li>WCAG 2.2</li>
-          <li>Screen reader user</li>
-          <li>Open to front-end and accessibility roles</li>
+          <li>Open to accessibility engineering and front-end roles</li>
         </ul>
         <div class="cta-row">
           <a class="button" href="#work">See my work</a>
@@ -95,10 +97,17 @@
       <section id="about" class="section flow" tabindex="-1" aria-labelledby="about-h">
         <h2 id="about-h">About</h2>
         <p>
+          Accessibility engineering is the job; front-end development is how I do it. I audit interfaces against
+          WCAG 2.2 and the WAI-ARIA Authoring Practices, write findings a developer can act on, and then, unlike
+          most auditors, fix them myself: the pull request, the tests that keep the fix in place, and the
+          accessibility statement that tells users what to expect.
+        </p>
+        <p>
           Most accessibility work happens after the fact: an audit, a spreadsheet of findings, a sprint of
           patches, and then the same findings a year later. I'd rather build so that the findings can't happen.
           That means using the platform before reaching for ARIA, treating a contrast failure as a build error, and
-          testing the behavior a screen reader user notices first, not just the markup.
+          testing the behavior a screen reader user notices first, not just the markup. Commons UI and this site are
+          that approach in code; the twelve mistakes in the Lab are what the audits keep turning up.
         </p>
         <p>
           I work across the stack when a project needs it. The two bots in the case studies below are TypeScript
@@ -800,6 +809,14 @@
         <h2 id="skills-h">Skills</h2>
         <dl class="skills">
           <div>
+            <dt>Accessibility engineering</dt>
+            <dd>
+              WCAG 2.2 A, AA and AAA audits; WAI-ARIA Authoring Practices; remediation plans and the pull requests
+              that carry them out; automated checks (axe-core, Playwright) wired into CI; accessibility statements;
+              daily screen reader (JAWS) and braille display use; plain-language findings for non-engineers.
+            </dd>
+          </div>
+          <div>
             <dt>Languages</dt>
             <dd>TypeScript (strict, everywhere), JavaScript, HTML, CSS, SVG. Comfortable in Kotlin and Java for Android.</dd>
           </div>
@@ -815,13 +832,6 @@
             <dd>
               Node, Slack Bolt, discord.js, Firestore, Google Calendar API, REST integrations with language models,
               node-cron, Docker, Railway.
-            </dd>
-          </div>
-          <div>
-            <dt>Accessibility</dt>
-            <dd>
-              WCAG 2.2 AA and AAA criteria, WAI-ARIA Authoring Practices, daily screen reader and braille display
-              use, manual audits, remediation plans, accessibility statements.
             </dd>
           </div>
           <div>
@@ -841,7 +851,7 @@
       <section id="contact" class="section flow" tabindex="-1" aria-labelledby="contact-h">
         <h2 id="contact-h">Contact</h2>
         <p class="measure">
-          I'm open to front-end, design-systems, and accessibility engineering roles, remote or in the Boston area.
+          I'm open to accessibility engineering, front-end, and design-systems roles, remote or in the Boston area.
           Email is best; LinkedIn works too.
         </p>
         <div class="cta-row">

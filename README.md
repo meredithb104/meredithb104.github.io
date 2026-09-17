@@ -1,6 +1,6 @@
 # meredithb104.github.io
 
-**Portfolio of Meredith Boyce, front-end engineer.** Live at **https://meredithb104.github.io/**
+**Portfolio of Meredith Boyce, accessibility engineer and front-end developer.** Live at **https://meredithb104.github.io/**
 
 Static HTML, hand-written CSS, and a few kilobytes of TypeScript. No framework runtime. Built to WCAG 2.2 AA, with contrast enforced at build time and axe-core run in a real browser on every push.
 

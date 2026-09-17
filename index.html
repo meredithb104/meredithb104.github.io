@@ -189,8 +189,8 @@
                 ><span class="tag">Web Components</span><span class="tag">Playwright</span>
               </p>
               <p>
-                No framework runtime. Static HTML, cascade layers, container queries, and four small custom
-                elements. The same token pipeline as Commons UI, ported to TypeScript and run natively by Node.
+                No framework runtime. Static HTML, cascade layers, container queries, and six small custom
+                elements, including APG-pattern tabs and a carousel. The same token pipeline as Commons UI, ported to TypeScript and run natively by Node.
                 Audited with axe-core in a real browser on every push.
               </p>
               <p class="card-links">
@@ -669,6 +669,129 @@
               </div>
               <div class="contrast-result" data-result></div>
             </contrast-checker>
+          </div>
+
+          <div class="panel panel--wide">
+            <h3>Tabs and a carousel</h3>
+            <p>
+              Two patterns that go wrong more often than they go right, built to the WAI-ARIA Authoring Practices.
+              The tabs below are the demo: one holds the carousel, the others explain it and show the markup as
+              authored. Without JavaScript they are a list of links and stacked sections; the carousel is twelve
+              stacked cards. Nothing auto-rotates.
+            </p>
+            <tab-set label="Carousel demo">
+              <ul class="tabs-list" data-tabs>
+                <li><a href="#tab-demo">Demo</a></li>
+                <li><a href="#tab-how">How it's built</a></li>
+                <li><a href="#tab-markup">Markup</a></li>
+              </ul>
+
+              <section id="tab-demo">
+                <h4 data-panel-heading>Demo</h4>
+                <carousel-slider id="mistakes" label="Twelve mistakes I keep finding">
+                  <div data-track>
+                    <section data-slide>
+                      <h4>1. Disabled while loading</h4>
+                      <p>A submit button set to <code>disabled</code> while the request runs vanishes from the tab order and goes silent. The user presses Enter, nothing happens, and nobody tells them why.</p>
+                      <p><strong>Instead:</strong> <code>aria-busy="true"</code> and <code>aria-disabled="true"</code>, keep it focusable, and announce the result when it comes back.</p>
+                    </section>
+                    <section data-slide>
+                      <h4>2. Icon buttons with no name</h4>
+                      <p>A magnifying glass is not a label. A screen reader announces "button" and nothing else, and a voice-control user has no word to say.</p>
+                      <p><strong>Instead:</strong> every icon-only control gets an accessible name, and the icon itself is <code>aria-hidden</code>.</p>
+                    </section>
+                    <section data-slide>
+                      <h4>3. Focus dropped on close</h4>
+                      <p>The dialog closes and focus lands on <code>&lt;body&gt;</code>. For a screen reader user that is a trip back to the top of the page.</p>
+                      <p><strong>Instead:</strong> return focus to the control that opened it. Native <code>&lt;dialog&gt;</code> does this for free.</p>
+                    </section>
+                    <section data-slide>
+                      <h4>4. Color as the only signal</h4>
+                      <p>Red border for error, green for success, and nothing else. That is invisible to a screen reader and to a lot of sighted people.</p>
+                      <p><strong>Instead:</strong> add text. Color can reinforce a state; it can never carry it alone.</p>
+                    </section>
+                    <section data-slide>
+                      <h4>5. Live regions mounted with content</h4>
+                      <p>A status region created at the moment it has something to say is usually silent, because the screen reader never saw it change.</p>
+                      <p><strong>Instead:</strong> mount it empty at startup, then write to it. Clear it first if you need to repeat the same message.</p>
+                    </section>
+                    <section data-slide>
+                      <h4>6. Placeholder as the label</h4>
+                      <p>Placeholders vanish on the first keystroke, most of them fail contrast, and a form full of typed values has no labels left at all.</p>
+                      <p><strong>Instead:</strong> a visible <code>&lt;label&gt;</code>, always. Hints go in <code>aria-describedby</code>.</p>
+                    </section>
+                    <section data-slide>
+                      <h4>7. A div that clicks</h4>
+                      <p>A <code>&lt;div onClick&gt;</code> is invisible to the keyboard, has no role, and no name. Adding <code>tabindex</code> gets you halfway to a worse button.</p>
+                      <p><strong>Instead:</strong> if it does something, it is a <code>&lt;button&gt;</code>. If it goes somewhere, it is an <code>&lt;a&gt;</code>.</p>
+                    </section>
+                    <section data-slide>
+                      <h4>8. The focus ring, removed</h4>
+                      <p><code>outline: none</code> with nothing in its place means keyboard users cannot see where they are. It is usually done to hide the ring from mouse users.</p>
+                      <p><strong>Instead:</strong> style <code>:focus-visible</code>. Mouse users never see it; keyboard users always do.</p>
+                    </section>
+                    <section data-slide>
+                      <h4>9. Skipped heading levels</h4>
+                      <p>An <code>h2</code> followed by an <code>h4</code> because the <code>h3</code> looked too big. Screen reader users navigate by heading level; the outline now has a hole in it.</p>
+                      <p><strong>Instead:</strong> heading levels are structure. Fix the size in CSS.</p>
+                    </section>
+                    <section data-slide>
+                      <h4>10. Errors nowhere near the field</h4>
+                      <p>A red list at the top of the form, no link to the field, and the field itself says nothing when you land on it.</p>
+                      <p><strong>Instead:</strong> <code>aria-describedby</code> the message, <code>aria-invalid</code> the field, and link each summary item to its input.</p>
+                    </section>
+                    <section data-slide>
+                      <h4>11. Hover-only tooltips</h4>
+                      <p>If it only appears on hover, keyboard and touch users never see it, and it disappears the moment a magnifier user moves toward it.</p>
+                      <p><strong>Instead:</strong> show it on focus too, let Escape dismiss it, and never put essential information there (WCAG 1.4.13).</p>
+                    </section>
+                    <section data-slide>
+                      <h4>12. Motion with no off switch</h4>
+                      <p>Auto-playing carousels, parallax, and animated counters with no pause control and no <code>prefers-reduced-motion</code> check.</p>
+                      <p><strong>Instead:</strong> nothing moves unless the user asks. This carousel does not auto-rotate, and its one fade is 0ms under reduced motion.</p>
+                    </section>
+                  </div>
+                </carousel-slider>
+              </section>
+
+              <section id="tab-how">
+                <h4 data-panel-heading>How it's built</h4>
+                <div class="flow">
+                  <p><strong>Tabs</strong> follow the APG tabs pattern with automatic activation: one tab stop for the whole tablist, Left and Right arrows move and select, Home and End jump, and each panel is focusable so the next Tab press lands on the content rather than skipping past it. Selection is shown by weight and a thick underline, not color alone. The URL hash opens a panel on load. Without JavaScript the markup is a list of in-page links above stacked sections with headings; the script removes those headings because the tab now names the panel.</p>
+                  <p><strong>The carousel</strong> is the APG "tabbed carousel": the container is a group with <code>aria-roledescription="carousel"</code>, the slide picker is a second tablist with one tab stop and arrow keys, and each slide is a tabpanel with <code>aria-roledescription="slide"</code> and an accessible name of "3 of 12". Non-current slides get the <code>hidden</code> attribute, so they leave the accessibility tree and the tab order together. Left and Right on the Previous or Next button also move slides, so it doesn't matter which one has focus.</p>
+                  <p><strong>Where focus goes after Next, and why.</strong> It stays on the button. The slide track is a polite live region, so a screen reader hears the slide that arrived without focus moving. Carousel guidance is genuinely contested on this point: one school says focus should move to the new slide so a screen reader user lands at the start of the new content; the other says that forcing focus onto a non-interactive slide puts a ring on something that does nothing and breaks a sighted keyboard user's flow through the controls. These slides are not interactive, so the second argument wins here, and the live region covers the first concern. A carousel whose slides hold headings, links, and menus is a different problem: those slides would need focus to move to their first element, and could not be driven as a "tab in, arrow within, tab out" widget at all. This component is scoped, on purpose, to slides you read.</p>
+                  <p><strong>Reading order is tab order.</strong> Controls sit above the track in the DOM and on screen; nothing is reordered with <code>tabindex</code>, so the page reads the same whether you arrow through it or tab through it.</p>
+                  <p><strong>What it refuses to do:</strong> auto-rotate. There is nothing to pause because nothing starts, and the live region can never interrupt someone reading elsewhere on the page. Dots are 24-pixel targets with a visible border. The selected dot is filled and larger, and under Windows High Contrast it uses the system highlight color.</p>
+                  <p>Both elements share one small roving-tabindex helper, tested once. The Playwright suite tabs into each tablist, arrows through it, checks that hidden slides are not reachable, and confirms that Tab from the Next button leaves the carousel.</p>
+                </div>
+              </section>
+
+              <section id="tab-markup">
+                <h4 data-panel-heading>Markup</h4>
+                <p>This is the HTML as authored. Everything with a role is added by the script; the page is complete without it.</p>
+<pre><code>&lt;tab-set label="Carousel demo"&gt;
+  &lt;ul data-tabs&gt;
+    &lt;li&gt;&lt;a href="#tab-demo"&gt;Demo&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#tab-how"&gt;How it's built&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;section id="tab-demo"&gt;
+    &lt;h4 data-panel-heading&gt;Demo&lt;/h4&gt;
+    &lt;carousel-slider label="Twelve mistakes I keep finding"&gt;
+      &lt;div data-track&gt;
+        &lt;section data-slide&gt;&lt;h4&gt;1. …&lt;/h4&gt;&lt;p&gt;…&lt;/p&gt;&lt;/section&gt;
+        &lt;section data-slide&gt;&lt;h4&gt;2. …&lt;/h4&gt;&lt;p&gt;…&lt;/p&gt;&lt;/section&gt;
+      &lt;/div&gt;
+    &lt;/carousel-slider&gt;
+  &lt;/section&gt;
+
+  &lt;section id="tab-how"&gt;
+    &lt;h4 data-panel-heading&gt;How it's built&lt;/h4&gt;
+    …
+  &lt;/section&gt;
+&lt;/tab-set&gt;</code></pre>
+              </section>
+            </tab-set>
           </div>
         </div>
       </section>

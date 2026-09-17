@@ -10,9 +10,12 @@ async function focused(page: Page): Promise<{ tag: string; text: string; id: str
     const el = document.activeElement as HTMLElement | null;
     if (!el || el === document.body) return { tag: "body", text: "", id: "", inView: false, unobscured: false };
     const r = el.getBoundingClientRect();
-    const inView = r.top >= 0 && r.bottom <= window.innerHeight && r.left >= 0 && r.right <= window.innerWidth;
+    // A focusable container (a tabpanel) can be taller than the viewport; what must be visible is
+    // where focus starts, so require the top edge and at least the first 48px to be on screen.
+    const inView =
+      r.top >= 0 && Math.min(r.bottom, r.top + 48) <= window.innerHeight && r.left >= 0 && r.right <= window.innerWidth;
     // WCAG 2.4.11 Focus Not Obscured: the element's centre must be the top-most thing at that point.
-    const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+    const hit = document.elementFromPoint(r.left + r.width / 2, r.top + Math.min(r.height, 48) / 2);
     const unobscured = hit !== null && (hit === el || el.contains(hit) || hit.contains(el));
     return {
       tag: el.tagName.toLowerCase(),

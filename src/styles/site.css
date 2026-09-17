@@ -730,6 +730,204 @@
     }
   }
 
+  /* ---- Tabs (APG tabs pattern, see <tab-set>) ------------------------ */
+  /* Custom elements are inline by default; these are containers. */
+  tab-set,
+  carousel-slider,
+  theme-picker,
+  contrast-checker,
+  work-filter {
+    display: block;
+  }
+
+  .panel--wide {
+    grid-column: 1 / -1;
+  }
+
+  .tabs-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    padding: 0;
+    margin-block-end: var(--space-4);
+    border-block-end: var(--size-border) solid var(--color-border-subtle);
+
+    /* No-JS: it is a plain list of links; keep it readable. */
+    li {
+      list-style: none;
+    }
+    li a {
+      display: inline-flex;
+      align-items: center;
+      min-block-size: var(--size-target);
+      padding-inline: var(--space-3);
+    }
+  }
+
+  .tab {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: var(--size-target);
+    padding: var(--space-2) var(--space-4);
+    margin-block-end: calc(-1 * var(--size-border));
+    border: 0;
+    border-block-end: 3px solid transparent;
+    background: transparent;
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+
+    &:hover {
+      color: var(--color-primary);
+    }
+
+    /* Selected: weight and a thick underline, never color alone. */
+    &[aria-selected="true"] {
+      color: var(--color-text);
+      font-weight: var(--font-weight-bold);
+      border-block-end-color: var(--color-primary);
+    }
+
+    /* The ring sits inside so the tablist's bottom border doesn't clip it. */
+    &:focus-visible {
+      outline-offset: -3px;
+      border-radius: var(--radius-sm);
+    }
+
+    @media (forced-colors: active) {
+      &[aria-selected="true"] {
+        border-block-end-color: Highlight;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .tab-panel {
+    /* Focusable panel (APG): give the ring some room. */
+    &:focus-visible {
+      outline-offset: var(--space-2);
+    }
+
+    pre {
+      margin: 0;
+      padding: var(--space-4);
+      background: var(--color-code-bg);
+      color: var(--color-code-text);
+      border-radius: var(--radius-md);
+      font-size: var(--font-size-sm);
+      line-height: 1.5;
+      /* Wrap rather than scroll: no horizontal scroll region to make keyboard-reachable (1.4.10). */
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      max-inline-size: none;
+    }
+    pre code {
+      background: none;
+      padding: 0;
+      font-size: inherit;
+    }
+  }
+
+  /* ---- Carousel (APG tabbed carousel, see <carousel-slider>) --------- */
+  .carousel {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .carousel-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .carousel-button {
+    padding-inline: var(--space-4);
+  }
+
+  .carousel-picker {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+  }
+
+  /* Dots are 24px targets (2.5.8) with a visible 3:1 border; the selected one is filled AND larger. */
+  .carousel-dot {
+    inline-size: 24px;
+    block-size: 24px;
+    padding: 0;
+    border: var(--size-border-strong) solid var(--color-border);
+    border-radius: 50%;
+    background: var(--color-surface);
+    cursor: pointer;
+    transition: transform var(--motion-duration-fast) var(--motion-easing-standard);
+
+    &:hover {
+      border-color: var(--color-primary);
+    }
+
+    &[aria-selected="true"] {
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+      transform: scale(1.2);
+    }
+
+    @media (forced-colors: active) {
+      &[aria-selected="true"] {
+        forced-color-adjust: none;
+        background: Highlight;
+        border-color: Highlight;
+      }
+    }
+  }
+
+  .carousel-counter {
+    margin-inline-start: auto;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+  }
+
+  .carousel-track {
+    /* No-JS: slides stack. With JS only one is visible; the min height stops the controls jumping. */
+    display: grid;
+    gap: var(--space-4);
+    min-block-size: 10rem;
+  }
+
+  .carousel-slide {
+    padding: var(--space-5);
+    background: var(--color-bg-subtle);
+    border: var(--size-border) solid var(--color-border-subtle);
+    border-inline-start: 4px solid var(--color-accent);
+    border-radius: var(--radius-md);
+
+    h4 {
+      margin-block: 0 var(--space-2);
+      font-size: var(--font-size-lg);
+    }
+
+    p {
+      margin: 0;
+    }
+
+    p + p {
+      margin-block-start: var(--space-3);
+    }
+
+    /* Arrive with a short fade; the token is 0ms under reduced motion. */
+    animation: slide-in var(--motion-duration-base) var(--motion-easing-standard);
+  }
+
+  @keyframes slide-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
   /* ---- Accessibility statement page ---------------------------------- */
   .prose {
     display: grid;

@@ -7,6 +7,8 @@ import "../components/theme-picker.ts";
 import "../components/contrast-checker.ts";
 import "../components/work-filter.ts";
 import "../components/site-nav.ts";
+import "../components/tab-set.ts";
+import "../components/carousel-slider.ts";
 
 /**
  * Fast axe pass over the real source HTML in jsdom. Color contrast is

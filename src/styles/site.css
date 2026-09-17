@@ -483,6 +483,50 @@
     }
   }
 
+  /* ---- Experience timeline ------------------------------------------- */
+  .timeline {
+    display: grid;
+    gap: var(--space-5);
+    padding: 0;
+    margin-block-end: var(--space-6);
+
+    li {
+      display: grid;
+      gap: var(--space-1);
+      padding-inline-start: var(--space-5);
+      border-inline-start: 3px solid var(--color-border-subtle);
+      max-inline-size: none;
+    }
+
+    h3 {
+      font-size: var(--font-size-lg);
+    }
+  }
+
+  .timeline-when {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .credentials {
+    display: grid;
+    gap: var(--space-5);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+
+    h3 {
+      font-size: var(--font-size-md);
+      margin-block-end: var(--space-2);
+    }
+
+    ul {
+      padding-inline-start: 1.2em;
+      display: grid;
+      gap: var(--space-1);
+      color: var(--color-text-muted);
+    }
+  }
+
   /* ---- Principles ---------------------------------------------------- */
   .principles {
     counter-reset: principle;

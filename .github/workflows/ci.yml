@@ -27,6 +27,8 @@ jobs:
 
       - name: Compile tokens (fails on any contrast violation)
         run: npm run tokens
+      - name: Build posts (fails on missing alt text, skipped headings, or bad front matter)
+        run: npm run posts
       - name: Lint
         run: npm run lint
       - name: Typecheck

@@ -45,7 +45,7 @@ axe finds roughly a third of accessibility problems. The rest is in the tests th
 
 ## Performance
 
-The whole site is one HTML document per page, one CSS file, and one JavaScript module (about 7 kB, under 3 kB gzipped). No web fonts, no analytics, no third-party requests. The theme is applied by a two-line inline script before first paint, so there is no flash. Section highlighting uses `IntersectionObserver`, so nothing runs on scroll.
+The whole site is one HTML document per page, one CSS file, and one JavaScript module (about 12 kB, 4 kB gzipped). No web fonts, no analytics, no third-party requests. The theme is applied by a two-line inline script before first paint, so there is no flash. Section highlighting uses `IntersectionObserver`, so nothing runs on scroll.
 
 ## Structure
 

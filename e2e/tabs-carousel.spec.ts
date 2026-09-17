@@ -100,10 +100,25 @@ test("the slide picker is a roving tablist and hidden slides are not reachable",
   );
   expect(reachable.filter((s) => !s.hidden)).toHaveLength(1);
 
-  // Dots are real 24px targets (2.5.8).
+  // Dots are real 24px targets (2.5.8) at desktop width.
   const box = await dot1.boundingBox();
   expect(box!.width).toBeGreaterThanOrEqual(24);
   expect(box!.height).toBeGreaterThanOrEqual(24);
+
+  // On a phone the picker fits one centered row: 18px dots on a 24px pitch (the 2.5.8 spacing exception),
+  // with Previous, the counter, and Next on the row above.
+  await page.setViewportSize({ width: 375, height: 812 });
+  const dots = carousel.locator(".carousel-dot");
+  const rows = await dots.evaluateAll((els) => new Set(els.map((e) => (e as HTMLElement).offsetTop)).size);
+  expect(rows).toBe(1);
+  const pitch = await dots.evaluateAll((els) => (els[1] as HTMLElement).offsetLeft - (els[0] as HTMLElement).offsetLeft);
+  expect(pitch).toBeGreaterThanOrEqual(24);
+  const top = (sel: string) => carousel.locator(sel).evaluate((e) => Math.round(e.getBoundingClientRect().top));
+  const prevY = await top(".carousel-button >> nth=0");
+  const counterY = await top(".carousel-counter");
+  const nextY = await top(".carousel-button >> nth=1");
+  expect(Math.abs(prevY - nextY)).toBeLessThan(4);
+  expect(Math.abs(prevY - counterY)).toBeLessThan(16);
 });
 
 test("tabs and carousel states are axe-clean in light and dark", async ({ page }) => {

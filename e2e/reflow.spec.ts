@@ -89,12 +89,24 @@ test("all interactive targets are at least 24 by 24 CSS pixels (2.5.8)", async (
       .filter((el) => !(el instanceof HTMLInputElement && el.type === "radio" && el.closest("label")))
       // 2.5.8 exempts inline links in a sentence; a wrapped one also reports only its first line box.
       .filter((el) => !(el.tagName === "A" && getComputedStyle(el).display === "inline" && el.closest("p, li, dd, figcaption")))
-      .map((el) => {
+      .map((el, _i, all) => {
         const r = el.getBoundingClientRect();
-        return { label: (el.getAttribute("aria-label") ?? el.textContent ?? el.id).trim().slice(0, 30), w: r.width, h: r.height };
+        // 2.5.8 spacing exception: a target under 24px passes if a 24px circle on its centre
+        // touches no other target. Approximate with centre-to-centre distance to the nearest one.
+        const cx = r.x + r.width / 2;
+        const cy = r.y + r.height / 2;
+        let nearest = Infinity;
+        for (const other of all) {
+          if (other === el) continue;
+          const o = other.getBoundingClientRect();
+          if (o.width === 0) continue;
+          const d = Math.hypot(o.x + o.width / 2 - cx, o.y + o.height / 2 - cy);
+          if (d < nearest) nearest = d;
+        }
+        return { label: (el.getAttribute("aria-label") ?? el.textContent ?? el.id).trim().slice(0, 30), w: r.width, h: r.height, nearest };
       })
-      // Inline links inside a sentence are exempt under 2.5.8; everything else must meet 24px.
-      .filter((t) => t.w > 0 && (t.w < 24 || t.h < 24)),
+      // Inline links inside a sentence are exempt under 2.5.8; everything else meets 24px or the spacing exception.
+      .filter((t) => t.w > 0 && (t.w < 24 || t.h < 24) && t.nearest < 24),
   );
   expect(small, JSON.stringify(small)).toEqual([]);
 });

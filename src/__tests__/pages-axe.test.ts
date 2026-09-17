@@ -65,10 +65,15 @@ describe("index.html structure", () => {
     const figures = [...document.querySelectorAll("figure.diagram")];
     expect(figures).toHaveLength(2);
     for (const f of figures) {
-      const svg = f.querySelector("svg")!;
-      expect(svg.getAttribute("role")).toBe("img");
-      const ids = (svg.getAttribute("aria-labelledby") ?? "").split(" ");
-      for (const id of ids) expect(svg.querySelector(`#${id}`)?.textContent?.trim().length).toBeGreaterThan(10);
+      const svgs = [...f.querySelectorAll("svg")];
+      expect(svgs).toHaveLength(2); // wide and narrow drawings of the same diagram
+      for (const svg of svgs) {
+        expect(svg.getAttribute("role")).toBe("img");
+        const ids = (svg.getAttribute("aria-labelledby") ?? "").split(" ");
+        for (const id of ids) expect(svg.querySelector(`#${id}`)?.textContent?.trim().length, id).toBeGreaterThan(10);
+      }
+      // Both drawings say the same thing.
+      expect(svgs[0]!.querySelector("title")!.textContent).toBe(svgs[1]!.querySelector("title")!.textContent);
       expect(f.querySelector("figcaption")?.textContent?.trim().length).toBeGreaterThan(40);
     }
   });

@@ -98,3 +98,25 @@ test("all interactive targets are at least 24 by 24 CSS pixels (2.5.8)", async (
   );
   expect(small, JSON.stringify(small)).toEqual([]);
 });
+
+test("at phone width each case-study diagram shows its stacked drawing, and only one drawing is exposed", async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto("/");
+  for (const id of ["medconnect", "plannerbot"]) {
+    const figure = page.locator(`#${id} figure.diagram`);
+    await expect(figure.locator("svg.diagram-narrow")).toBeVisible();
+    await expect(figure.locator("svg.diagram-wide")).toBeHidden();
+    // Exactly one accessible image per figure at this width.
+    await expect(figure.getByRole("img")).toHaveCount(1);
+    // Labels are drawn at a size a person can read: at least 11 CSS pixels once scaled.
+    const px = await figure.locator("svg.diagram-narrow .label").first().evaluate((t) => {
+      const svg = t.closest("svg")!;
+      const scale = svg.getBoundingClientRect().width / svg.viewBox.baseVal.width;
+      return parseFloat(getComputedStyle(t).fontSize) * scale;
+    });
+    expect(px).toBeGreaterThanOrEqual(11);
+  }
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await expect(page.locator("#medconnect svg.diagram-wide")).toBeVisible();
+  await expect(page.locator("#medconnect svg.diagram-narrow")).toBeHidden();
+});

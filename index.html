@@ -314,7 +314,7 @@
 
           <div class="case-body">
             <figure class="diagram">
-              <svg viewBox="0 0 760 300" role="img" aria-labelledby="mc-title mc-desc">
+              <svg class="diagram-wide" viewBox="0 0 760 300" role="img" aria-labelledby="mc-title mc-desc">
                 <title id="mc-title">MedConnect architecture</title>
                 <desc id="mc-desc">
                   Slack sends slash commands, button clicks, and mentions to a Slack Bolt app over HTTP. The app
@@ -365,6 +365,41 @@
                 <path class="edge edge--dashed" d="M360 255 C 500 255, 560 200, 608 118" />
                 <path class="edge edge--dashed" d="M190 255 C 120 255, 90 230, 78 182" />
               </svg>
+                <svg class="diagram-narrow" viewBox="0 0 360 690" role="img" aria-labelledby="mc-title-n mc-desc-n">
+                <title id="mc-title-n">MedConnect architecture</title>
+                <desc id="mc-desc-n">Slack sends slash commands, button clicks, and mentions to a Slack Bolt app over HTTP. The app calls services that book appointments, match doctors, and build calendar files. Services call Gemini to classify and extract data from text and images, create Google Calendar events, and write records to Firestore. Cron jobs read Firestore and send reminder direct messages back to Slack.</desc>
+                <defs><marker id="arrow-mc-n" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="arrowhead" d="M0 0 L10 5 L0 10 z" /></marker></defs>
+                <rect class="box" x="50" y="20" width="280" height="64" rx="8" />
+                <text class="label" x="190" y="48" text-anchor="middle">Slack workspace</text>
+                <text class="sublabel" x="190" y="66" text-anchor="middle">commands · mentions</text>
+                <path class="edge" style="marker-end:url(#arrow-mc-n)" d="M190 84 V118" />
+                <rect class="box box--accent" x="50" y="120" width="280" height="90" rx="8" />
+                <text class="label" x="190" y="150" text-anchor="middle">Slack Bolt app (HTTP)</text>
+                <text class="sublabel" x="190" y="170" text-anchor="middle">commands · interactions</text>
+                <text class="sublabel" x="190" y="188" text-anchor="middle">events (text or image)</text>
+                <path class="edge" style="marker-end:url(#arrow-mc-n)" d="M190 210 V244" />
+                <rect class="box" x="50" y="246" width="280" height="90" rx="8" />
+                <text class="label" x="190" y="276" text-anchor="middle">Services</text>
+                <text class="sublabel" x="190" y="296" text-anchor="middle">book · match doctor</text>
+                <text class="sublabel" x="190" y="314" text-anchor="middle">calendar · ics</text>
+                <path class="edge" style="marker-end:url(#arrow-mc-n)" d="M150 336 L115 380" />
+                <path class="edge" style="marker-end:url(#arrow-mc-n)" d="M230 336 L265 380" />
+                <path class="edge" style="marker-end:url(#arrow-mc-n)" d="M190 336 V498" />
+                <rect class="box" x="50" y="382" width="130" height="70" rx="8" />
+                <text class="label" x="115" y="408" text-anchor="middle">Gemini (REST)</text>
+                <text class="sublabel" x="115" y="426" text-anchor="middle">classify · extract</text>
+                <rect class="box" x="200" y="382" width="130" height="70" rx="8" />
+                <text class="label" x="265" y="408" text-anchor="middle">Google Calendar</text>
+                <text class="sublabel" x="265" y="426" text-anchor="middle">events</text>
+                <rect class="box box--store" x="50" y="500" width="280" height="64" rx="8" />
+                <text class="label" x="190" y="526" text-anchor="middle">Firestore</text>
+                <text class="sublabel" x="190" y="544" text-anchor="middle">appointments · doctors</text>
+                <rect class="box" x="50" y="610" width="280" height="64" rx="8" />
+                <text class="label" x="190" y="636" text-anchor="middle">Cron jobs</text>
+                <text class="sublabel" x="190" y="654" text-anchor="middle">reminders · follow-ups</text>
+                <path class="edge edge--dashed" style="marker-end:url(#arrow-mc-n)" d="M190 610 V566" />
+                <path class="edge edge--dashed" style="marker-end:url(#arrow-mc-n)" d="M50 642 C 15 642, 15 52, 48 52" />
+                </svg>
               <figcaption>
                 Slack calls one Bolt app over HTTP. Feature modules register their own commands, interactions, and
                 events. Shared services book appointments, and cron jobs read Firestore to send reminders back as
@@ -480,7 +515,7 @@
 
           <div class="case-body">
             <figure class="diagram">
-              <svg viewBox="0 0 760 320" role="img" aria-labelledby="pb-title pb-desc">
+              <svg class="diagram-wide" viewBox="0 0 760 320" role="img" aria-labelledby="pb-title pb-desc">
                 <title id="pb-title">PlannerBot architecture</title>
                 <desc id="pb-desc">
                   Discord sends slash commands, component interactions, and mentions to a discord.js client. A
@@ -537,6 +572,48 @@
                 <path class="edge edge--dashed" d="M190 275 C 120 275, 90 240, 78 192" />
                 <path class="edge edge--dashed" d="M275 215 C 275 240, 400 300, 608 285" />
               </svg>
+                <svg class="diagram-narrow" viewBox="0 0 360 810" role="img" aria-labelledby="pb-title-n pb-desc-n">
+                <title id="pb-title-n">PlannerBot architecture</title>
+                <desc id="pb-desc-n">Discord sends slash commands, component interactions, and mentions to a discord.js client. A registry dispatches buttons, selects, and modals by custom ID prefix. Services render cards, run readiness checks, and schedule events. They call Gemini to extract fields and draft captions, Google Calendar to check conflicts, and Firestore to store projects, to-dos, events, posts, and settings. Cron jobs post digests and reminders to Discord. An instance lock document in Firestore makes an old deployment stand down when a new one starts.</desc>
+                <defs><marker id="arrow-pb-n" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="arrowhead" d="M0 0 L10 5 L0 10 z" /></marker></defs>
+                <rect class="box" x="50" y="20" width="280" height="64" rx="8" />
+                <text class="label" x="190" y="48" text-anchor="middle">Discord server</text>
+                <text class="sublabel" x="190" y="66" text-anchor="middle">commands · buttons · mentions</text>
+                <path class="edge" style="marker-end:url(#arrow-pb-n)" d="M190 84 V118" />
+                <rect class="box box--accent" x="50" y="120" width="280" height="116" rx="8" />
+                <text class="label" x="190" y="150" text-anchor="middle">discord.js client</text>
+                <text class="sublabel" x="190" y="170" text-anchor="middle">one command per file</text>
+                <text class="sublabel" x="190" y="188" text-anchor="middle">registry by customId prefix</text>
+                <text class="sublabel" x="190" y="206" text-anchor="middle">@mention intent routing</text>
+                <text class="sublabel" x="190" y="224" text-anchor="middle">isActive() at every entry</text>
+                <path class="edge" style="marker-end:url(#arrow-pb-n)" d="M190 236 V270" />
+                <rect class="box" x="50" y="272" width="280" height="90" rx="8" />
+                <text class="label" x="190" y="302" text-anchor="middle">Services</text>
+                <text class="sublabel" x="190" y="322" text-anchor="middle">cards · threads · readiness</text>
+                <text class="sublabel" x="190" y="340" text-anchor="middle">cadence · scheduling · metrics</text>
+                <path class="edge" style="marker-end:url(#arrow-pb-n)" d="M150 362 L115 406" />
+                <path class="edge" style="marker-end:url(#arrow-pb-n)" d="M230 362 L265 406" />
+                <path class="edge" style="marker-end:url(#arrow-pb-n)" d="M190 362 V524" />
+                <rect class="box" x="50" y="408" width="130" height="70" rx="8" />
+                <text class="label" x="115" y="434" text-anchor="middle">Gemini (REST)</text>
+                <text class="sublabel" x="115" y="452" text-anchor="middle">extract · draft · ideas</text>
+                <rect class="box" x="200" y="408" width="130" height="70" rx="8" />
+                <text class="label" x="265" y="434" text-anchor="middle">Google Calendar</text>
+                <text class="sublabel" x="265" y="452" text-anchor="middle">conflict checks</text>
+                <rect class="box box--store" x="50" y="526" width="280" height="72" rx="8" />
+                <text class="label" x="190" y="552" text-anchor="middle">Firestore</text>
+                <text class="sublabel" x="190" y="570" text-anchor="middle">projects · todos · events</text>
+                <text class="sublabel" x="190" y="588" text-anchor="middle">posts · settings</text>
+                <rect class="box" x="50" y="644" width="280" height="64" rx="8" />
+                <text class="label" x="190" y="670" text-anchor="middle">Cron jobs (9:00)</text>
+                <text class="sublabel" x="190" y="688" text-anchor="middle">digest · cadence · metrics</text>
+                <rect class="box box--store" x="50" y="744" width="280" height="50" rx="8" />
+                <text class="label" x="190" y="766" text-anchor="middle">Instance lock</text>
+                <text class="sublabel" x="190" y="784" text-anchor="middle">settings/instance:active</text>
+                <path class="edge edge--dashed" style="marker-end:url(#arrow-pb-n)" d="M190 644 V600" />
+                <path class="edge edge--dashed" style="marker-end:url(#arrow-pb-n)" d="M50 676 C 15 676, 15 52, 48 52" />
+                <path class="edge edge--dashed" style="marker-end:url(#arrow-pb-n)" d="M330 178 C 352 178, 352 769, 332 769" />
+                </svg>
               <figcaption>
                 The same shape as MedConnect with discord.js in place of Bolt, plus an instance lock: each
                 deployment claims a Firestore document on start and the previous one goes quiet when the claim

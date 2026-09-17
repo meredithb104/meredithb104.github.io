@@ -542,6 +542,28 @@
       font-size: 13px;
     }
 
+    /* Two drawings of the same diagram: wide for desktop, stacked for phones. Only one is
+       rendered at a time, so assistive technology always meets exactly one accessible image. */
+    .diagram-narrow {
+      display: none;
+      max-inline-size: 26rem;
+      margin-inline: auto;
+      font-size: 14px;
+
+      .sublabel {
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 40em) {
+      .diagram-wide {
+        display: none;
+      }
+      .diagram-narrow {
+        display: block;
+      }
+    }
+
     .box {
       fill: var(--color-surface);
       stroke: var(--color-border);

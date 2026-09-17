@@ -112,15 +112,33 @@ export function renderMarkdown(markdown: string): { html: string; words: number 
       },
     },
   });
-  // Data tables may scroll sideways under WCAG 1.4.10; the wrapper is focusable so keyboard users can scroll it.
-  const html = (marked.parse(markdown) as string)
-    .replaceAll("<table>", '<div class="table-scroll" role="region" aria-label="Table, scrolls sideways on narrow screens" tabindex="0"><table>')
-    .replaceAll("</table>", "</table></div>");
+  const html = wrapTables(marked.parse(markdown) as string);
   const words = markdown
     .replace(/```[\s\S]*?```/g, " ")
     .split(/\s+/)
     .filter(Boolean).length;
   return { html, words };
+}
+
+/**
+ * Data tables may scroll sideways under WCAG 1.4.10. Each table sits in a
+ * focusable region so keyboard users can scroll it, named after the heading
+ * it follows so that two tables on one page are two distinct landmarks.
+ */
+export function wrapTables(html: string): string {
+  let count = 0;
+  const seen = new Map<string, number>();
+  return html.replaceAll(/<table>([\s\S]*?)<\/table>/g, (match, _body: string, offset: number) => {
+    count += 1;
+    const before = html.slice(0, offset);
+    const headings = [...before.matchAll(/<h[2-6][^>]*>([\s\S]*?)<\/h[2-6]>/g)];
+    const last = headings.at(-1)?.[1]?.replace(/<[^>]+>/g, "").trim();
+    let label = last ? `Table: ${last}` : `Table ${count}`;
+    const n = (seen.get(label) ?? 0) + 1;
+    seen.set(label, n);
+    if (n > 1) label = `${label} (${n})`;
+    return `<div class="table-scroll" role="region" aria-label="${escapeHtml(label)}. Scrolls sideways on narrow screens." tabindex="0">${match}</div>`;
+  });
 }
 
 export function readingMinutes(words: number): number {

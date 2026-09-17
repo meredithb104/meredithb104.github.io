@@ -78,8 +78,16 @@ describe("renderMarkdown enforces the site's rules", () => {
     const { html } = renderMarkdown(["| A | B |", "| --- | --- |", "| 1 | 2 |"].join("\n"));
     expect(html).toContain('<th scope="col">A</th>');
     expect(html).toContain("<td>1</td>");
-    expect(html).toContain('<div class="table-scroll" role="region" aria-label="Table, scrolls sideways on narrow screens" tabindex="0"><table>');
+    expect(html).toContain('<div class="table-scroll" role="region" aria-label="Table 1. Scrolls sideways on narrow screens." tabindex="0"><table>');
     expect(html).toContain("</table></div>");
+  });
+
+  it("names each table region after its heading, so two tables are two landmarks", () => {
+    const md = ["## Alpha", "", "| A |", "| --- |", "| 1 |", "", "| B |", "| --- |", "| 2 |", "", "## Beta", "", "| C |", "| --- |", "| 3 |"].join("\n");
+    const { html } = renderMarkdown(md);
+    expect(html).toContain('aria-label="Table: Alpha. Scrolls sideways on narrow screens."');
+    expect(html).toContain('aria-label="Table: Alpha (2). Scrolls sideways on narrow screens."');
+    expect(html).toContain('aria-label="Table: Beta. Scrolls sideways on narrow screens."');
   });
 
   it("does not count fenced code as words", () => {

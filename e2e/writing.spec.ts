@@ -15,7 +15,7 @@ test("a post page has one h1, a dated byline, and returns to the archive", async
   await page.goto("/posts/accessibility-is-a-build-error/");
   await expect(page).toHaveTitle(/Accessibility is a build error/);
   await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
-  await expect(page.locator("time[datetime='2026-09-18']").first()).toBeVisible();
+  await expect(page.locator("time[datetime='2026-09-17']").first()).toBeVisible();
   await expect(page.getByRole("heading", { level: 2, name: "The rule" })).toBeVisible();
   await expect(page.getByRole("navigation", { name: "Site" }).getByRole("link", { name: "Writing" })).toHaveAttribute("aria-current", "page");
   await page.getByRole("link", { name: "All posts" }).first().click();

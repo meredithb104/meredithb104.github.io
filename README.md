@@ -25,7 +25,7 @@ The site is the portfolio piece: the source is meant to be read. It is the sibli
 
 ```bash
 npm install
-npm run dev          # compiles tokens and posts, starts Vite on :5173
+npm run dev          # compiles tokens and posts, starts Vite on :5173; saving a post in writing/ rebuilds and reloads
 npm run posts        # rebuilds posts/, public/feed.xml, and the Writing block in index.html
 npm test             # tokens + Vitest (unit, component, jsdom axe)
 npm run test:e2e     # production build + Playwright: axe in Chromium, keyboard walk, reflow

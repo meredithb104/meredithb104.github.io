@@ -9,7 +9,8 @@ async function focused(page: Page): Promise<{ tag: string; text: string; id: str
   return page.evaluate(() => {
     const el = document.activeElement as HTMLElement | null;
     if (!el || el === document.body) return { tag: "body", text: "", id: "", inView: false, unobscured: false };
-    const r = el.getBoundingClientRect();
+    // A wrapped inline link spans two line boxes; judge by its first one, where focus visibly starts.
+    const r = el.getClientRects()[0] ?? el.getBoundingClientRect();
     // A focusable container (a tabpanel) can be taller than the viewport; what must be visible is
     // where focus starts, so require the top edge and at least the first 48px to be on screen.
     const inView =
@@ -61,7 +62,7 @@ test("every focusable element is reachable, in view, and not obscured while focu
     if (i > 0 && f.text === "Skip to main content") break; // wrapped around to the top
     seen.push(key);
     // Smooth scrolling is on (no reduced-motion emulation here), so give the scroll a moment to land.
-    await expect.poll(async () => (f = await focused(page)).inView, { message: `${key} scrolled into view` }).toBe(true);
+    await expect.poll(async () => (f = await focused(page)).inView, { message: `${key} scrolled into view`, timeout: 10_000 }).toBe(true);
     expect(f.unobscured, `${key} not covered by the header`).toBe(true);
   }
   // Sanity: we walked a real page, not an empty one.

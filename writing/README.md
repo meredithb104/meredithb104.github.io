@@ -24,4 +24,12 @@ Rules the build enforces, with the file name and reason on failure:
 - `description` is present and at most 200 characters.
 - `draft: true` keeps a post out of every output.
 
-Run `npm run posts` to rebuild, or `npm run dev` to preview.
+## Preview while you write
+
+```
+npm run dev
+```
+
+Then open `http://localhost:5173/posts/<slug>/`. Every time you save the Markdown file, the post is rebuilt and the page reloads. If the post breaks a rule, the page shows the build's message instead (file name and reason); fix the file and save again. The landing page at `http://localhost:5173/` updates too.
+
+`npm run posts` rebuilds once without the server.

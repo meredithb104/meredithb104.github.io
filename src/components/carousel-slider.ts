@@ -1,3 +1,4 @@
+import { announce } from "../lib/announce.ts";
 import { attachRoving, setRovingFocus } from "../lib/roving.ts";
 
 /**
@@ -20,8 +21,11 @@ import { attachRoving, setRovingFocus } from "../lib/roving.ts";
  *    aria-roledescription="slide" and an "n of N" name, exactly as APG does;
  *  - non-current slides are `hidden`, so they leave the accessibility tree
  *    and the tab order together;
- *  - the track is aria-live="polite", so Previous/Next (which keep focus on
- *    the button) still announce the slide that arrived;
+ *  - Previous/Next keep focus on the button, and one short line is sent to
+ *    the shared polite live region: "Slide 3 of 12: Focus dropped on close"
+ *    (position plus the slide's heading, never its body). A live region
+ *    around the whole track read every paragraph on every press, which
+ *    JAWS users found far too chatty;
  *  - Left/Right on Previous or Next also move slides.
  *
  * Focus deliberately stays on the button after Previous/Next: the slides are
@@ -54,21 +58,20 @@ export class CarouselSlider extends HTMLElement {
     this.classList.add("carousel");
 
     track.classList.add("carousel-track");
-    track.setAttribute("aria-live", "polite");
 
     const controls = document.createElement("div");
     controls.className = "carousel-controls";
 
     const prev = this.button("Previous slide", "‹", "Previous");
     const next = this.button("Next slide", "›", "Next");
-    prev.addEventListener("click", () => this.go(this.current - 1));
-    next.addEventListener("click", () => this.go(this.current + 1));
+    prev.addEventListener("click", () => this.go(this.current - 1, false, true));
+    next.addEventListener("click", () => this.go(this.current + 1, false, true));
     // Left/Right on either button also move, so it doesn't matter which one has focus.
     for (const b of [prev, next]) {
       b.addEventListener("keydown", (e) => {
         if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
           e.preventDefault();
-          this.go(this.current + (e.key === "ArrowRight" ? 1 : -1));
+          this.go(this.current + (e.key === "ArrowRight" ? 1 : -1), false, true);
         }
       });
     }
@@ -121,8 +124,12 @@ export class CarouselSlider extends HTMLElement {
     return b;
   }
 
-  /** Show slide `index` (wrapping). Focus moves to the picker tab only for explicit picker clicks. */
-  go(index: number, focusPicker = false): void {
+  /**
+   * Show slide `index` (wrapping). Focus moves to the picker tab only for explicit picker
+   * clicks. `announceChange` is true for Previous/Next, where focus stays put and the screen
+   * reader would otherwise hear nothing; picker tabs already announce their own selection.
+   */
+  go(index: number, focusPicker = false, announceChange = false): void {
     const n = this.slides.length;
     this.current = ((index % n) + n) % n;
     this.slides.forEach((slide, i) => {
@@ -131,6 +138,10 @@ export class CarouselSlider extends HTMLElement {
     this.pickers.forEach((dot, i) => dot.setAttribute("aria-selected", i === this.current ? "true" : "false"));
     setRovingFocus(this.pickers, this.current, focusPicker);
     if (this.counter) this.counter.textContent = `${this.current + 1} of ${n}`;
+    if (announceChange) {
+      const heading = this.slides[this.current]?.querySelector("h1, h2, h3, h4, h5, h6")?.textContent?.trim();
+      announce(`Slide ${this.current + 1} of ${n}${heading ? `: ${heading.replace(/^\d+\.\s*/, "")}` : ""}`);
+    }
     this.dispatchEvent(new CustomEvent("slidechange", { detail: { index: this.current }, bubbles: true }));
   }
 

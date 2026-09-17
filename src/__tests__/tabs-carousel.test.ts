@@ -1,4 +1,5 @@
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it, vi } from "vitest";
+import { mountLiveRegions } from "../lib/announce.ts";
 import { nextIndex } from "../lib/roving.ts";
 import "../components/tab-set.ts";
 import "../components/carousel-slider.ts";
@@ -90,6 +91,9 @@ describe("<tab-set>", () => {
 });
 
 describe("<carousel-slider>", () => {
+  beforeAll(() => mountLiveRegions());
+  const liveText = (): string => document.querySelector('[data-live-region="polite"]')?.textContent ?? "";
+
   function mount(n = 4): HTMLElement {
     document.body.innerHTML = `
       <carousel-slider id="demo" label="Demo carousel">
@@ -108,7 +112,8 @@ describe("<carousel-slider>", () => {
     expect(el.getAttribute("role")).toBe("group");
     expect(el.getAttribute("aria-roledescription")).toBe("carousel");
     expect(el.getAttribute("aria-label")).toBe("Demo carousel");
-    expect(document.querySelector("[data-track]")!.getAttribute("aria-live")).toBe("polite");
+    // No live region around the track: a whole slide per press is far too chatty.
+    expect(document.querySelector("[data-track]")!.hasAttribute("aria-live")).toBe(false);
     slides().forEach((s, i) => {
       expect(s.getAttribute("role")).toBe("tabpanel");
       expect(s.getAttribute("aria-roledescription")).toBe("slide");
@@ -137,6 +142,25 @@ describe("<carousel-slider>", () => {
     next.click();
     expect(slides()[0]!.hidden).toBe(false);
     expect(document.querySelector(".carousel-counter")!.textContent).toBe("1 of 4");
+  });
+
+  it("Previous/Next announce one short line: position and heading, not the body", () => {
+    vi.useFakeTimers();
+    mount();
+    byName("Next slide").click();
+    vi.advanceTimersByTime(100);
+    expect(liveText()).toBe("Slide 2 of 4: Slide 2");
+    expect(liveText()).not.toContain("Body");
+    vi.useRealTimers();
+  });
+
+  it("the picker does not announce (its tab already reports selection)", () => {
+    vi.useFakeTimers();
+    mount();
+    dots()[2]!.click();
+    vi.advanceTimersByTime(100);
+    expect(liveText()).toBe("");
+    vi.useRealTimers();
   });
 
   it("Left/Right on Previous or Next also move slides", () => {

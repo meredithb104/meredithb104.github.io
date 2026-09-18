@@ -1196,8 +1196,18 @@
     }
   }
 
+  /* Previous and Next in the text color: on the dark theme the baby-blue primary passes on
+     paper but reads muted beside ivory text, and these two buttons are the carousel's controls. */
   .carousel-button {
     padding-inline: var(--space-4);
+    color: var(--color-text);
+    border-color: var(--color-text);
+
+    &:hover {
+      color: var(--color-text);
+      border-color: var(--color-text);
+      background: var(--color-bg-subtle);
+    }
   }
 
   .carousel-picker {
@@ -1269,7 +1279,8 @@
     padding: var(--space-5);
     background: var(--color-bg-subtle);
     border: var(--size-border) solid var(--color-border-subtle);
-    border-inline-start: 4px solid var(--color-brand4);
+    /* The pink signature, as on cards and callouts: emphasis for sighted readers, decorative to AT. */
+    border-inline-start: 4px solid var(--color-brand6);
     border-radius: var(--radius-md);
 
     h4 {

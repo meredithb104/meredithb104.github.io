@@ -847,10 +847,11 @@
   }
 
   /* ---- Decorative hydrangeas ----------------------------------------- */
-  /* Coastal grandma: blue hydrangeas in the palette's blues, filling about a quarter of the empty
-     space beside measure-limited text on wide screens. Purely visual: aria-hidden, no name, no
-     pointer events; gone below 72em (where the text needs the width), in print, under forced
-     colors, and in the high-contrast theme. Regenerate with scripts/make-hydrangea.py. */
+  /* Coastal grandma: blue hydrangeas after a hand-drawn reference, in three styles (a mophead, a
+     few large outlined florets, a lacecap sprig), filling about a quarter of the empty space beside
+     measure-limited text on wide screens. Purely visual: aria-hidden, no name, no pointer events;
+     gone below 72em (where the text needs the width), in print, under forced colors, and in the
+     high-contrast theme. Regenerate with scripts/make-hydrangea.py. */
   .hydrangea-sprite {
     position: absolute;
   }
@@ -860,38 +861,54 @@
     pointer-events: none;
     user-select: none;
     block-size: auto;
-    aspect-ratio: 1;
-    /* Light theme: the three blues run from monaco blue toward yearbook, deep enough to read as
-       flowers on cream rather than a tint of it. */
-    --hy-1: #adc3ea; /* back florets: monaco blue */
-    --hy-2: #86a7de; /* between monaco and yearbook */
-    --hy-3: #5f86cf; /* front florets: near yearbook */
+    /* Light theme: sky blue through to yearbook, navy outlines and centres, green leaves. */
+    --hy-1: #8fbde8;
+    --hy-2: #5f93da;
+    --hy-3: #3d63c2;
+    --hy-line: #1f3a7a;
     --hy-centre: #14224a;
-    --hy-leaf: #bccbe0;
-    --hy-vein: #8296b8;
+    --hy-leaf: #9dbf7c;
+    --hy-leaf-line: #4f7a3e;
+    --hy-stem: #5f8a4a;
 
     @media (max-width: 71.99em), print, (forced-colors: active) {
       display: none;
     }
   }
+  .hydrangea--hero-a {
+    aspect-ratio: 260 / 220;
+  }
+  .hydrangea--hero-b,
+  .hydrangea--experience {
+    aspect-ratio: 240 / 200;
+  }
+  .hydrangea--contact,
+  .hydrangea--lab {
+    aspect-ratio: 240 / 260;
+  }
 
+  /* Dark theme: the same blues a step lighter on the navy, navy outlines, cream centres. */
   :root:not([data-theme]) .hydrangea {
     @media (prefers-color-scheme: dark) {
-      --hy-1: #6f86bb;
-      --hy-2: #8ea9db;
-      --hy-3: #a9c1e8;
+      --hy-1: #7ea9e4;
+      --hy-2: #a9c1e8;
+      --hy-3: #cfdcf3;
+      --hy-line: #14224a;
       --hy-centre: #f4f1e8;
-      --hy-leaf: #2c3f72;
-      --hy-vein: #4e63a0;
+      --hy-leaf: #6f9a5a;
+      --hy-leaf-line: #2f4a25;
+      --hy-stem: #7fa868;
     }
   }
   :root[data-theme="dark"] .hydrangea {
-    --hy-1: #6f86bb;
-    --hy-2: #8ea9db;
-    --hy-3: #a9c1e8;
+    --hy-1: #7ea9e4;
+    --hy-2: #a9c1e8;
+    --hy-3: #cfdcf3;
+    --hy-line: #14224a;
     --hy-centre: #f4f1e8;
-    --hy-leaf: #2c3f72;
-    --hy-vein: #4e63a0;
+    --hy-leaf: #6f9a5a;
+    --hy-leaf-line: #2f4a25;
+    --hy-stem: #7fa868;
   }
   :root[data-theme="high-contrast"] .hydrangea {
     display: none;
@@ -937,14 +954,14 @@
       grid-row: 3 / 5; /* beside the facts and the buttons */
       align-self: end;
       justify-self: start;
-      inline-size: 55%;
-      transform: scaleX(-1) rotate(12deg);
+      inline-size: 70%;
+      transform: scaleX(-1);
     }
   }
   .hydrangea--contact {
     inset-inline-end: 0;
-    inset-block-end: var(--space-3);
-    inline-size: clamp(11rem, 17vw, 16rem);
+    inset-block-end: var(--space-2);
+    inline-size: clamp(10rem, 15vw, 14rem);
     transform: scaleX(-1);
   }
   /* Lab: a grid item in the empty cell beside the contrast checker (three panels, two columns),
@@ -954,13 +971,13 @@
     justify-self: center;
     align-self: center;
     inline-size: clamp(13rem, 20vw, 18rem);
-    transform: rotate(-8deg);
+    transform: rotate(-6deg);
   }
   .hydrangea--experience {
     inset-inline-end: 0;
-    inset-block-start: 8rem;
+    inset-block-start: 6rem;
     inline-size: clamp(12rem, 18vw, 17rem);
-    transform: scaleX(-1) rotate(6deg);
+    transform: scaleX(-1);
   }
 
   /* ---- Page tools: Previous, Next, Top ------------------------------ */

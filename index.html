@@ -51,14 +51,14 @@
           <nav aria-label="Sections">
             <ul role="list">
               <li><a href="#about">About</a></li>
-              <li><a href="#experience">Experience</a></li>
-              <li><a href="#work">Work</a></li>
-              <li><a href="#case-studies">Case studies</a></li>
-              <li><a href="#writing">Writing</a></li>
-              <li><a href="#approach">Approach</a></li>
-              <li><a href="#lab">Lab</a></li>
-              <li><a href="#skills">Skills</a></li>
               <li><a href="#contact">Contact</a></li>
+              <li><a href="#lab">Lab</a></li>
+              <li><a href="#work">Work</a></li>
+              <li><a href="#experience">Experience</a></li>
+              <li><a href="#skills">Skills</a></li>
+              <li><a href="#case-studies">Case studies</a></li>
+              <li><a href="#approach">Approach</a></li>
+              <li><a href="#writing">Writing</a></li>
             </ul>
           </nav>
         </site-nav>
@@ -131,81 +131,240 @@
         </p>
       </section>
 
-      <section id="experience" class="section" tabindex="-1" aria-labelledby="experience-h">
-        <h2 id="experience-h">Experience</h2>
-        <p class="section-lede measure">
-          This is the short version. The <a href="/Meredith-Boyce-resume.pdf" type="application/pdf">full résumé is
-          a tagged PDF</a>, and everything in it also appears on this page.
+      <section id="contact" class="section flow" tabindex="-1" aria-labelledby="contact-h">
+        <h2 id="contact-h">Contact</h2>
+        <p class="measure">
+          I'm open to accessibility engineering, front-end, and design-systems roles, remote or in the Boston area.
+          Email is best, and LinkedIn works too.
         </p>
-        <ol class="timeline" role="list">
-          <li>
-            <p class="timeline-when"><time datetime="2025-05">May 2025</time> to <time datetime="2026-01">January 2026</time></p>
-            <h3>Digital Accessibility Engineer (SME), LanceSoft for MassDOT</h3>
+        <div class="cta-row">
+          <a class="button" href="mailto:meredith.laurel@gmail.com">Email meredith.laurel@gmail.com</a>
+          <a class="button button--secondary" href="/Meredith-Boyce-resume.pdf" type="application/pdf">Résumé (PDF, 2 pages)</a>
+          <a class="button button--secondary" href="https://www.linkedin.com/in/meredith-boyce/">Message me on LinkedIn</a>
+          <a class="button button--secondary" href="https://github.com/meredithb104">GitHub profile</a>
+        </div>
+      </section>
+
+      <section id="lab" class="section" tabindex="-1" aria-labelledby="lab-h">
+        <h2 id="lab-h">Lab</h2>
+        <p class="section-lede measure">
+          Here are three small things from this page's own source. All are plain custom elements around native form
+          controls, and the HTML works before the JavaScript arrives.
+        </p>
+        <div class="lab-grid">
+          <div class="panel">
+            <h3>Theme</h3>
             <p>
-              I was the accessibility and QA subject-matter expert for cross-functional Digital Services teams. I
-              validated products against WCAG 2.1 AA, WCAG 2.2, Section 508, and ADA Title II with screen readers,
-              keyboard-only navigation, browser inspection, and automated tools. I documented each defect with its
-              severity, user impact, WCAG criteria, reproduction steps, expected behavior, and a remediation
-              recommendation. I reviewed third-party VPATs and ACRs for risk and remediation priority, and I worked
-              with QA, engineering, product, and design to verify fixes and to embed accessibility acceptance criteria
-              into delivery.
+              Three themes come from one token file, and every pair is contrast-checked at build. Your choice is
+              remembered and applied before first paint next time. Windows high-contrast mode is handled separately
+              with system colors.
             </p>
-          </li>
-          <li>
-            <p class="timeline-when"><time datetime="2024-09">September 2024</time> to <time datetime="2025-05">May 2025</time></p>
-            <h3>AmeriCorps Service Member, Perkins School for the Blind</h3>
-            <p>I completed more than 1,000 service hours teaching braille and supporting students with visual impairments, and I represented AmeriCorps at the Massachusetts State House.</p>
-          </li>
-          <li>
-            <p class="timeline-when"><time datetime="2023-01">January 2023</time> to <time datetime="2024-08">August 2024</time></p>
-            <h3>Freelance Accessibility Consultant, Boyce Accessible Technologies</h3>
+            <theme-picker>
+              <fieldset>
+                <legend>Choose a theme</legend>
+                <div class="radio-row">
+                  <label class="radio-option"><input type="radio" name="theme" value="auto" checked /> Match system</label>
+                  <label class="radio-option"><input type="radio" name="theme" value="light" /> Light</label>
+                  <label class="radio-option"><input type="radio" name="theme" value="dark" /> Dark</label>
+                  <label class="radio-option"><input type="radio" name="theme" value="high-contrast" /> High contrast</label>
+                </div>
+              </fieldset>
+            </theme-picker>
+          </div>
+
+          <div class="panel">
+            <h3>Typeface</h3>
             <p>
-              I tested and remediated web and mobile accessibility issues in Swift, Kotlin, and JavaScript
-              applications against WCAG 2.1 AA and for assistive-technology compatibility, and I advised clients on
-              accessible design patterns, keyboard interaction, semantic structure, ARIA usage, and inclusive QA
-              practice.
+              Public Sans, the U.S. Web Design System typeface, is the default. Atkinson Hyperlegible Next is the
+              Braille Institute's typeface, drawn so that similar letters stay distinct, and loads only when chosen.
+              System uses your device's own font and no web font at all. Your choice is remembered and applied
+              before first paint next time.
             </p>
-          </li>
-          <li>
-            <p class="timeline-when"><time datetime="2022-06">June 2022</time> to <time datetime="2023-01">January 2023</time></p>
-            <h3>Accessibility Subject Matter Expert, Equivalent.Design</h3>
-            <p>I developed and tested accessible digital materials for iOS and Android, validating screen reader behavior, focus order, labels, gestures, and mobile accessibility patterns.</p>
-          </li>
-          <li>
-            <p class="timeline-when"><time datetime="2021-06">June 2021</time> to <time datetime="2022-05">May 2022</time></p>
-            <h3>Accessibility Consultant, Industry Lead, Level Access</h3>
+            <font-picker>
+              <fieldset>
+                <legend>Choose a typeface</legend>
+                <div class="radio-row">
+                  <label class="radio-option"><input type="radio" name="font" value="public-sans" checked /> Public Sans</label>
+                  <label class="radio-option"><input type="radio" name="font" value="atkinson" /> Atkinson Hyperlegible Next</label>
+                  <label class="radio-option"><input type="radio" name="font" value="system" /> System</label>
+                </div>
+              </fieldset>
+            </font-picker>
+          </div>
+
+          <div class="panel">
+            <h3>Contrast checker</h3>
             <p>
-              I led accessibility QA for up to 46 enterprise clients: audits, defect reviews, remediation
-              validation, and program maturity. I translated findings into test cases and acceptance criteria with
-              engineering, QA, design, and product teams; I delivered training on WCAG testing methods,
-              assistive-technology workflows, and practical remediation; and I served as secretary of the employee
-              resource group.
+              This is the same WCAG math the build runs, computed live. Results are words, not just colors, and the
+              summary is announced once you stop typing.
             </p>
-          </li>
-        </ol>
-        <div class="credentials">
-          <section class="credential" aria-labelledby="honors-h">
-            <h3 id="honors-h">Honors</h3>
-            <ul role="list">
-              <li><strong>100 Changemakers, AI Powered Women Conference at MIT</strong><span class="credential-when">2026</span></li>
-              <li><strong>UN Women #SheInnovates Honoree</strong><span class="credential-when">2019</span></li>
-              <li><strong>White House Champions of Change</strong><span class="credential-when">2015</span></li>
-            </ul>
-          </section>
-          <section class="credential" aria-labelledby="leadership-h">
-            <h3 id="leadership-h">Leadership</h3>
-            <ul role="list">
-              <li><strong>CSforALL Accessibility Initiative Advisory Committee</strong><span class="credential-when">Inaugural member, since 2018</span></li>
-              <li><strong>AmeriCorps representative to the Massachusetts State House</strong><span class="credential-when">2024 to 2025</span></li>
-              <li><strong>Volunteer program and project coordinator, The NDProj</strong><span class="credential-when">Current</span></li>
-            </ul>
-          </section>
-          <section class="credential" aria-labelledby="education-h">
-            <h3 id="education-h">Education</h3>
-            <ul role="list">
-              <li><strong>Converse University</strong><span class="credential-when">Computer Science coursework, B.S. program, three years; French minor completed</span></li>
-            </ul>
-          </section>
+            <contrast-checker>
+              <form aria-label="Contrast checker">
+                <div class="field">
+                  <label for="cc-fg">Text color</label>
+                  <span class="hint" id="cc-fg-hint">Hex, like #1B1F24</span>
+                  <div class="field-row">
+                    <input
+                      type="text"
+                      id="cc-fg"
+                      data-role="fg-hex"
+                      value="#1B1F24"
+                      autocomplete="off"
+                      spellcheck="false"
+                      aria-describedby="cc-fg-hint cc-fg-error"
+                    />
+                    <input type="color" data-role="fg-picker" value="#1b1f24" aria-label="Pick text color" />
+                  </div>
+                  <p class="error" id="cc-fg-error" data-error="fg"></p>
+                </div>
+                <div class="field">
+                  <label for="cc-bg">Background color</label>
+                  <span class="hint" id="cc-bg-hint">Hex, like #FFFFFF</span>
+                  <div class="field-row">
+                    <input
+                      type="text"
+                      id="cc-bg"
+                      data-role="bg-hex"
+                      value="#FFFFFF"
+                      autocomplete="off"
+                      spellcheck="false"
+                      aria-describedby="cc-bg-hint cc-bg-error"
+                    />
+                    <input type="color" data-role="bg-picker" value="#ffffff" aria-label="Pick background color" />
+                  </div>
+                  <p class="error" id="cc-bg-error" data-error="bg"></p>
+                </div>
+              </form>
+              <div class="swatch" data-swatch aria-hidden="true">
+                <span class="swatch-large">Large text 24px</span>
+                <span>Normal text at 16px looks like this.</span>
+              </div>
+              <div class="contrast-result" data-result></div>
+            </contrast-checker>
+          </div>
+
+          <div class="panel panel--wide">
+            <h3>Tabs and a carousel</h3>
+            <p>
+              These two patterns go wrong more often than they go right, so both are built to the WAI-ARIA
+              Authoring Practices. The tabs below are the demo: one holds the carousel, and the others explain it and
+              show the markup as authored. Without JavaScript, the tabs are a list of links above stacked sections,
+              and the carousel is twelve stacked cards. Nothing auto-rotates.
+            </p>
+            <tab-set label="Carousel demo">
+              <ul class="tabs-list" data-tabs>
+                <li><a href="#tab-demo">Demo</a></li>
+                <li><a href="#tab-how">How it's built</a></li>
+                <li><a href="#tab-markup">Markup</a></li>
+              </ul>
+
+              <section id="tab-demo">
+                <h4 data-panel-heading>Demo</h4>
+                <carousel-slider id="mistakes" label="Twelve mistakes I keep finding">
+                  <div data-track>
+                    <section data-slide>
+                      <h4>1. Disabled while loading</h4>
+                      <p>A submit button set to <code>disabled</code> while the request runs vanishes from the tab order and goes silent. The user presses Enter, nothing happens, and nobody explains why.</p>
+                      <p><strong>Instead,</strong> set <code>aria-busy="true"</code> and <code>aria-disabled="true"</code>, keep the button focusable, and announce the result when it returns.</p>
+                    </section>
+                    <section data-slide>
+                      <h4>2. Icon buttons with no name</h4>
+                      <p>A magnifying glass is not a label. A screen reader announces "button" and nothing else, and a voice-control user has no word to say.</p>
+                      <p><strong>Instead,</strong> give every icon-only control an accessible name, and hide the icon itself with <code>aria-hidden</code>.</p>
+                    </section>
+                    <section data-slide>
+                      <h4>3. Focus dropped on close</h4>
+                      <p>The dialog closes and focus lands on <code>&lt;body&gt;</code>. For a screen reader user that is a trip back to the top of the page.</p>
+                      <p><strong>Instead,</strong> return focus to the control that opened the dialog. The native <code>&lt;dialog&gt;</code> does this for free.</p>
+                    </section>
+                    <section data-slide>
+                      <h4>4. Color as the only signal</h4>
+                      <p>Red border for error, green for success, and nothing else. That is invisible to a screen reader and to a lot of sighted people.</p>
+                      <p><strong>Instead,</strong> add text. Color can reinforce a state, but it can never carry one alone.</p>
+                    </section>
+                    <section data-slide>
+                      <h4>5. Live regions mounted with content</h4>
+                      <p>A status region created at the moment it has something to say is usually silent, because the screen reader never saw it change.</p>
+                      <p><strong>Instead,</strong> mount the region empty at startup and write to it later. Clear it first if you need to repeat the same message.</p>
+                    </section>
+                    <section data-slide>
+                      <h4>6. Placeholder as the label</h4>
+                      <p>Placeholders vanish on the first keystroke, most of them fail contrast, and a form full of typed values has no labels left at all.</p>
+                      <p><strong>Instead,</strong> always provide a visible <code>&lt;label&gt;</code>, and put hints in <code>aria-describedby</code>.</p>
+                    </section>
+                    <section data-slide>
+                      <h4>7. A div that clicks</h4>
+                      <p>A <code>&lt;div onClick&gt;</code> is invisible to the keyboard and has neither a role nor a name. Adding <code>tabindex</code> gets you halfway to a worse button.</p>
+                      <p><strong>Instead,</strong> use a <code>&lt;button&gt;</code> when it does something and an <code>&lt;a&gt;</code> when it goes somewhere.</p>
+                    </section>
+                    <section data-slide>
+                      <h4>8. The focus ring, removed</h4>
+                      <p><code>outline: none</code> with nothing in its place means keyboard users cannot see where they are. It is usually done to hide the ring from mouse users.</p>
+                      <p><strong>Instead,</strong> style <code>:focus-visible</code>. Mouse users never see it, and keyboard users always do.</p>
+                    </section>
+                    <section data-slide>
+                      <h4>9. Skipped heading levels</h4>
+                      <p>An <code>h2</code> followed by an <code>h4</code> because the <code>h3</code> looked too big. Screen reader users navigate by heading level; the outline now has a hole in it.</p>
+                      <p><strong>Instead,</strong> treat heading levels as structure and fix the size in CSS.</p>
+                    </section>
+                    <section data-slide>
+                      <h4>10. Errors nowhere near the field</h4>
+                      <p>A red list at the top of the form, no link to the field, and the field itself says nothing when you land on it.</p>
+                      <p><strong>Instead,</strong> connect the message with <code>aria-describedby</code>, mark the field <code>aria-invalid</code>, and link each summary item to its input.</p>
+                    </section>
+                    <section data-slide>
+                      <h4>11. Hover-only tooltips</h4>
+                      <p>If it only appears on hover, keyboard and touch users never see it, and it disappears the moment a magnifier user moves toward it.</p>
+                      <p><strong>Instead,</strong> show the tooltip on focus as well, let Escape dismiss it, and never put essential information inside it (WCAG 1.4.13).</p>
+                    </section>
+                    <section data-slide>
+                      <h4>12. Motion with no off switch</h4>
+                      <p>Auto-playing carousels, parallax, and animated counters with no pause control and no <code>prefers-reduced-motion</code> check.</p>
+                      <p><strong>Instead,</strong> let nothing move unless the user asks. This carousel does not auto-rotate, and its one fade lasts 0ms under reduced motion.</p>
+                    </section>
+                  </div>
+                </carousel-slider>
+              </section>
+
+              <section id="tab-how">
+                <h4 data-panel-heading>How it's built</h4>
+                <div class="flow">
+                  <p><strong>Tabs</strong> follow the APG tabs pattern with automatic activation: one tab stop for the whole tablist, Left and Right arrows move and select, Home and End jump, and each panel is focusable so the next Tab press lands on the content rather than skipping past it. Selection is shown by weight and a thick underline, not color alone. The URL hash opens a panel on load. Without JavaScript the markup is a list of in-page links above stacked sections with headings; the script removes those headings because the tab now names the panel.</p>
+                  <p><strong>The carousel</strong> is the APG "tabbed carousel": the container is a group with <code>aria-roledescription="carousel"</code>, the slide picker is a second tablist with one tab stop and arrow keys, and each slide is a tabpanel with <code>aria-roledescription="slide"</code> and an accessible name of "3 of 12". Non-current slides get the <code>hidden</code> attribute, so they leave the accessibility tree and the tab order together. Left and Right on the Previous or Next button also move slides, so it doesn't matter which one has focus.</p>
+                  <p><strong>Where focus goes after Next, and why.</strong> It stays on the button, and a polite live region says one short line: "Slide 3 of 12: Focus dropped on close", the position and the heading, never the body. The first version wrapped the whole track in a live region; that read every paragraph on every press, and with JAWS it was unbearable. Announce what changed, then let the user decide whether to read it. Carousel guidance is genuinely contested on this point: one school says focus should move to the new slide so a screen reader user lands at the start of the new content; the other says that forcing focus onto a non-interactive slide puts a ring on something that does nothing and breaks a sighted keyboard user's flow through the controls. These slides are not interactive, so the second argument wins here, and the live region covers the first concern. A carousel whose slides hold headings, links, and menus is a different problem: those slides would need focus to move to their first element, and could not be driven as a "tab in, arrow within, tab out" widget at all. This component is scoped, on purpose, to slides you read.</p>
+                  <p><strong>Reading order is tab order.</strong> Controls sit above the track in the DOM and on screen; nothing is reordered with <code>tabindex</code>, so the page reads the same whether you arrow through it or tab through it.</p>
+                  <p><strong>What it refuses to do:</strong> auto-rotate. There is nothing to pause because nothing starts, and nothing is ever announced unless the visitor pressed something. Dots are 24-pixel targets with a visible border. The selected dot is filled and larger, and under Windows High Contrast it uses the system highlight color.</p>
+                  <p>Both elements share one small roving-tabindex helper, tested once. The Playwright suite tabs into each tablist, arrows through it, checks that hidden slides are not reachable, and confirms that Tab from the Next button leaves the carousel.</p>
+                </div>
+              </section>
+
+              <section id="tab-markup">
+                <h4 data-panel-heading>Markup</h4>
+                <p>This is the HTML as authored. Everything with a role is added by the script; the page is complete without it.</p>
+<pre><code>&lt;tab-set label="Carousel demo"&gt;
+  &lt;ul data-tabs&gt;
+    &lt;li&gt;&lt;a href="#tab-demo"&gt;Demo&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#tab-how"&gt;How it's built&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;section id="tab-demo"&gt;
+    &lt;h4 data-panel-heading&gt;Demo&lt;/h4&gt;
+    &lt;carousel-slider label="Twelve mistakes I keep finding"&gt;
+      &lt;div data-track&gt;
+        &lt;section data-slide&gt;&lt;h4&gt;1. …&lt;/h4&gt;&lt;p&gt;…&lt;/p&gt;&lt;/section&gt;
+        &lt;section data-slide&gt;&lt;h4&gt;2. …&lt;/h4&gt;&lt;p&gt;…&lt;/p&gt;&lt;/section&gt;
+      &lt;/div&gt;
+    &lt;/carousel-slider&gt;
+  &lt;/section&gt;
+
+  &lt;section id="tab-how"&gt;
+    &lt;h4 data-panel-heading&gt;How it's built&lt;/h4&gt;
+    …
+  &lt;/section&gt;
+&lt;/tab-set&gt;</code></pre>
+              </section>
+            </tab-set>
+          </div>
         </div>
       </section>
 
@@ -296,6 +455,131 @@
             </li>
           </ul>
         </work-filter>
+      </section>
+
+      <section id="experience" class="section" tabindex="-1" aria-labelledby="experience-h">
+        <h2 id="experience-h">Experience</h2>
+        <p class="section-lede measure">
+          This is the short version. The <a href="/Meredith-Boyce-resume.pdf" type="application/pdf">full résumé is
+          a tagged PDF</a>, and everything in it also appears on this page.
+        </p>
+        <ol class="timeline" role="list">
+          <li>
+            <p class="timeline-when"><time datetime="2025-05">May 2025</time> to <time datetime="2026-01">January 2026</time></p>
+            <h3>Digital Accessibility Engineer (SME), LanceSoft for MassDOT</h3>
+            <p>
+              I was the accessibility and QA subject-matter expert for cross-functional Digital Services teams. I
+              validated products against WCAG 2.1 AA, WCAG 2.2, Section 508, and ADA Title II with screen readers,
+              keyboard-only navigation, browser inspection, and automated tools. I documented each defect with its
+              severity, user impact, WCAG criteria, reproduction steps, expected behavior, and a remediation
+              recommendation. I reviewed third-party VPATs and ACRs for risk and remediation priority, and I worked
+              with QA, engineering, product, and design to verify fixes and to embed accessibility acceptance criteria
+              into delivery.
+            </p>
+          </li>
+          <li>
+            <p class="timeline-when"><time datetime="2024-09">September 2024</time> to <time datetime="2025-05">May 2025</time></p>
+            <h3>AmeriCorps Service Member, Perkins School for the Blind</h3>
+            <p>I completed more than 1,000 service hours teaching braille and supporting students with visual impairments, and I represented AmeriCorps at the Massachusetts State House.</p>
+          </li>
+          <li>
+            <p class="timeline-when"><time datetime="2023-01">January 2023</time> to <time datetime="2024-08">August 2024</time></p>
+            <h3>Freelance Accessibility Consultant, Boyce Accessible Technologies</h3>
+            <p>
+              I tested and remediated web and mobile accessibility issues in Swift, Kotlin, and JavaScript
+              applications against WCAG 2.1 AA and for assistive-technology compatibility, and I advised clients on
+              accessible design patterns, keyboard interaction, semantic structure, ARIA usage, and inclusive QA
+              practice.
+            </p>
+          </li>
+          <li>
+            <p class="timeline-when"><time datetime="2022-06">June 2022</time> to <time datetime="2023-01">January 2023</time></p>
+            <h3>Accessibility Subject Matter Expert, Equivalent.Design</h3>
+            <p>I developed and tested accessible digital materials for iOS and Android, validating screen reader behavior, focus order, labels, gestures, and mobile accessibility patterns.</p>
+          </li>
+          <li>
+            <p class="timeline-when"><time datetime="2021-06">June 2021</time> to <time datetime="2022-05">May 2022</time></p>
+            <h3>Accessibility Consultant, Industry Lead, Level Access</h3>
+            <p>
+              I led accessibility QA for up to 46 enterprise clients: audits, defect reviews, remediation
+              validation, and program maturity. I translated findings into test cases and acceptance criteria with
+              engineering, QA, design, and product teams; I delivered training on WCAG testing methods,
+              assistive-technology workflows, and practical remediation; and I served as secretary of the employee
+              resource group.
+            </p>
+          </li>
+        </ol>
+        <div class="credentials">
+          <section class="credential" aria-labelledby="honors-h">
+            <h3 id="honors-h">Honors</h3>
+            <ul role="list">
+              <li><strong>100 Changemakers, AI Powered Women Conference at MIT</strong><span class="credential-when">2026</span></li>
+              <li><strong>UN Women #SheInnovates Honoree</strong><span class="credential-when">2019</span></li>
+              <li><strong>White House Champions of Change</strong><span class="credential-when">2015</span></li>
+            </ul>
+          </section>
+          <section class="credential" aria-labelledby="leadership-h">
+            <h3 id="leadership-h">Leadership</h3>
+            <ul role="list">
+              <li><strong>CSforALL Accessibility Initiative Advisory Committee</strong><span class="credential-when">Inaugural member, since 2018</span></li>
+              <li><strong>AmeriCorps representative to the Massachusetts State House</strong><span class="credential-when">2024 to 2025</span></li>
+              <li><strong>Volunteer program and project coordinator, The NDProj</strong><span class="credential-when">Current</span></li>
+            </ul>
+          </section>
+          <section class="credential" aria-labelledby="education-h">
+            <h3 id="education-h">Education</h3>
+            <ul role="list">
+              <li><strong>Converse University</strong><span class="credential-when">Computer Science coursework, B.S. program, three years; French minor completed</span></li>
+            </ul>
+          </section>
+        </div>
+      </section>
+
+      <section id="skills" class="section" tabindex="-1" aria-labelledby="skills-h">
+        <h2 id="skills-h">Skills</h2>
+        <dl class="skills">
+          <div>
+            <dt>Accessibility engineering</dt>
+            <dd>
+              WCAG 2.2 A, AA and AAA; Section 508; ADA Title II; WAI-ARIA Authoring Practices. Manual and automated
+              audits, defect triage and documentation, test-case development, regression testing, remediation
+              guidance and the pull requests that carry it out, VPAT/ACR review, accessibility statements, training.
+            </dd>
+          </div>
+          <div>
+            <dt>Assistive technology</dt>
+            <dd>JAWS (daily), NVDA, VoiceOver, TalkBack, with a Mantis Q40 braille display. Web, iOS, and Android.</dd>
+          </div>
+          <div>
+            <dt>Testing tools</dt>
+            <dd>axe DevTools and axe-core, Accessibility Insights, Lighthouse, browser developer tools, Playwright, Vitest, Testing Library; Jira, Git, GitHub, Agile/Scrum.</dd>
+          </div>
+          <div>
+            <dt>Languages</dt>
+            <dd>TypeScript (strict, everywhere), JavaScript, HTML, CSS, SVG; Python, SQL; Kotlin, Swift, Objective-C, C for mobile work.</dd>
+          </div>
+          <div>
+            <dt>Front end</dt>
+            <dd>
+              React and React Native, Angular, Vue, web components, design tokens, cascade layers, container queries,
+              forced-colors and reduced-motion support, Vite.
+            </dd>
+          </div>
+          <div>
+            <dt>Back end and integrations</dt>
+            <dd>
+              Node, Slack Bolt, discord.js, Firestore, Google Calendar API, REST integrations with language models,
+              node-cron, Docker, Railway.
+            </dd>
+          </div>
+          <div>
+            <dt>Ways of working</dt>
+            <dd>
+              Plain-language documentation, field guides for non-engineers, small reviewable pull requests,
+              volunteer coordination.
+            </dd>
+          </div>
+        </dl>
       </section>
 
       <section id="case-studies" class="section" tabindex="-1" aria-labelledby="cases-h">
@@ -720,29 +1004,6 @@
         </article>
       </section>
 
-      <section id="writing" class="section" tabindex="-1" aria-labelledby="writing-h">
-        <h2 id="writing-h">Writing</h2>
-        <p class="section-lede measure">
-          Notes on accessibility engineering: what audits keep finding, how I fix it, and how I keep it fixed. The
-          three newest posts are here; the <a href="/posts/">archive has all of them</a>, and the
-          <a href="/feed.xml" type="application/atom+xml">Atom feed</a> carries the full text.
-        </p>
-        <!-- posts:start -->
-        <ol class="post-list" role="list">
-          <li class="post-item">
-            <h3 class="post-item-title"><a href="/posts/talkover-revisited/">TalkOver, revisited</a></h3>
-            <p class="post-item-meta"><time datetime="2026-09-17">September 17, 2026</time> · 3 minute read</p>
-            <p class="post-item-desc">Years ago I wanted to rewrite TalkBack to behave like VoiceOver. I finally read the TalkBack source. Most of the rewrite already ships as a settings screen.</p>
-          </li>
-          <li class="post-item">
-            <h3 class="post-item-title"><a href="/posts/accessibility-is-a-build-error/">Accessibility is a build error, not a review comment</a></h3>
-            <p class="post-item-meta"><time datetime="2026-09-17">September 17, 2026</time> · 2 minute read</p>
-            <p class="post-item-desc">I made this site refuse to compile when a color pair fails WCAG contrast. Here is why, and what it caught on day one.</p>
-          </li>
-        </ol>
-        <!-- posts:end -->
-      </section>
-
       <section id="approach" class="section" tabindex="-1" aria-labelledby="approach-h">
         <h2 id="approach-h">How I work</h2>
         <p class="section-lede measure">These five rules govern every project above and this page's own source.</p>
@@ -790,288 +1051,27 @@
         </ol>
       </section>
 
-      <section id="lab" class="section" tabindex="-1" aria-labelledby="lab-h">
-        <h2 id="lab-h">Lab</h2>
+      <section id="writing" class="section" tabindex="-1" aria-labelledby="writing-h">
+        <h2 id="writing-h">Writing</h2>
         <p class="section-lede measure">
-          Here are three small things from this page's own source. All are plain custom elements around native form
-          controls, and the HTML works before the JavaScript arrives.
+          Notes on accessibility engineering: what audits keep finding, how I fix it, and how I keep it fixed. The
+          three newest posts are here; the <a href="/posts/">archive has all of them</a>, and the
+          <a href="/feed.xml" type="application/atom+xml">Atom feed</a> carries the full text.
         </p>
-        <div class="lab-grid">
-          <div class="panel">
-            <h3>Theme</h3>
-            <p>
-              Three themes come from one token file, and every pair is contrast-checked at build. Your choice is
-              remembered and applied before first paint next time. Windows high-contrast mode is handled separately
-              with system colors.
-            </p>
-            <theme-picker>
-              <fieldset>
-                <legend>Choose a theme</legend>
-                <div class="radio-row">
-                  <label class="radio-option"><input type="radio" name="theme" value="auto" checked /> Match system</label>
-                  <label class="radio-option"><input type="radio" name="theme" value="light" /> Light</label>
-                  <label class="radio-option"><input type="radio" name="theme" value="dark" /> Dark</label>
-                  <label class="radio-option"><input type="radio" name="theme" value="high-contrast" /> High contrast</label>
-                </div>
-              </fieldset>
-            </theme-picker>
-          </div>
-
-          <div class="panel">
-            <h3>Typeface</h3>
-            <p>
-              Public Sans, the U.S. Web Design System typeface, is the default. Atkinson Hyperlegible Next is the
-              Braille Institute's typeface, drawn so that similar letters stay distinct, and loads only when chosen.
-              System uses your device's own font and no web font at all. Your choice is remembered and applied
-              before first paint next time.
-            </p>
-            <font-picker>
-              <fieldset>
-                <legend>Choose a typeface</legend>
-                <div class="radio-row">
-                  <label class="radio-option"><input type="radio" name="font" value="public-sans" checked /> Public Sans</label>
-                  <label class="radio-option"><input type="radio" name="font" value="atkinson" /> Atkinson Hyperlegible Next</label>
-                  <label class="radio-option"><input type="radio" name="font" value="system" /> System</label>
-                </div>
-              </fieldset>
-            </font-picker>
-          </div>
-
-          <div class="panel">
-            <h3>Contrast checker</h3>
-            <p>
-              This is the same WCAG math the build runs, computed live. Results are words, not just colors, and the
-              summary is announced once you stop typing.
-            </p>
-            <contrast-checker>
-              <form aria-label="Contrast checker">
-                <div class="field">
-                  <label for="cc-fg">Text color</label>
-                  <span class="hint" id="cc-fg-hint">Hex, like #1B1F24</span>
-                  <div class="field-row">
-                    <input
-                      type="text"
-                      id="cc-fg"
-                      data-role="fg-hex"
-                      value="#1B1F24"
-                      autocomplete="off"
-                      spellcheck="false"
-                      aria-describedby="cc-fg-hint cc-fg-error"
-                    />
-                    <input type="color" data-role="fg-picker" value="#1b1f24" aria-label="Pick text color" />
-                  </div>
-                  <p class="error" id="cc-fg-error" data-error="fg"></p>
-                </div>
-                <div class="field">
-                  <label for="cc-bg">Background color</label>
-                  <span class="hint" id="cc-bg-hint">Hex, like #FFFFFF</span>
-                  <div class="field-row">
-                    <input
-                      type="text"
-                      id="cc-bg"
-                      data-role="bg-hex"
-                      value="#FFFFFF"
-                      autocomplete="off"
-                      spellcheck="false"
-                      aria-describedby="cc-bg-hint cc-bg-error"
-                    />
-                    <input type="color" data-role="bg-picker" value="#ffffff" aria-label="Pick background color" />
-                  </div>
-                  <p class="error" id="cc-bg-error" data-error="bg"></p>
-                </div>
-              </form>
-              <div class="swatch" data-swatch aria-hidden="true">
-                <span class="swatch-large">Large text 24px</span>
-                <span>Normal text at 16px looks like this.</span>
-              </div>
-              <div class="contrast-result" data-result></div>
-            </contrast-checker>
-          </div>
-
-          <div class="panel panel--wide">
-            <h3>Tabs and a carousel</h3>
-            <p>
-              These two patterns go wrong more often than they go right, so both are built to the WAI-ARIA
-              Authoring Practices. The tabs below are the demo: one holds the carousel, and the others explain it and
-              show the markup as authored. Without JavaScript, the tabs are a list of links above stacked sections,
-              and the carousel is twelve stacked cards. Nothing auto-rotates.
-            </p>
-            <tab-set label="Carousel demo">
-              <ul class="tabs-list" data-tabs>
-                <li><a href="#tab-demo">Demo</a></li>
-                <li><a href="#tab-how">How it's built</a></li>
-                <li><a href="#tab-markup">Markup</a></li>
-              </ul>
-
-              <section id="tab-demo">
-                <h4 data-panel-heading>Demo</h4>
-                <carousel-slider id="mistakes" label="Twelve mistakes I keep finding">
-                  <div data-track>
-                    <section data-slide>
-                      <h4>1. Disabled while loading</h4>
-                      <p>A submit button set to <code>disabled</code> while the request runs vanishes from the tab order and goes silent. The user presses Enter, nothing happens, and nobody explains why.</p>
-                      <p><strong>Instead,</strong> set <code>aria-busy="true"</code> and <code>aria-disabled="true"</code>, keep the button focusable, and announce the result when it returns.</p>
-                    </section>
-                    <section data-slide>
-                      <h4>2. Icon buttons with no name</h4>
-                      <p>A magnifying glass is not a label. A screen reader announces "button" and nothing else, and a voice-control user has no word to say.</p>
-                      <p><strong>Instead,</strong> give every icon-only control an accessible name, and hide the icon itself with <code>aria-hidden</code>.</p>
-                    </section>
-                    <section data-slide>
-                      <h4>3. Focus dropped on close</h4>
-                      <p>The dialog closes and focus lands on <code>&lt;body&gt;</code>. For a screen reader user that is a trip back to the top of the page.</p>
-                      <p><strong>Instead,</strong> return focus to the control that opened the dialog. The native <code>&lt;dialog&gt;</code> does this for free.</p>
-                    </section>
-                    <section data-slide>
-                      <h4>4. Color as the only signal</h4>
-                      <p>Red border for error, green for success, and nothing else. That is invisible to a screen reader and to a lot of sighted people.</p>
-                      <p><strong>Instead,</strong> add text. Color can reinforce a state, but it can never carry one alone.</p>
-                    </section>
-                    <section data-slide>
-                      <h4>5. Live regions mounted with content</h4>
-                      <p>A status region created at the moment it has something to say is usually silent, because the screen reader never saw it change.</p>
-                      <p><strong>Instead,</strong> mount the region empty at startup and write to it later. Clear it first if you need to repeat the same message.</p>
-                    </section>
-                    <section data-slide>
-                      <h4>6. Placeholder as the label</h4>
-                      <p>Placeholders vanish on the first keystroke, most of them fail contrast, and a form full of typed values has no labels left at all.</p>
-                      <p><strong>Instead,</strong> always provide a visible <code>&lt;label&gt;</code>, and put hints in <code>aria-describedby</code>.</p>
-                    </section>
-                    <section data-slide>
-                      <h4>7. A div that clicks</h4>
-                      <p>A <code>&lt;div onClick&gt;</code> is invisible to the keyboard and has neither a role nor a name. Adding <code>tabindex</code> gets you halfway to a worse button.</p>
-                      <p><strong>Instead,</strong> use a <code>&lt;button&gt;</code> when it does something and an <code>&lt;a&gt;</code> when it goes somewhere.</p>
-                    </section>
-                    <section data-slide>
-                      <h4>8. The focus ring, removed</h4>
-                      <p><code>outline: none</code> with nothing in its place means keyboard users cannot see where they are. It is usually done to hide the ring from mouse users.</p>
-                      <p><strong>Instead,</strong> style <code>:focus-visible</code>. Mouse users never see it, and keyboard users always do.</p>
-                    </section>
-                    <section data-slide>
-                      <h4>9. Skipped heading levels</h4>
-                      <p>An <code>h2</code> followed by an <code>h4</code> because the <code>h3</code> looked too big. Screen reader users navigate by heading level; the outline now has a hole in it.</p>
-                      <p><strong>Instead,</strong> treat heading levels as structure and fix the size in CSS.</p>
-                    </section>
-                    <section data-slide>
-                      <h4>10. Errors nowhere near the field</h4>
-                      <p>A red list at the top of the form, no link to the field, and the field itself says nothing when you land on it.</p>
-                      <p><strong>Instead,</strong> connect the message with <code>aria-describedby</code>, mark the field <code>aria-invalid</code>, and link each summary item to its input.</p>
-                    </section>
-                    <section data-slide>
-                      <h4>11. Hover-only tooltips</h4>
-                      <p>If it only appears on hover, keyboard and touch users never see it, and it disappears the moment a magnifier user moves toward it.</p>
-                      <p><strong>Instead,</strong> show the tooltip on focus as well, let Escape dismiss it, and never put essential information inside it (WCAG 1.4.13).</p>
-                    </section>
-                    <section data-slide>
-                      <h4>12. Motion with no off switch</h4>
-                      <p>Auto-playing carousels, parallax, and animated counters with no pause control and no <code>prefers-reduced-motion</code> check.</p>
-                      <p><strong>Instead,</strong> let nothing move unless the user asks. This carousel does not auto-rotate, and its one fade lasts 0ms under reduced motion.</p>
-                    </section>
-                  </div>
-                </carousel-slider>
-              </section>
-
-              <section id="tab-how">
-                <h4 data-panel-heading>How it's built</h4>
-                <div class="flow">
-                  <p><strong>Tabs</strong> follow the APG tabs pattern with automatic activation: one tab stop for the whole tablist, Left and Right arrows move and select, Home and End jump, and each panel is focusable so the next Tab press lands on the content rather than skipping past it. Selection is shown by weight and a thick underline, not color alone. The URL hash opens a panel on load. Without JavaScript the markup is a list of in-page links above stacked sections with headings; the script removes those headings because the tab now names the panel.</p>
-                  <p><strong>The carousel</strong> is the APG "tabbed carousel": the container is a group with <code>aria-roledescription="carousel"</code>, the slide picker is a second tablist with one tab stop and arrow keys, and each slide is a tabpanel with <code>aria-roledescription="slide"</code> and an accessible name of "3 of 12". Non-current slides get the <code>hidden</code> attribute, so they leave the accessibility tree and the tab order together. Left and Right on the Previous or Next button also move slides, so it doesn't matter which one has focus.</p>
-                  <p><strong>Where focus goes after Next, and why.</strong> It stays on the button, and a polite live region says one short line: "Slide 3 of 12: Focus dropped on close", the position and the heading, never the body. The first version wrapped the whole track in a live region; that read every paragraph on every press, and with JAWS it was unbearable. Announce what changed, then let the user decide whether to read it. Carousel guidance is genuinely contested on this point: one school says focus should move to the new slide so a screen reader user lands at the start of the new content; the other says that forcing focus onto a non-interactive slide puts a ring on something that does nothing and breaks a sighted keyboard user's flow through the controls. These slides are not interactive, so the second argument wins here, and the live region covers the first concern. A carousel whose slides hold headings, links, and menus is a different problem: those slides would need focus to move to their first element, and could not be driven as a "tab in, arrow within, tab out" widget at all. This component is scoped, on purpose, to slides you read.</p>
-                  <p><strong>Reading order is tab order.</strong> Controls sit above the track in the DOM and on screen; nothing is reordered with <code>tabindex</code>, so the page reads the same whether you arrow through it or tab through it.</p>
-                  <p><strong>What it refuses to do:</strong> auto-rotate. There is nothing to pause because nothing starts, and nothing is ever announced unless the visitor pressed something. Dots are 24-pixel targets with a visible border. The selected dot is filled and larger, and under Windows High Contrast it uses the system highlight color.</p>
-                  <p>Both elements share one small roving-tabindex helper, tested once. The Playwright suite tabs into each tablist, arrows through it, checks that hidden slides are not reachable, and confirms that Tab from the Next button leaves the carousel.</p>
-                </div>
-              </section>
-
-              <section id="tab-markup">
-                <h4 data-panel-heading>Markup</h4>
-                <p>This is the HTML as authored. Everything with a role is added by the script; the page is complete without it.</p>
-<pre><code>&lt;tab-set label="Carousel demo"&gt;
-  &lt;ul data-tabs&gt;
-    &lt;li&gt;&lt;a href="#tab-demo"&gt;Demo&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href="#tab-how"&gt;How it's built&lt;/a&gt;&lt;/li&gt;
-  &lt;/ul&gt;
-
-  &lt;section id="tab-demo"&gt;
-    &lt;h4 data-panel-heading&gt;Demo&lt;/h4&gt;
-    &lt;carousel-slider label="Twelve mistakes I keep finding"&gt;
-      &lt;div data-track&gt;
-        &lt;section data-slide&gt;&lt;h4&gt;1. …&lt;/h4&gt;&lt;p&gt;…&lt;/p&gt;&lt;/section&gt;
-        &lt;section data-slide&gt;&lt;h4&gt;2. …&lt;/h4&gt;&lt;p&gt;…&lt;/p&gt;&lt;/section&gt;
-      &lt;/div&gt;
-    &lt;/carousel-slider&gt;
-  &lt;/section&gt;
-
-  &lt;section id="tab-how"&gt;
-    &lt;h4 data-panel-heading&gt;How it's built&lt;/h4&gt;
-    …
-  &lt;/section&gt;
-&lt;/tab-set&gt;</code></pre>
-              </section>
-            </tab-set>
-          </div>
-        </div>
-      </section>
-
-      <section id="skills" class="section" tabindex="-1" aria-labelledby="skills-h">
-        <h2 id="skills-h">Skills</h2>
-        <dl class="skills">
-          <div>
-            <dt>Accessibility engineering</dt>
-            <dd>
-              WCAG 2.2 A, AA and AAA; Section 508; ADA Title II; WAI-ARIA Authoring Practices. Manual and automated
-              audits, defect triage and documentation, test-case development, regression testing, remediation
-              guidance and the pull requests that carry it out, VPAT/ACR review, accessibility statements, training.
-            </dd>
-          </div>
-          <div>
-            <dt>Assistive technology</dt>
-            <dd>JAWS (daily), NVDA, VoiceOver, TalkBack, with a Mantis Q40 braille display. Web, iOS, and Android.</dd>
-          </div>
-          <div>
-            <dt>Testing tools</dt>
-            <dd>axe DevTools and axe-core, Accessibility Insights, Lighthouse, browser developer tools, Playwright, Vitest, Testing Library; Jira, Git, GitHub, Agile/Scrum.</dd>
-          </div>
-          <div>
-            <dt>Languages</dt>
-            <dd>TypeScript (strict, everywhere), JavaScript, HTML, CSS, SVG; Python, SQL; Kotlin, Swift, Objective-C, C for mobile work.</dd>
-          </div>
-          <div>
-            <dt>Front end</dt>
-            <dd>
-              React and React Native, Angular, Vue, web components, design tokens, cascade layers, container queries,
-              forced-colors and reduced-motion support, Vite.
-            </dd>
-          </div>
-          <div>
-            <dt>Back end and integrations</dt>
-            <dd>
-              Node, Slack Bolt, discord.js, Firestore, Google Calendar API, REST integrations with language models,
-              node-cron, Docker, Railway.
-            </dd>
-          </div>
-          <div>
-            <dt>Ways of working</dt>
-            <dd>
-              Plain-language documentation, field guides for non-engineers, small reviewable pull requests,
-              volunteer coordination.
-            </dd>
-          </div>
-        </dl>
-      </section>
-
-      <section id="contact" class="section flow" tabindex="-1" aria-labelledby="contact-h">
-        <h2 id="contact-h">Contact</h2>
-        <p class="measure">
-          I'm open to accessibility engineering, front-end, and design-systems roles, remote or in the Boston area.
-          Email is best, and LinkedIn works too.
-        </p>
-        <div class="cta-row">
-          <a class="button" href="mailto:meredith.laurel@gmail.com">Email meredith.laurel@gmail.com</a>
-          <a class="button button--secondary" href="/Meredith-Boyce-resume.pdf" type="application/pdf">Résumé (PDF, 2 pages)</a>
-          <a class="button button--secondary" href="https://www.linkedin.com/in/meredith-boyce/">Message me on LinkedIn</a>
-          <a class="button button--secondary" href="https://github.com/meredithb104">GitHub profile</a>
-        </div>
+        <!-- posts:start -->
+        <ol class="post-list" role="list">
+          <li class="post-item">
+            <h3 class="post-item-title"><a href="/posts/talkover-revisited/">TalkOver, revisited</a></h3>
+            <p class="post-item-meta"><time datetime="2026-09-17">September 17, 2026</time> · 3 minute read</p>
+            <p class="post-item-desc">Years ago I wanted to rewrite TalkBack to behave like VoiceOver. I finally read the TalkBack source. Most of the rewrite already ships as a settings screen.</p>
+          </li>
+          <li class="post-item">
+            <h3 class="post-item-title"><a href="/posts/accessibility-is-a-build-error/">Accessibility is a build error, not a review comment</a></h3>
+            <p class="post-item-meta"><time datetime="2026-09-17">September 17, 2026</time> · 2 minute read</p>
+            <p class="post-item-desc">I made this site refuse to compile when a color pair fails WCAG contrast. Here is why, and what it caught on day one.</p>
+          </li>
+        </ol>
+        <!-- posts:end -->
       </section>
     </main>
 

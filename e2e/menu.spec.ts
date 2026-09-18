@@ -75,7 +75,7 @@ test("the panel closes on an outside click and when focus tabs past its last lin
   await expect(button).toHaveAttribute("aria-expanded", "false");
 
   await button.click();
-  await nav.getByRole("link", { name: "Contact" }).focus();
+  await nav.getByRole("link").last().focus();
   await page.keyboard.press("Tab");
   await expect(nav).toBeHidden();
   // Focus moved on to the page content and is not under a closed panel.

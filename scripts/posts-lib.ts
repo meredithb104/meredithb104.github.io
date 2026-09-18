@@ -214,7 +214,7 @@ export function page(opts: { title: string; description: string; path: string; m
     <meta property="og:title" content="${escapeHtml(opts.title)}" />
     <meta property="og:description" content="${escapeHtml(opts.description)}" />
     <meta property="og:url" content="${SITE}${opts.path}" />
-    <meta property="og:image" content="${SITE}/og-card-2026-09c.png" />
+    <meta property="og:image" content="${SITE}/og-card-2026-09d.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="preload" href="/fonts/public-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />

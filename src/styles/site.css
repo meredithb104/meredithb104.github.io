@@ -20,21 +20,16 @@
     border-block-end: var(--size-border) solid var(--color-border-subtle);
     padding-block: var(--space-3);
 
-    /* The brand band: the five palette stops, coral to peach. Decorative, so no contrast claim. */
+    /* The brand rule: one line in the pink accent, the same pink as the monogram tile and the card
+       rules. (A multi-stop pastel gradient sat here once and read as an Easter palette on navy.)
+       Decorative, so no contrast claim. */
     &::after {
       content: "";
       position: absolute;
       inset-inline: 0;
       inset-block-end: -1px;
-      block-size: 6px;
-      background: linear-gradient(
-        90deg,
-        var(--color-brand1) 0%,
-        var(--color-brand3) 30%,
-        var(--color-brand4) 60%,
-        var(--color-brand5) 88%,
-        var(--color-brand6) 100%
-      );
+      block-size: 4px;
+      background: var(--color-brand6);
       pointer-events: none;
     }
 

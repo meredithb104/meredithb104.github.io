@@ -60,6 +60,11 @@
       min-block-size: var(--header-height);
       background: color-mix(in srgb, var(--color-bg-subtle) 94%, transparent);
       backdrop-filter: blur(8px);
+
+      /* Ten links beside the wordmark on one row at 72em: tighter pills, still well over 24px targets. */
+      .site-nav a {
+        padding-inline: var(--space-2);
+      }
     }
   }
 
@@ -838,6 +843,35 @@
 
     dd {
       color: var(--color-text-muted);
+    }
+  }
+
+  /* ---- Dictionary --------------------------------------------------- */
+  .glossary {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-4);
+
+    dt {
+      font-weight: var(--font-weight-bold);
+      font-size: var(--font-size-lg);
+    }
+
+    dd {
+      display: grid;
+      gap: var(--space-3);
+      max-inline-size: var(--size-measure);
+    }
+
+    /* Wide: the term in a column beside its definition, like a dictionary page. */
+    @media (min-width: 48em) {
+      grid-template-columns: 14rem minmax(0, 1fr);
+      gap: var(--space-5) var(--space-6);
+
+      dt {
+        font-size: var(--font-size-md);
+        padding-block-start: 0.15em; /* the term and the definition's first line share a baseline */
+      }
     }
   }
 

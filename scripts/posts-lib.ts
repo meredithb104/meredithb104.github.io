@@ -169,6 +169,7 @@ const NAV = `
           <nav aria-label="Site">
             <ul role="list">
               <li><a href="/#about">About</a></li>
+              <li><a href="/#dictionary">Dictionary</a></li>
               <li><a href="/#contact">Contact</a></li>
               <li><a href="/#lab">Lab</a></li>
               <li><a href="/#work">Work</a></li>

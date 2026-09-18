@@ -164,7 +164,7 @@ const SITE = "https://meredithb104.github.io";
 
 const NAV = `
       <div class="wrap">
-        <a class="brand" href="/"><svg class="brand-mark" aria-hidden="true" viewBox="0 0 64 64" width="32" height="32"><rect width="64" height="64" rx="14" fill="currentColor"/><text x="32" y="43" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="30" font-weight="700" fill="var(--color-on-primary)">MB</text></svg><span>Meredith Boyce</span></a>
+        <a class="brand" href="/"><svg class="brand-mark" aria-hidden="true" viewBox="0 0 64 64" width="32" height="32"><rect width="64" height="64" rx="14" fill="currentColor"/><text x="32" y="43" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="30" font-weight="700" fill="var(--color-text)">MB</text></svg><span>Meredith Boyce</span></a>
         <site-nav class="site-nav">
           <nav aria-label="Site">
             <ul role="list">
@@ -203,13 +203,13 @@ export function page(opts: { title: string; description: string; path: string; m
     <title>${escapeHtml(opts.title)}</title>
     <meta name="description" content="${escapeHtml(opts.description)}" />
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0F1419" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#FFFBF8" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1E1512" media="(prefers-color-scheme: dark)" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="${escapeHtml(opts.title)}" />
     <meta property="og:description" content="${escapeHtml(opts.description)}" />
     <meta property="og:url" content="${SITE}${opts.path}" />
-    <meta property="og:image" content="${SITE}/og-card-2026-09.png" />
+    <meta property="og:image" content="${SITE}/og-card-2026-09b.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="canonical" href="${SITE}${opts.path}" />

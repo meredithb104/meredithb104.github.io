@@ -15,9 +15,35 @@
   }
 
   .site-header {
+    position: relative;
     background: var(--color-bg-subtle);
     border-block-end: var(--size-border) solid var(--color-border-subtle);
     padding-block: var(--space-3);
+
+    /* The brand band: the five palette stops, coral to peach. Decorative, so no contrast claim. */
+    &::after {
+      content: "";
+      position: absolute;
+      inset-inline: 0;
+      inset-block-end: -1px;
+      block-size: 6px;
+      background: linear-gradient(
+        90deg,
+        var(--color-brand1),
+        var(--color-brand2),
+        var(--color-brand3),
+        var(--color-brand4),
+        var(--color-brand5)
+      );
+      pointer-events: none;
+    }
+
+    @media (forced-colors: active) {
+      &::after {
+        background: CanvasText;
+        block-size: 1px;
+      }
+    }
 
     > .wrap {
       display: flex;
@@ -32,7 +58,7 @@
       inset-block-start: 0;
       z-index: 10;
       min-block-size: var(--header-height);
-      background: color-mix(in srgb, var(--color-bg-subtle) 92%, transparent);
+      background: color-mix(in srgb, var(--color-bg-subtle) 94%, transparent);
       backdrop-filter: blur(8px);
     }
   }
@@ -49,11 +75,12 @@
     color: var(--color-text);
     text-decoration: none;
 
+    /* The tile is brand stop 1 and the letters are ink: 6.3:1, where white would be 2.6:1. */
     .brand-mark {
       inline-size: 2rem;
       block-size: 2rem;
       flex: none;
-      color: var(--color-primary);
+      color: var(--color-brand1);
     }
 
     &:hover {
@@ -627,7 +654,7 @@
 
   .callout {
     padding: var(--space-4) var(--space-5);
-    border-inline-start: 4px solid var(--color-accent);
+    border-inline-start: 4px solid var(--color-brand1);
     background: var(--color-accent-bg);
     border-radius: 0 var(--radius-md) var(--radius-md) 0;
 
@@ -647,7 +674,7 @@
       display: grid;
       gap: var(--space-1);
       padding-inline-start: var(--space-5);
-      border-inline-start: 3px solid var(--color-border-subtle);
+      border-inline-start: 3px solid var(--color-brand4);
       max-inline-size: none;
     }
 
@@ -673,7 +700,8 @@
     padding: var(--space-5);
     background: var(--color-surface);
     border: var(--size-border) solid var(--color-border-subtle);
-    border-block-start: 4px solid var(--color-accent);
+    /* Decorative rule in brand stop 2; it is not a control boundary, so 1.4.11 does not apply. */
+    border-block-start: 4px solid var(--color-brand2);
     border-radius: var(--radius-lg);
 
     h3 {
@@ -892,8 +920,18 @@
     }
 
     .error {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-1);
       color: var(--color-error);
       font-size: var(--font-size-sm);
+
+      svg {
+        flex: none;
+        inline-size: 1.1em;
+        block-size: 1.1em;
+        margin-block-start: 0.15em;
+      }
 
       &:empty {
         display: none;
@@ -936,6 +974,13 @@
       padding: 0.05em var(--space-2);
       border-radius: var(--radius-sm);
       font-weight: var(--font-weight-medium);
+
+      /* The icon is inline SVG in the markup (aria-hidden): icon, word, and color together (1.4.1). */
+      svg {
+        inline-size: 1em;
+        block-size: 1em;
+        flex: none;
+      }
     }
     .pass {
       color: var(--color-success);
@@ -1170,7 +1215,7 @@
     padding: var(--space-5);
     background: var(--color-bg-subtle);
     border: var(--size-border) solid var(--color-border-subtle);
-    border-inline-start: 4px solid var(--color-accent);
+    border-inline-start: 4px solid var(--color-brand2);
     border-radius: var(--radius-md);
 
     h4 {
@@ -1211,7 +1256,7 @@
     display: grid;
     gap: var(--space-1);
     padding-inline-start: var(--space-5);
-    border-inline-start: 3px solid var(--color-border-subtle);
+    border-inline-start: 3px solid var(--color-brand4);
     max-inline-size: none;
 
     &:has(a:hover) {
@@ -1312,7 +1357,7 @@
     blockquote {
       margin: 0;
       padding-inline-start: var(--space-4);
-      border-inline-start: 4px solid var(--color-accent);
+      border-inline-start: 4px solid var(--color-brand2);
       color: var(--color-text-muted);
     }
 

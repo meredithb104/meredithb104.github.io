@@ -1,4 +1,5 @@
 import { announce } from "../lib/announce.ts";
+import { settleHash } from "../lib/settle-hash.ts";
 
 /**
  * <font-picker>: same shape as <theme-picker>. A native radio group chooses
@@ -52,6 +53,7 @@ export class FontPicker extends HTMLElement {
   private readonly onChange = (event: Event): void => {
     const input = event.target;
     if (!(input instanceof HTMLInputElement) || !isFont(input.value)) return;
+    settleHash(); // before the restyle: a fragment left in the address pulls JAWS back to its target
     applyFont(input.value);
     if (document.activeElement !== input) input.focus({ preventScroll: true }); // see theme-picker
     announce(`Typeface: ${input.labels?.[0]?.textContent?.trim() ?? input.value}`);

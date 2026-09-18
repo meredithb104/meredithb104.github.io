@@ -238,3 +238,28 @@ describe("<font-picker>", () => {
     expect(mount().find((i) => i.checked)?.value).toBe("public-sans");
   });
 });
+
+describe("settleHash", () => {
+  it("removes a fragment without navigating, and is a no-op without one", async () => {
+    const { settleHash } = await import("../lib/settle-hash.ts");
+    history.replaceState(null, "", "/page?q=1#lab");
+    settleHash();
+    expect(location.hash).toBe("");
+    expect(location.pathname + location.search).toBe("/page?q=1");
+    settleHash();
+    expect(location.pathname + location.search).toBe("/page?q=1");
+    history.replaceState(null, "", "/");
+  });
+
+  it("theme change clears a leftover fragment before restyling", () => {
+    history.replaceState(null, "", "/#lab");
+    document.body.innerHTML = `<theme-picker><input type="radio" name="theme" value="dark"></theme-picker>`;
+    const dark = document.querySelector<HTMLInputElement>("input")!;
+    dark.checked = true;
+    dark.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(location.hash).toBe("");
+    expect(document.documentElement.dataset["theme"]).toBe("dark");
+    delete document.documentElement.dataset["theme"];
+    history.replaceState(null, "", "/");
+  });
+});

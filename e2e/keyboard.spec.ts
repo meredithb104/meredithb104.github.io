@@ -119,3 +119,28 @@ test("pressing a filter chip does not move any chip (no layout shift on activati
   await page.getByRole("button", { name: "All" }).click();
   expect(await pos()).toEqual(before);
 });
+
+test("a fragment is cleared from the address once it has done its job", async ({ page }) => {
+  // On load: the target is scrolled to (and a deep-linked tab opened), then the fragment goes.
+  await page.goto("/#tab-markup");
+  await expect(page.getByRole("tab", { name: "Markup" })).toHaveAttribute("aria-selected", "true");
+  await expect.poll(() => page.evaluate(() => location.hash)).toBe("");
+  const labTop = await page.locator("#lab").evaluate((el) => el.getBoundingClientRect().top);
+  expect(labTop).toBeLessThan(800); // still scrolled to the Lab area
+
+  // After an in-page jump: focus lands on the section, then the fragment goes.
+  await page.goto("/");
+  await page.getByRole("navigation", { name: "Sections" }).getByRole("link", { name: "Lab" }).click();
+  await expect.poll(async () => (await focused(page)).id).toBe("lab");
+  await expect.poll(() => page.evaluate(() => location.hash)).toBe("");
+
+  // A restyle with no fragment present changes neither scroll nor focus. Let the smooth scroll land first.
+  await expect.poll(() => page.locator("#lab").evaluate((el) => Math.round(el.getBoundingClientRect().top))).toBeLessThan(200);
+  await page.getByRole("radio", { name: "Dark" }).scrollIntoViewIfNeeded();
+  await page.waitForTimeout(300);
+  const y = await page.evaluate(() => Math.round(scrollY));
+  await page.getByRole("radio", { name: "Dark" }).click();
+  await page.waitForTimeout(400);
+  expect(await page.evaluate(() => Math.round(scrollY))).toBe(y);
+  expect(await page.evaluate(() => (document.activeElement as HTMLInputElement).value)).toBe("dark");
+});

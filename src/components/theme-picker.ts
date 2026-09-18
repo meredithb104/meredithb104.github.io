@@ -1,4 +1,5 @@
 import { announce } from "../lib/announce.ts";
+import { settleHash } from "../lib/settle-hash.ts";
 
 /**
  * <theme-picker>: progressively enhances a native radio group.
@@ -60,6 +61,7 @@ export class ThemePicker extends HTMLElement {
   private readonly onChange = (event: Event): void => {
     const input = event.target;
     if (!(input instanceof HTMLInputElement) || !isTheme(input.value)) return;
+    settleHash(); // before the restyle: a fragment left in the address pulls JAWS back to its target
     applyTheme(input.value);
     // Make DOM focus follow the choice. A screen reader activating the radio from its virtual
     // cursor may leave DOM focus on whatever had it before (the section a nav link landed on);

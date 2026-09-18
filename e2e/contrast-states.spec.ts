@@ -91,6 +91,18 @@ for (const theme of ["light", "dark"] as const) {
     });
     expect(ratio(underline.line, underline.surround)).toBeGreaterThanOrEqual(3);
 
+    // Diagram store boxes: axe does not measure SVG text, so measure it here. Label 7:1, sublabel 4.5:1 on the box fill.
+    const store = await page.evaluate(() => {
+      const toRgb = (s: string) => { const c = document.createElement("canvas").getContext("2d")!; c.fillStyle = s; const h = c.fillStyle as string; return [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16)); };
+      const svg = document.querySelector("svg.diagram-narrow")!;
+      const box = svg.querySelector(".box--store")!;
+      return { fill: toRgb(getComputedStyle(box).fill), stroke: toRgb(getComputedStyle(box).stroke), label: toRgb(getComputedStyle(svg.querySelector(".label--store")!).fill), sub: toRgb(getComputedStyle(svg.querySelector(".sublabel--store")!).fill), page: toRgb(getComputedStyle(document.querySelector(".diagram")!).backgroundColor) };
+    });
+    expect(ratio(store.label, store.fill)).toBeGreaterThanOrEqual(7);
+    expect(ratio(store.sub, store.fill)).toBeGreaterThanOrEqual(4.5);
+    // 1.4.11: the box is identifiable if its fill or its stroke reaches 3:1 against the diagram background.
+    expect(Math.max(ratio(store.fill, store.page), ratio(store.stroke, store.page)), "store box boundary").toBeGreaterThanOrEqual(3);
+
     const results = await new AxeBuilder({ page }).withRules(["color-contrast"]).analyze();
     expect(results.violations).toEqual([]);
   });

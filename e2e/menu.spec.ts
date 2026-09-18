@@ -137,3 +137,19 @@ test("Public Sans is the default and preloaded; Atkinson loads only when chosen;
   const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa", "best-practice"]).analyze();
   expect(results.violations.map((v) => v.id)).toEqual([]);
 });
+
+test("a focused menu row is filled, not only ringed", async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto("/");
+  await page.getByRole("button", { name: "Menu" }).focus();
+  await page.keyboard.press("Enter");
+  await page.keyboard.press("Tab");
+  const nav = page.getByRole("navigation", { name: "Sections" });
+  await expect(nav.getByRole("link", { name: "About" })).toBeFocused();
+  const [row, panel] = await page.evaluate(() => [
+    getComputedStyle(document.activeElement!).backgroundColor,
+    getComputedStyle(document.querySelector('nav[aria-label="Sections"]')!).backgroundColor,
+  ]);
+  expect(row, "the row has its own fill").not.toBe("rgba(0, 0, 0, 0)");
+  expect(row, "the fill differs from the panel").not.toBe(panel);
+});

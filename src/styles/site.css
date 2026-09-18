@@ -121,8 +121,12 @@
       text-decoration: none;
       font-weight: var(--font-weight-medium);
 
-      &:hover {
-        background: var(--color-surface);
+      /* The row itself changes on hover and on keyboard focus, not only the ring around it. The tint
+         is the primary mixed into the surface, so it shows inside the phone panel (whose own
+         background is the surface) as well as on the desktop header. */
+      &:hover,
+      &:focus-visible {
+        background: color-mix(in srgb, var(--color-primary) 18%, var(--color-surface));
         color: var(--color-primary);
       }
 

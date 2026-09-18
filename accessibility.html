@@ -9,8 +9,8 @@
       content="Accessibility statement for meredithb104.github.io: WCAG 2.2 AA conformance, how it was tested, known limitations, and how to report a problem."
     />
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0F1419" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#F9FBF2" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0E1C36" media="(prefers-color-scheme: dark)" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="canonical" href="https://meredithb104.github.io/accessibility.html" />
     <script>
@@ -26,7 +26,7 @@
 
     <header class="site-header">
       <div class="wrap">
-        <a class="brand" href="/"><svg class="brand-mark" aria-hidden="true" viewBox="0 0 64 64" width="32" height="32"><rect width="64" height="64" rx="14" fill="currentColor"/><text x="32" y="43" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="30" font-weight="700" fill="var(--color-on-primary)">MB</text></svg><span>Meredith Boyce</span></a>
+        <a class="brand" href="/"><svg class="brand-mark" aria-hidden="true" viewBox="0 0 64 64" width="32" height="32"><rect width="64" height="64" rx="14" fill="currentColor"/><text x="32" y="43" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="30" font-weight="700" fill="var(--color-text)">MB</text></svg><span>Meredith Boyce</span></a>
         <site-nav class="site-nav">
           <nav aria-label="Site">
             <ul role="list">
@@ -64,7 +64,7 @@
         <li>Semantic HTML with one <code>h1</code> per page, landmarks for header, navigation, main, and footer, and a skip link that lands on a focusable main.</li>
         <li>A single visible focus indicator on every interactive element, 3 pixels wide with a 2-pixel offset, contrast-checked against every background it can appear on (2.4.7, 2.4.11, 2.4.13).</li>
         <li>In-page navigation moves keyboard focus to the target section. Below 72em the navigation collapses behind a "Menu" button (a disclosure with <code>aria-expanded</code>; Escape closes it and returns focus), the header is not sticky, and without JavaScript the full list simply shows. At 72em and above the header is sticky only because the full navigation fits on one row, so it cannot obscure a focused element (2.4.11).</li>
-        <li>Three themes (light, dark, high contrast) compiled from one token file; the build fails if any text/background pair drops below its required ratio. Windows forced-colors mode is styled with system colors rather than overridden.</li>
+        <li>Three themes (light, dark, high contrast) compiled from one token file; the build fails if any text/background pair drops below its required ratio. The palette's pale tints appear only as surfaces and the header band; Prussian blue is the text and the buttons; the pink appears as card rules, the monogram tile, a deepened pink for eyebrow text at 5.4:1, and the focus ring at 3.4:1 sitting 2px outside every control. Windows forced-colors mode is styled with system colors rather than overridden.</li>
         <li>Every state is expressed in text as well as color: Pass and Fail in the contrast checker, a check mark and bold weight on the active filter, an underline on the current section (1.4.1).</li>
         <li>Nothing here is disabled while it works, and no control requires dragging, a specific pointer, or a path-based gesture (2.5.1, 2.5.7).</li>
         <li>Content reflows to a 320-pixel-wide viewport with no horizontal scrolling, survives 200% zoom and user text-spacing overrides, and line length is capped at 68 characters (1.4.4, 1.4.10, 1.4.12, 1.4.8).</li>

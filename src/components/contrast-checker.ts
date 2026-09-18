@@ -14,6 +14,11 @@ import { contrastRatio, formatRatio, judge, normalizeHex, parseHex, type Contras
  * field aria-invalid and points aria-describedby at the error (WCAG 3.3.1).
  */
 
+/** Inline, aria-hidden icons so every state is icon + word + color, and JAWS never reads a glyph. */
+const ICON_PASS = `<svg aria-hidden="true" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg>`;
+const ICON_FAIL = `<svg aria-hidden="true" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 4l8 8M12 4l-8 8"/></svg>`;
+const ICON_ERROR = `<svg aria-hidden="true" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5v4.2M8 11.2v.3" stroke-width="2"/></svg>`;
+
 const ROWS: ReadonlyArray<{ key: keyof Omit<ContrastVerdict, "ratio">; label: string; needs: string }> = [
   { key: "aaText", label: "Normal text, AA (1.4.3)", needs: "4.5:1" },
   { key: "aaLargeText", label: "Large text, AA (1.4.3)", needs: "3:1" },
@@ -70,7 +75,7 @@ export class ContrastChecker extends HTMLElement {
     const invalid = value === null;
     hex.setAttribute("aria-invalid", invalid ? "true" : "false");
     if (error) {
-      error.textContent = invalid ? "Enter a hex color like #1B1F24 or #FFF." : "";
+      error.innerHTML = invalid ? `${ICON_ERROR}<span>Enter a hex color like #1B1F24 or #FFF.</span>` : "";
     }
     return value;
   }
@@ -103,7 +108,7 @@ export class ContrastChecker extends HTMLElement {
       (r) => `<tr>
         <th scope="row">${r.label}</th>
         <td>${r.needs}</td>
-        <td>${verdict[r.key] ? `<span class="pass">Pass</span>` : `<span class="fail">Fail</span>`}</td>
+        <td>${verdict[r.key] ? `<span class="pass">${ICON_PASS}Pass</span>` : `<span class="fail">${ICON_FAIL}Fail</span>`}</td>
       </tr>`,
     ).join("");
 

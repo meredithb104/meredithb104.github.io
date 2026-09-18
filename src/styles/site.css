@@ -20,8 +20,8 @@
     border-block-end: var(--size-border) solid var(--color-border-subtle);
     padding-block: var(--space-3);
 
-    /* The brand rule: burgundy on the light theme, monaco blue on the dark (burgundy vanishes on
-       navy). Decorative, so no contrast claim. */
+    /* The brand rule: royal navy on the light theme, monaco blue on the dark. Decorative, so no
+       contrast claim. */
     &::after {
       content: "";
       position: absolute;
@@ -74,13 +74,13 @@
     color: var(--color-text);
     text-decoration: none;
 
-    /* The tile is the burgundy and the letters are white in both themes: 9.6:1. */
+    /* The tile is navy with white letters on light, monaco blue with navy letters on dark; the pair is a checked token. */
     .brand-mark {
       inline-size: 2rem;
       block-size: 2rem;
       flex: none;
       color: var(--color-brand1);
-      --brand-ink: #ffffff;
+      --brand-ink: var(--color-on-brand1);
     }
 
     &:hover {
@@ -648,7 +648,7 @@
     }
     .box--store {
       fill: var(--color-accent-bg);
-      stroke: var(--color-accent);
+      stroke: var(--color-on-accent-bg); /* the box's text colour as its edge: 8:1 on the fill */
     }
     .label {
       fill: var(--color-text);
@@ -856,11 +856,11 @@
     position: absolute;
   }
 
-  .hydrangea {
-    position: absolute;
-    pointer-events: none;
-    user-select: none;
-    block-size: auto;
+  /* The custom properties are set on the sprite as well as on each placement: a placement's <use>
+     inherits them into its shadow tree, but a gradient referenced by url() resolves in the sprite's
+     own tree, so the wash's colour and opacity must be defined there. */
+  .hydrangea,
+  .hydrangea-sprite {
     /* Light theme: sky blue through to yearbook, navy outlines and centres, green leaves. */
     --hy-1: #8fbde8;
     --hy-2: #5f93da;
@@ -870,6 +870,14 @@
     --hy-leaf: #9dbf7c;
     --hy-leaf-line: #4f7a3e;
     --hy-stem: #5f8a4a;
+    --hy-wash: 0; /* the halo behind a bloom reads as a smudge on cream; it stays on the navy */
+  }
+
+  .hydrangea {
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+    block-size: auto;
 
     @media (max-width: 71.99em), print, (forced-colors: active) {
       display: none;
@@ -888,7 +896,7 @@
   }
 
   /* Dark theme: the same blues a step lighter on the navy, navy outlines, cream centres. */
-  :root:not([data-theme]) .hydrangea {
+  :root:not([data-theme]) :is(.hydrangea, .hydrangea-sprite) {
     @media (prefers-color-scheme: dark) {
       --hy-1: #7ea9e4;
       --hy-2: #a9c1e8;
@@ -898,9 +906,10 @@
       --hy-leaf: #6f9a5a;
       --hy-leaf-line: #2f4a25;
       --hy-stem: #7fa868;
+      --hy-wash: 0.3;
     }
   }
-  :root[data-theme="dark"] .hydrangea {
+  :root[data-theme="dark"] :is(.hydrangea, .hydrangea-sprite) {
     --hy-1: #7ea9e4;
     --hy-2: #a9c1e8;
     --hy-3: #cfdcf3;
@@ -909,6 +918,7 @@
     --hy-leaf: #6f9a5a;
     --hy-leaf-line: #2f4a25;
     --hy-stem: #7fa868;
+    --hy-wash: 0.3;
   }
   :root[data-theme="high-contrast"] .hydrangea {
     display: none;
@@ -955,8 +965,9 @@
       grid-column: 2;
       grid-row: 3 / 5; /* beside the facts and the buttons */
       align-self: end;
-      justify-self: start;
-      inline-size: 70%;
+      justify-self: end;
+      inline-size: 68%;
+      margin-block-end: -2.5rem; /* down into the hero's bottom padding, away from the buttons */
       transform: scaleX(-1);
     }
   }

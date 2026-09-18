@@ -55,7 +55,7 @@ def stem(d):
     return f'<path style="fill:none;stroke:var(--hy-stem);stroke-width:2;stroke-linecap:round" d="{d}"/>'
 
 def wash(cx, cy, rx, ry, gid):
-    return (f'<radialGradient id="{gid}"><stop offset="0" style="stop-color:var(--hy-2);stop-opacity:.3"/>'
+    return (f'<radialGradient id="{gid}"><stop offset="0" style="stop-color:var(--hy-2);stop-opacity:var(--hy-wash)"/>'
             f'<stop offset="1" style="stop-color:var(--hy-2);stop-opacity:0"/></radialGradient>'
             f'<ellipse cx="{cx}" cy="{cy}" rx="{rx}" ry="{ry}" fill="url(#{gid})"/>')
 
@@ -117,11 +117,11 @@ block = '''  /* ---- Decorative hydrangeas -------------------------------------
     position: absolute;
   }
 
-  .hydrangea {
-    position: absolute;
-    pointer-events: none;
-    user-select: none;
-    block-size: auto;
+  /* The custom properties are set on the sprite as well as on each placement: a placement's <use>
+     inherits them into its shadow tree, but a gradient referenced by url() resolves in the sprite's
+     own tree, so the wash's colour and opacity must be defined there. */
+  .hydrangea,
+  .hydrangea-sprite {
     /* Light theme: sky blue through to yearbook, navy outlines and centres, green leaves. */
     --hy-1: #8fbde8;
     --hy-2: #5f93da;
@@ -131,6 +131,14 @@ block = '''  /* ---- Decorative hydrangeas -------------------------------------
     --hy-leaf: #9dbf7c;
     --hy-leaf-line: #4f7a3e;
     --hy-stem: #5f8a4a;
+    --hy-wash: 0; /* the halo behind a bloom reads as a smudge on cream; it stays on the navy */
+  }
+
+  .hydrangea {
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+    block-size: auto;
 
     @media (max-width: 71.99em), print, (forced-colors: active) {
       display: none;
@@ -149,7 +157,7 @@ block = '''  /* ---- Decorative hydrangeas -------------------------------------
   }
 
   /* Dark theme: the same blues a step lighter on the navy, navy outlines, cream centres. */
-  :root:not([data-theme]) .hydrangea {
+  :root:not([data-theme]) :is(.hydrangea, .hydrangea-sprite) {
     @media (prefers-color-scheme: dark) {
       --hy-1: #7ea9e4;
       --hy-2: #a9c1e8;
@@ -159,9 +167,10 @@ block = '''  /* ---- Decorative hydrangeas -------------------------------------
       --hy-leaf: #6f9a5a;
       --hy-leaf-line: #2f4a25;
       --hy-stem: #7fa868;
+      --hy-wash: 0.3;
     }
   }
-  :root[data-theme="dark"] .hydrangea {
+  :root[data-theme="dark"] :is(.hydrangea, .hydrangea-sprite) {
     --hy-1: #7ea9e4;
     --hy-2: #a9c1e8;
     --hy-3: #cfdcf3;
@@ -170,6 +179,7 @@ block = '''  /* ---- Decorative hydrangeas -------------------------------------
     --hy-leaf: #6f9a5a;
     --hy-leaf-line: #2f4a25;
     --hy-stem: #7fa868;
+    --hy-wash: 0.3;
   }
   :root[data-theme="high-contrast"] .hydrangea {
     display: none;
@@ -216,8 +226,9 @@ block = '''  /* ---- Decorative hydrangeas -------------------------------------
       grid-column: 2;
       grid-row: 3 / 5; /* beside the facts and the buttons */
       align-self: end;
-      justify-self: start;
-      inline-size: 70%;
+      justify-self: end;
+      inline-size: 68%;
+      margin-block-end: -2.5rem; /* down into the hero's bottom padding, away from the buttons */
       transform: scaleX(-1);
     }
   }

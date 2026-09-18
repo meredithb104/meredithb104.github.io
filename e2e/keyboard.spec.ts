@@ -184,3 +184,18 @@ test("every fragment lands: a heading with no tabindex takes focus, on a link, o
   await expect.poll(() => page.evaluate(() => location.pathname)).toBe("/");
   await expect.poll(() => page.evaluate(() => location.hash)).toBe("");
 });
+
+test("choosing a typeface or theme keeps the chosen radio where it was on screen", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("radio", { name: "Atkinson Hyperlegible Next" }).scrollIntoViewIfNeeded();
+  await page.waitForTimeout(300);
+  const radio = (name: string) => page.getByRole("radio", { name, exact: true });
+  const top = (name: string) => radio(name).evaluate((el) => Math.round(el.getBoundingClientRect().top));
+  for (const name of ["Atkinson Hyperlegible Next", "System", "Public Sans", "Atkinson Hyperlegible Next", "Dark", "Light"]) {
+    const before = await top(name);
+    await radio(name).focus();
+    await page.keyboard.press("Space");
+    await page.waitForTimeout(600); // long enough for a font to arrive and the second correction to run
+    expect(Math.abs((await top(name)) - before), `${name} stays put`).toBeLessThanOrEqual(1);
+  }
+});

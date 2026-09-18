@@ -28,7 +28,8 @@ describe("<theme-picker>", () => {
     return [...document.querySelectorAll<HTMLInputElement>("input")];
   }
 
-  it("writes the choice to <html data-theme>, persists it, and announces it", async () => {
+  it("writes the choice to <html data-theme>, persists it, and does not also announce it", async () => {
+    // The focused radio's own name and state are the announcement; a live-region line on top is noise.
     vi.useFakeTimers();
     const [, , dark] = mount();
     dark!.checked = true;
@@ -37,7 +38,7 @@ describe("<theme-picker>", () => {
     expect(document.documentElement.dataset["theme"]).toBe("dark");
     expect(localStorage.getItem("theme")).toBe("dark");
     vi.advanceTimersByTime(100);
-    expect(liveText()).toBe("Theme: Dark");
+    expect(liveText()).toBe("");
     vi.useRealTimers();
   });
 

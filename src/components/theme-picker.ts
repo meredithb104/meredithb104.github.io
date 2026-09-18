@@ -1,4 +1,4 @@
-import { announce } from "../lib/announce.ts";
+import { keepInPlace } from "../lib/anchor.ts";
 import { settleHash } from "../lib/settle-hash.ts";
 
 /**
@@ -61,14 +61,15 @@ export class ThemePicker extends HTMLElement {
   private readonly onChange = (event: Event): void => {
     const input = event.target;
     if (!(input instanceof HTMLInputElement) || !isTheme(input.value)) return;
+    const theme = input.value;
     settleHash(); // before the restyle: a fragment left in the address pulls JAWS back to its target
-    applyTheme(input.value);
+    keepInPlace(input, () => applyTheme(theme)); // a restyle must not slide the control on screen
     // Make DOM focus follow the choice. A screen reader activating the radio from its virtual
     // cursor may leave DOM focus on whatever had it before (the section a nav link landed on);
     // after the page re-themes, the reader re-orients to that stale element. No scrolling.
+    // No live-region announcement: the focused radio's own name and state ("Dark, radio button,
+    // checked") already say it, and a second line on top of that is noise.
     if (document.activeElement !== input) input.focus({ preventScroll: true });
-    const label = input.labels?.[0]?.textContent?.trim() ?? input.value;
-    announce(`Theme: ${label}`);
   };
 }
 

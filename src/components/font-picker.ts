@@ -1,4 +1,4 @@
-import { announce } from "../lib/announce.ts";
+import { keepInPlace } from "../lib/anchor.ts";
 import { settleHash } from "../lib/settle-hash.ts";
 
 /**
@@ -53,10 +53,11 @@ export class FontPicker extends HTMLElement {
   private readonly onChange = (event: Event): void => {
     const input = event.target;
     if (!(input instanceof HTMLInputElement) || !isFont(input.value)) return;
+    const font = input.value;
     settleHash(); // before the restyle: a fragment left in the address pulls JAWS back to its target
-    applyFont(input.value);
-    if (document.activeElement !== input) input.focus({ preventScroll: true }); // see theme-picker
-    announce(`Typeface: ${input.labels?.[0]?.textContent?.trim() ?? input.value}`);
+    // The new metrics reflow everything above; keep the radio where the reader is looking.
+    keepInPlace(input, () => applyFont(font));
+    if (document.activeElement !== input) input.focus({ preventScroll: true }); // see theme-picker; no announce() either
   };
 }
 

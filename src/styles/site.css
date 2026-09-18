@@ -395,15 +395,23 @@
       color: var(--color-primary);
     }
 
+    /* The check mark's space is always reserved and the weight never changes, so pressing a chip
+       cannot change its width and shove its neighbors (no layout shift on activation). */
+    &::before {
+      content: "✓";
+      font-size: 0.85em;
+      inline-size: 1em;
+      text-align: center;
+      color: transparent;
+    }
+
     &[aria-pressed="true"] {
       border-color: var(--color-primary);
       background: var(--color-primary);
       color: var(--color-on-primary);
-      font-weight: var(--font-weight-bold);
 
       &::before {
-        content: "✓";
-        font-size: 0.85em;
+        color: inherit;
       }
     }
 

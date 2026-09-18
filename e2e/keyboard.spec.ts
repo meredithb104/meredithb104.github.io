@@ -94,8 +94,8 @@ test("filter toggles expose pressed state and hidden cards leave the tab order",
   await page.keyboard.press("Enter");
   await expect(backEnd).toHaveAttribute("aria-pressed", "true");
   await expect(page.getByRole("button", { name: "All" })).toHaveAttribute("aria-pressed", "false");
-  await expect(page.getByRole("link", { name: "Live demo" })).toBeHidden();
-  await expect(page.getByRole("link", { name: "Read the case study" })).toHaveCount(2);
+  await expect(page.getByRole("link", { name: "Live demo of Commons UI" })).toBeHidden();
+  await expect(page.getByRole("link", { name: /^Read the case study for/ })).toHaveCount(2);
 });
 
 test("the contrast checker validates and describes errors in text", async ({ page }) => {
@@ -107,4 +107,15 @@ test("the contrast checker validates and describes errors in text", async ({ pag
   await fg.fill("#767676");
   await expect(fg).toHaveAttribute("aria-invalid", "false");
   await expect(page.locator(".contrast-result .ratio")).toHaveText(/4\.54:1/);
+});
+
+test("pressing a filter chip does not move any chip (no layout shift on activation)", async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto("/");
+  const pos = () => page.locator(".chip").evaluateAll((els) => els.map((e) => { const r = e.getBoundingClientRect(); return [Math.round(r.x), Math.round(r.width)]; }));
+  const before = await pos();
+  await page.getByRole("button", { name: "back end" }).click();
+  expect(await pos()).toEqual(before);
+  await page.getByRole("button", { name: "All" }).click();
+  expect(await pos()).toEqual(before);
 });

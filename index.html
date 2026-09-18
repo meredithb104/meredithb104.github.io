@@ -51,7 +51,6 @@
           <nav aria-label="Sections">
             <ul role="list">
               <li><a href="#about">About</a></li>
-              <li><a href="#dictionary">Dictionary</a></li>
               <li><a href="#contact">Contact</a></li>
               <li><a href="#lab">Lab</a></li>
               <li><a href="#work">Work</a></li>
@@ -60,6 +59,7 @@
               <li><a href="#case-studies">Case studies</a></li>
               <li><a href="#approach">Approach</a></li>
               <li><a href="#writing">Writing</a></li>
+              <li><a href="#dictionary">Dictionary</a></li>
             </ul>
           </nav>
         </site-nav>
@@ -89,7 +89,7 @@
         </ul>
         <div class="cta-row">
           <a class="button" href="#work">See my work</a>
-          <a class="button button--secondary" href="/Meredith-Boyce-resume.pdf" type="application/pdf">Résumé (PDF, 2 pages)</a>
+          <a class="button button--secondary" href="/Meredith-Boyce-resume.pdf" type="application/pdf">C.V. (PDF, 2 pages)</a>
           <a class="button button--secondary" href="https://github.com/meredithb104">
             <svg aria-hidden="true" viewBox="0 0 16 16" fill="currentColor">
               <path
@@ -134,112 +134,6 @@
         </p>
       </section>
 
-      <section id="dictionary" class="section" tabindex="-1" aria-labelledby="dictionary-h">
-        <h2 id="dictionary-h">Dictionary</h2>
-        <p class="section-lede measure">
-          The standards I audit against, in plain terms. If you hire for this work without living in it, this is
-          the section for you.
-        </p>
-        <dl class="glossary">
-          <dt>WCAG 2.2</dt>
-          <dd>
-            <p>
-              The <a href="https://www.w3.org/TR/WCAG22/">Web Content Accessibility Guidelines</a>, published by
-              the W3C, the body that maintains the web's standards. Version 2.2 is current. It is a list of 86 testable rules, called success criteria, under
-              four principles: content must be perceivable, operable, understandable, and robust. Every rule has a
-              level. Level A rules remove the barriers that shut people out entirely. Level AA rules make a product
-              usable in practice, and this is the level laws and contracts cite. Level AAA rules go further than
-              most products can.
-            </p>
-            <p>
-              When a posting says "WCAG 2.2 AA," it means every Level A and Level AA rule: 55 in all. An audit
-              checks each one and reports which pass, which fail, and which do not apply. The W3C's
-              <a href="https://www.w3.org/WAI/WCAG22/quickref/">How to Meet WCAG 2.2</a> lists every rule with its
-              techniques, and the <a href="/accessibility.html">accessibility statement</a> for this site shows
-              what a rule-by-rule report looks like.
-            </p>
-          </dd>
-
-          <dt>Section 508</dt>
-          <dd>
-            <p>
-              A United States federal law, <a href="https://www.section508.gov/">part of the Rehabilitation Act</a>,
-              that requires federal agencies to build
-              and buy technology that people with disabilities can use. Since 2018 its technical standard has been
-              WCAG 2.0 at Level AA, with added rules for hardware, software, and documents. Meeting WCAG covers most
-              of it. Vendors who sell to the government document their conformance in an ACR, defined below.
-            </p>
-          </dd>
-
-          <dt>ADA Title II</dt>
-          <dd>
-            <p>
-              The Americans with Disabilities Act. Title II covers state and local governments. In April 2024 the
-              Department of Justice
-              <a href="https://www.ada.gov/resources/2024-03-08-web-rule/">named WCAG 2.1 at Level AA</a> as the standard for their websites and mobile apps,
-              with a deadline of April 2026 for larger governments, including state agencies, and April 2027 for
-              smaller ones. MassDOT was working to meet that deadline while I was its embedded accessibility SME.
-              Title III covers businesses open to the public, and courts have applied it to their websites.
-            </p>
-          </dd>
-
-          <dt>VPAT and ACR</dt>
-          <dd>
-            <p>
-              A <a href="https://www.itic.org/policy/accessibility/vpat">Voluntary Product Accessibility Template</a>
-              is a blank form; a completed one is an Accessibility
-              Conformance Report. It states, rule by rule, whether a product supports, partially supports, or does
-              not support each criterion, with remarks. Buyers, especially governments, ask for one before they
-              sign. I read vendors' ACRs for what they claim, and then I test whether the claim holds.
-            </p>
-          </dd>
-
-          <dt>WAI-ARIA and the Authoring Practices</dt>
-          <dd>
-            <p>
-              <a href="https://www.w3.org/TR/wai-aria-1.2/">ARIA</a> is a set of HTML attributes that tell assistive
-              technology what a custom control is and what
-              state it is in: this element is a tab, and it is selected. It is a last resort, because native HTML
-              elements already carry that information. The
-              <a href="https://www.w3.org/WAI/ARIA/apg/">Authoring Practices Guide</a> (APG) describes the expected
-              keyboard behavior for common patterns such as tabs, menus, and carousels. The tabs and the carousel
-              in the Lab follow it.
-            </p>
-          </dd>
-
-          <dt>Contrast ratio</dt>
-          <dd>
-            <p>
-              A number from 1 to 21 that measures how far apart two colors are in brightness. WCAG at Level AA
-              requires 4.5:1 for ordinary text and 3:1 for large text, control boundaries, and focus indicators.
-              The build for this site computes every declared color pair and refuses to ship if one falls short.
-              The Lab has a live checker.
-            </p>
-          </dd>
-
-          <dt>Assistive technology</dt>
-          <dd>
-            <p>
-              The software and hardware people use to operate a computer differently. A screen reader (JAWS,
-              NVDA, VoiceOver, TalkBack) speaks the screen or sends it to a braille display. A keyboard, a switch,
-              or voice control replaces the mouse. Magnification and high-contrast modes change how the screen is
-              drawn. I test with JAWS and a braille display every day, because I use them every day.
-            </p>
-          </dd>
-
-          <dt>Audit and remediation</dt>
-          <dd>
-            <p>
-              An audit checks a product against every applicable rule, by hand and with tools, using assistive
-              technology. Automated scanners find roughly a third of the problems; the rest take a person. The
-              result is a report: each defect with its criterion, severity, who it affects, how to reproduce it,
-              and how to fix it. Remediation is the fixing. An accessibility statement then tells users what they
-              can expect, and this site has one.
-            </p>
-          </dd>
-        </dl>
-      </section>
-
       <section id="contact" class="section flow" tabindex="-1" aria-labelledby="contact-h">
         <h2 id="contact-h">Contact</h2>
         <p class="measure">
@@ -248,7 +142,7 @@
         </p>
         <div class="cta-row">
           <a class="button" href="mailto:meredith.laurel@gmail.com">Email meredith.laurel@gmail.com</a>
-          <a class="button button--secondary" href="/Meredith-Boyce-resume.pdf" type="application/pdf">Résumé (PDF, 2 pages)</a>
+          <a class="button button--secondary" href="/Meredith-Boyce-resume.pdf" type="application/pdf">C.V. (PDF, 2 pages)</a>
           <a class="button button--secondary" href="https://www.linkedin.com/in/meredith-boyce/">Message me on LinkedIn</a>
           <a class="button button--secondary" href="https://github.com/meredithb104">GitHub profile</a>
         </div>
@@ -569,8 +463,8 @@
       <section id="experience" class="section" tabindex="-1" aria-labelledby="experience-h">
         <h2 id="experience-h">Experience</h2>
         <p class="section-lede measure">
-          This is the short version. The <a href="/Meredith-Boyce-resume.pdf" type="application/pdf">full résumé is
-          a tagged PDF</a>, and everything in it also appears on this page.
+          My résumé, in brief. The full <a href="/Meredith-Boyce-resume.pdf" type="application/pdf">C.V. is a tagged
+          PDF</a>, two pages.
         </p>
         <ol class="timeline" role="list">
           <li>
@@ -1182,13 +1076,119 @@
         </ol>
         <!-- posts:end -->
       </section>
+
+      <section id="dictionary" class="section" tabindex="-1" aria-labelledby="dictionary-h">
+        <h2 id="dictionary-h">Dictionary</h2>
+        <p class="section-lede measure">
+          The standards I audit against, in plain terms. If you hire for this work without living in it, this is
+          the section for you.
+        </p>
+        <dl class="glossary">
+          <dt>WCAG 2.2</dt>
+          <dd>
+            <p>
+              The <a href="https://www.w3.org/TR/WCAG22/">Web Content Accessibility Guidelines</a>, published by
+              the W3C, the body that maintains the web's standards. Version 2.2 is current. It is a list of 86 testable rules, called success criteria, under
+              four principles: content must be perceivable, operable, understandable, and robust. Every rule has a
+              level. Level A rules remove the barriers that shut people out entirely. Level AA rules make a product
+              usable in practice, and this is the level laws and contracts cite. Level AAA rules go further than
+              most products can.
+            </p>
+            <p>
+              When a posting says "WCAG 2.2 AA," it means every Level A and Level AA rule: 55 in all. An audit
+              checks each one and reports which pass, which fail, and which do not apply. The W3C's
+              <a href="https://www.w3.org/WAI/WCAG22/quickref/">How to Meet WCAG 2.2</a> lists every rule with its
+              techniques, and the <a href="/accessibility.html">accessibility statement</a> for this site shows
+              what a rule-by-rule report looks like.
+            </p>
+          </dd>
+
+          <dt>Section 508</dt>
+          <dd>
+            <p>
+              A United States federal law, <a href="https://www.section508.gov/">part of the Rehabilitation Act</a>,
+              that requires federal agencies to build
+              and buy technology that people with disabilities can use. Since 2018 its technical standard has been
+              WCAG 2.0 at Level AA, with added rules for hardware, software, and documents. Meeting WCAG covers most
+              of it. Vendors who sell to the government document their conformance in an ACR, defined below.
+            </p>
+          </dd>
+
+          <dt>ADA Title II</dt>
+          <dd>
+            <p>
+              The Americans with Disabilities Act. Title II covers state and local governments. In April 2024 the
+              Department of Justice
+              <a href="https://www.ada.gov/resources/2024-03-08-web-rule/">named WCAG 2.1 at Level AA</a> as the standard for their websites and mobile apps,
+              with a deadline of April 2026 for larger governments, including state agencies, and April 2027 for
+              smaller ones. MassDOT was working to meet that deadline while I was its embedded accessibility SME.
+              Title III covers businesses open to the public, and courts have applied it to their websites.
+            </p>
+          </dd>
+
+          <dt>VPAT and ACR</dt>
+          <dd>
+            <p>
+              A <a href="https://www.itic.org/policy/accessibility/vpat">Voluntary Product Accessibility Template</a>
+              is a blank form; a completed one is an Accessibility
+              Conformance Report. It states, rule by rule, whether a product supports, partially supports, or does
+              not support each criterion, with remarks. Buyers, especially governments, ask for one before they
+              sign. I read vendors' ACRs for what they claim, and then I test whether the claim holds.
+            </p>
+          </dd>
+
+          <dt>WAI-ARIA and the Authoring Practices</dt>
+          <dd>
+            <p>
+              <a href="https://www.w3.org/TR/wai-aria-1.2/">ARIA</a> is a set of HTML attributes that tell assistive
+              technology what a custom control is and what
+              state it is in: this element is a tab, and it is selected. It is a last resort, because native HTML
+              elements already carry that information. The
+              <a href="https://www.w3.org/WAI/ARIA/apg/">Authoring Practices Guide</a> (APG) describes the expected
+              keyboard behavior for common patterns such as tabs, menus, and carousels. The tabs and the carousel
+              in the Lab follow it.
+            </p>
+          </dd>
+
+          <dt>Contrast ratio</dt>
+          <dd>
+            <p>
+              A number from 1 to 21 that measures how far apart two colors are in brightness. WCAG at Level AA
+              requires 4.5:1 for ordinary text and 3:1 for large text, control boundaries, and focus indicators.
+              The build for this site computes every declared color pair and refuses to ship if one falls short.
+              The Lab has a live checker.
+            </p>
+          </dd>
+
+          <dt>Assistive technology</dt>
+          <dd>
+            <p>
+              The software and hardware people use to operate a computer differently. A screen reader (JAWS,
+              NVDA, VoiceOver, TalkBack) speaks the screen or sends it to a braille display. A keyboard, a switch,
+              or voice control replaces the mouse. Magnification and high-contrast modes change how the screen is
+              drawn. I test with JAWS and a braille display every day, because I use them every day.
+            </p>
+          </dd>
+
+          <dt>Audit and remediation</dt>
+          <dd>
+            <p>
+              An audit checks a product against every applicable rule, by hand and with tools, using assistive
+              technology. Automated scanners find roughly a third of the problems; the rest take a person. The
+              result is a report: each defect with its criterion, severity, who it affects, how to reproduce it,
+              and how to fix it. Remediation is the fixing. An accessibility statement then tells users what they
+              can expect, and this site has one.
+            </p>
+          </dd>
+        </dl>
+      </section>
     </main>
 
     <footer class="site-footer">
       <div class="wrap">
         <ul role="list">
           <li><a href="/accessibility.html">Accessibility statement</a></li>
-          <li><a href="/Meredith-Boyce-resume.pdf" type="application/pdf">Résumé (PDF)</a></li>
+          <li><a href="/Meredith-Boyce-resume.pdf" type="application/pdf">C.V. (PDF)</a></li>
           <li><a href="https://github.com/meredithb104/meredithb104.github.io">Source for this site</a></li>
           <li><a href="https://github.com/meredithb104/commons-ui">Commons UI</a></li>
         </ul>

@@ -95,8 +95,10 @@
     font-size: 100%; /* never lock the user's zoom or text-size preference */
     line-height: var(--font-line-height-body);
     -webkit-text-size-adjust: 100%;
-    /* WCAG 2.4.11 Focus Not Obscured: in-page anchors land below the sticky header. */
+    /* WCAG 2.4.11 Focus Not Obscured: in-page anchors land below the sticky header, and a focused
+       element scrolled up from below keeps room for its focus ring above the viewport's bottom edge. */
     scroll-padding-block-start: calc(var(--header-height, 4rem) + var(--space-4));
+    scroll-padding-block-end: var(--space-4);
   }
 
   @media (prefers-reduced-motion: no-preference) {

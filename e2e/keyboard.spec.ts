@@ -64,6 +64,12 @@ test("every focusable element is reachable, in view, and not obscured while focu
     // Smooth scrolling is on (no reduced-motion emulation here), so give the scroll a moment to land.
     await expect.poll(async () => (f = await focused(page)).inView, { message: `${key} scrolled into view`, timeout: 10_000 }).toBe(true);
     expect(f.unobscured, `${key} not covered by the header`).toBe(true);
+    // Let the smooth scroll finish before the next Tab: a focus change during an animation can be
+    // absorbed by it, which is a test-timing artefact, not the page's behaviour.
+    await page.waitForFunction(() => new Promise<boolean>((resolve) => {
+      const y = scrollY;
+      setTimeout(() => resolve(scrollY === y), 120);
+    }));
   }
   // Sanity: we walked a real page, not an empty one.
   expect(seen.length).toBeGreaterThan(25);

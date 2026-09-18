@@ -94,12 +94,14 @@ block = '''  /* ---- Decorative hydrangeas -------------------------------------
     user-select: none;
     block-size: auto;
     aspect-ratio: 1;
-    --hy-1: #c9d8f0; /* back florets: monaco blue lightened */
-    --hy-2: #a9c1e8; /* monaco blue */
-    --hy-3: #8aa8db; /* front florets: toward yearbook */
-    --hy-centre: #3550b0;
-    --hy-leaf: #d9dfe9;
-    --hy-vein: #b4c0d4;
+    /* Light theme: the three blues run from monaco blue toward yearbook, deep enough to read as
+       flowers on cream rather than a tint of it. */
+    --hy-1: #adc3ea; /* back florets: monaco blue */
+    --hy-2: #86a7de; /* between monaco and yearbook */
+    --hy-3: #5f86cf; /* front florets: near yearbook */
+    --hy-centre: #14224a;
+    --hy-leaf: #bccbe0;
+    --hy-vein: #8296b8;
 
     @media (max-width: 71.99em), print, (forced-colors: active) {
       display: none;
@@ -128,30 +130,54 @@ block = '''  /* ---- Decorative hydrangeas -------------------------------------
     display: none;
   }
 
-  /* Hosts: each section that carries a bloom becomes the positioning box. */
-  .hero,
+  /* Hosts: each section that carries a bloom becomes the positioning box, and on wide screens its
+     content keeps out of a reserved column on the end side, so the bloom never sits on text at any
+     font size or zoom. */
   #contact,
   #experience {
     position: relative;
   }
-
-  /* Hero: a pair, one large and one small, in the empty right-hand column. */
-  .hydrangea--hero-a {
-    inset-inline-end: -1rem;
-    inset-block-start: var(--space-4);
-    inline-size: clamp(14rem, 20vw, 20rem);
+  @media (min-width: 72em) {
+    #contact > :not(.hydrangea),
+    #experience > :not(.hydrangea):not(.credentials) {
+      padding-inline-end: clamp(13rem, 20vw, 19rem);
+    }
   }
-  /* The small one sits beside the button row, where nothing else is. */
-  .hydrangea--hero-b {
-    inset-inline-end: 18rem;
-    inset-block-end: -1rem;
-    inline-size: clamp(7rem, 10vw, 9rem);
-    transform: scaleX(-1) rotate(12deg);
+
+  /* Hero: on wide screens the hero is two columns, text and a decoration column of fixed width.
+     The blooms are grid items in that column, so whatever the font size or zoom, they can never
+     sit on the text: the text column is what is left, and the measure wraps inside it. */
+  @media (min-width: 72em) {
+    .hero {
+      grid-template-columns: minmax(0, 1fr) clamp(13rem, 20vw, 19rem);
+      column-gap: var(--space-6);
+
+      > :not(.hydrangea) {
+        grid-column: 1;
+      }
+    }
+    .hydrangea--hero-a {
+      position: static;
+      grid-column: 2;
+      grid-row: 1 / 3; /* beside the heading and the lede */
+      align-self: center;
+      justify-self: end;
+      inline-size: 100%;
+    }
+    .hydrangea--hero-b {
+      position: static;
+      grid-column: 2;
+      grid-row: 3 / 5; /* beside the facts and the buttons */
+      align-self: end;
+      justify-self: start;
+      inline-size: 55%;
+      transform: scaleX(-1) rotate(12deg);
+    }
   }
   .hydrangea--contact {
-    inset-inline-end: var(--space-4);
+    inset-inline-end: 0;
     inset-block-end: var(--space-3);
-    inline-size: clamp(9rem, 13vw, 12rem);
+    inline-size: clamp(11rem, 17vw, 16rem);
     transform: scaleX(-1);
   }
   /* Lab: a grid item in the empty cell beside the contrast checker (three panels, two columns),
@@ -166,7 +192,7 @@ block = '''  /* ---- Decorative hydrangeas -------------------------------------
   .hydrangea--experience {
     inset-inline-end: 0;
     inset-block-start: 8rem;
-    inline-size: clamp(11rem, 16vw, 15rem);
+    inline-size: clamp(12rem, 18vw, 17rem);
     transform: scaleX(-1) rotate(6deg);
   }
 

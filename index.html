@@ -56,8 +56,8 @@
               <li><a href="#work">Work</a></li>
               <li><a href="#experience">Experience</a></li>
               <li><a href="#skills">Skills</a></li>
-              <li><a href="#case-studies">Case studies</a></li>
               <li><a href="#approach">My approach</a></li>
+              <li><a href="#case-studies">Case studies</a></li>
               <li><a href="#writing">Writing</a></li>
               <li><a href="#dictionary">Dictionary</a></li>
             </ul>
@@ -585,6 +585,53 @@
         </dl>
       </section>
 
+      <section id="approach" class="section" tabindex="-1" aria-labelledby="approach-h">
+        <h2 id="approach-h">My approach</h2>
+        <p class="section-lede measure">These five rules govern every project I show here and the source of this page.</p>
+        <ol class="principles">
+          <li>
+            <div>
+              <strong>Accessibility is a build error, not a review comment.</strong>
+              The tokens on this site declare which colors sit on which backgrounds. The build computes every pair
+              and refuses to emit CSS if one fails. While I was building this page, the check caught me asking a
+              focus ring to contrast with both the page and a dark button. The button is not the ring's adjacent
+              color, and the build said so before any reviewer saw it.
+            </div>
+          </li>
+          <li>
+            <div>
+              <strong>Use the platform before you use ARIA.</strong>
+              Use real buttons, real labels, native radio groups, and the native <code>&lt;dialog&gt;</code>. Reach
+              for ARIA only where HTML has no answer: <code>aria-pressed</code> on a filter toggle,
+              <code>aria-current</code> on the section you are reading.
+            </div>
+          </li>
+          <li>
+            <div>
+              <strong>Focus goes where the user's attention should go.</strong>
+              Skip links land on a focusable main. In-page links move focus to the section. Error summaries take
+              focus. Nothing is <code>disabled</code> while it works, because disabled controls vanish from the tab
+              order and go silent.
+            </div>
+          </li>
+          <li>
+            <div>
+              <strong>Never rely on color alone.</strong>
+              Every state is also text: "Pass" and "Fail", a check mark on the pressed filter, an underline on the
+              current section. Icons are hidden from assistive tech and sit next to a visible label.
+            </div>
+          </li>
+          <li>
+            <div>
+              <strong>Test the behavior, not just the markup.</strong>
+              axe-core catches missing names and bad roles; it cannot tell you that focus went nowhere on submit.
+              This site runs axe in a real browser on every push, and it also tabs through the page, resizes it to
+              320 pixels, and checks that nothing scrolls sideways.
+            </div>
+          </li>
+        </ol>
+      </section>
+
       <section id="case-studies" class="section" tabindex="-1" aria-labelledby="cases-h">
         <h2 id="cases-h">Case studies</h2>
         <p class="section-lede measure">
@@ -1005,53 +1052,6 @@
             </div>
           </div>
         </article>
-      </section>
-
-      <section id="approach" class="section" tabindex="-1" aria-labelledby="approach-h">
-        <h2 id="approach-h">My approach</h2>
-        <p class="section-lede measure">These five rules govern every project above and this page's own source.</p>
-        <ol class="principles">
-          <li>
-            <div>
-              <strong>Accessibility is a build error, not a review comment.</strong>
-              The tokens on this site declare which colors sit on which backgrounds. The build computes every pair
-              and refuses to emit CSS if one fails. While I was building this page, the check caught me asking a
-              focus ring to contrast with both the page and a dark button. The button is not the ring's adjacent
-              color, and the build said so before any reviewer saw it.
-            </div>
-          </li>
-          <li>
-            <div>
-              <strong>Use the platform before you use ARIA.</strong>
-              Use real buttons, real labels, native radio groups, and the native <code>&lt;dialog&gt;</code>. Reach
-              for ARIA only where HTML has no answer: <code>aria-pressed</code> on a filter toggle,
-              <code>aria-current</code> on the section you are reading.
-            </div>
-          </li>
-          <li>
-            <div>
-              <strong>Focus goes where the user's attention should go.</strong>
-              Skip links land on a focusable main. In-page links move focus to the section. Error summaries take
-              focus. Nothing is <code>disabled</code> while it works, because disabled controls vanish from the tab
-              order and go silent.
-            </div>
-          </li>
-          <li>
-            <div>
-              <strong>Never rely on color alone.</strong>
-              Every state is also text: "Pass" and "Fail", a check mark on the pressed filter, an underline on the
-              current section. Icons are hidden from assistive tech and sit next to a visible label.
-            </div>
-          </li>
-          <li>
-            <div>
-              <strong>Test the behavior, not just the markup.</strong>
-              axe-core catches missing names and bad roles; it cannot tell you that focus went nowhere on submit.
-              This site runs axe in a real browser on every push, and it also tabs through the page, resizes it to
-              320 pixels, and checks that nothing scrolls sideways.
-            </div>
-          </li>
-        </ol>
       </section>
 
       <section id="writing" class="section" tabindex="-1" aria-labelledby="writing-h">

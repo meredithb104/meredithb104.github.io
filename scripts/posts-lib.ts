@@ -209,7 +209,7 @@ export function page(opts: { title: string; description: string; path: string; m
     <meta property="og:title" content="${escapeHtml(opts.title)}" />
     <meta property="og:description" content="${escapeHtml(opts.description)}" />
     <meta property="og:url" content="${SITE}${opts.path}" />
-    <meta property="og:image" content="${SITE}/og-card-2026-09b.png" />
+    <meta property="og:image" content="${SITE}/og-card-2026-09c.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="canonical" href="${SITE}${opts.path}" />

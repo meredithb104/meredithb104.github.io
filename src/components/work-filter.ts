@@ -33,7 +33,11 @@ export class WorkFilter extends HTMLElement {
     for (const card of this.cards()) {
       for (const t of (card.dataset["tags"] ?? "").split(/\s+/).filter(Boolean)) tags.add(t);
     }
-    const all = ["all", ...[...tags].toSorted((a, b) => a.localeCompare(b))];
+    // Chip order: the host's data-order lists tags in the order to show them; any tag it leaves
+    // out follows alphabetically. Without data-order the whole set is alphabetical.
+    const preferred = (host.dataset["order"] ?? "").split(/\s+/).filter((t) => tags.has(t));
+    const rest = [...tags].filter((t) => !preferred.includes(t)).toSorted((a, b) => a.localeCompare(b));
+    const all = ["all", ...preferred, ...rest];
     host.innerHTML = all
       .map(
         (tag) =>

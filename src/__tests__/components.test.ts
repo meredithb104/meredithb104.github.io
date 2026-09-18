@@ -101,6 +101,20 @@ describe("<work-filter>", () => {
     expect(buttons.every((b) => b.type === "button")).toBe(true);
   });
 
+  it("orders the toggles as data-order says, then the rest alphabetically", () => {
+    document.body.innerHTML = `
+      <work-filter>
+        <div data-filters data-order="testing front-end no-such-tag"></div>
+        <p data-status role="status"></p>
+        <ul>
+          <li data-tags="front-end testing"><h3>A</h3></li>
+          <li data-tags="back-end"><h3>B</h3></li>
+        </ul>
+      </work-filter>`;
+    const buttons = [...document.querySelectorAll<HTMLButtonElement>("button[data-filter]")];
+    expect(buttons.map((b) => b.dataset["filter"])).toEqual(["all", "testing", "front-end", "back-end"]);
+  });
+
   it("hides non-matching cards with the hidden attribute and reports the count in the status line", () => {
     mount();
     const frontEnd = document.querySelector<HTMLButtonElement>('button[data-filter="front-end"]')!;

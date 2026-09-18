@@ -11,6 +11,7 @@
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#F9FBF2" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0E1C36" media="(prefers-color-scheme: dark)" />
+    <link rel="preload" href="/fonts/public-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="canonical" href="https://meredithb104.github.io/accessibility.html" />
     <script>
@@ -18,7 +19,7 @@
         var t = localStorage.getItem("theme");
         if (t === "light" || t === "dark" || t === "high-contrast") document.documentElement.dataset.theme = t;
         var f = localStorage.getItem("font");
-        if (f === "atkinson" || f === "public-sans") document.documentElement.dataset.font = f;
+        if (f === "atkinson" || f === "system") document.documentElement.dataset.font = f;
       } catch (e) {}
     </script>
     <script type="module" src="/src/main.ts"></script>
@@ -79,7 +80,7 @@
         <li>The tabs and the carousel in the Lab follow the WAI-ARIA Authoring Practices: one tab stop per tablist with arrow keys, focusable panels, and a carousel that never rotates by itself. Its slides are not interactive, so focus stays on the Previous and Next buttons and a polite live region announces only the slide's position and heading.</li>
         <li>Posts are written in Markdown and rendered to static HTML at build time. The build refuses a post whose images lack alt text, whose headings skip a level, or whose body contains a second <code>h1</code>. Every post carries a dated byline, and the Atom feed carries the full text.</li>
         <li>The résumé is a tagged PDF with a document title and language set, and every fact in it also appears as HTML in the Experience section, so the PDF is never the only route to the information.</li>
-        <li>No cookies, analytics, or third-party scripts. The theme and typeface choices are saved in your browser's local storage and never leave it. The default page loads no web font; choosing Atkinson Hyperlegible Next or Public Sans loads that font from this site only.</li>
+        <li>No cookies, analytics, or third-party scripts. The theme and typeface choices are saved in your browser's local storage and never leave it. The typeface is Public Sans, served from this site; Atkinson Hyperlegible Next loads from this site only when chosen, and System uses no web font.</li>
       </ul>
 
       <h2>How it was tested</h2>

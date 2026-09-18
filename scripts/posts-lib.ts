@@ -215,6 +215,7 @@ export function page(opts: { title: string; description: string; path: string; m
     <meta property="og:url" content="${SITE}${opts.path}" />
     <meta property="og:image" content="${SITE}/og-card-2026-09c.png" />
     <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preload" href="/fonts/public-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="canonical" href="${SITE}${opts.path}" />
     <link rel="alternate" type="application/atom+xml" title="Meredith Boyce: writing" href="/feed.xml" />
@@ -223,7 +224,7 @@ export function page(opts: { title: string; description: string; path: string; m
         var t = localStorage.getItem("theme");
         if (t === "light" || t === "dark" || t === "high-contrast") document.documentElement.dataset.theme = t;
         var f = localStorage.getItem("font");
-        if (f === "atkinson" || f === "public-sans") document.documentElement.dataset.font = f;
+        if (f === "atkinson" || f === "system") document.documentElement.dataset.font = f;
       } catch (e) {}
     </script>
     <script type="module" src="/src/main.ts"></script>

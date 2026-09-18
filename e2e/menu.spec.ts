@@ -115,12 +115,14 @@ test("without JavaScript the full list is simply visible", async ({ browser }) =
   await context.close();
 });
 
-test("choosing a typeface loads it only then, applies before first paint on reload, and stays axe-clean", async ({ page }) => {
-  await page.goto("/");
+test("Public Sans is the default and preloaded; Atkinson loads only when chosen; the choice survives reload", async ({ page }) => {
   const fontRequests: string[] = [];
   page.on("request", (r) => { if (r.url().includes("/fonts/")) fontRequests.push(r.url()); });
-  await page.waitForTimeout(500);
-  expect(fontRequests, "no web font on the default page").toEqual([]);
+  await page.goto("/");
+  await page.waitForFunction(() => document.fonts.check('16px "Public Sans"'));
+  expect(fontRequests.some((u) => u.includes("public-sans-latin.woff2")), "Public Sans requested").toBe(true);
+  expect(fontRequests.some((u) => u.includes("atkinson")), "Atkinson not requested by default").toBe(false);
+  expect(await page.evaluate(() => getComputedStyle(document.body).fontFamily)).toMatch(/Public Sans/);
 
   await page.getByRole("radio", { name: "Atkinson Hyperlegible Next" }).check();
   await expect(page.locator("html")).toHaveAttribute("data-font", "atkinson");

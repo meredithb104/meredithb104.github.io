@@ -5,11 +5,11 @@
 @layer reset, base, layout, components, utilities;
 
 /*
- * Optional typefaces, self-hosted, SIL Open Font License. Declared always,
- * fetched only when a rule uses them, so the default (system) page loads no
- * web font. Atkinson Hyperlegible Next is the Braille Institute's typeface,
- * designed to keep similar letterforms distinct at low vision; Public Sans is
- * the U.S. Web Design System typeface.
+ * Typefaces, self-hosted, SIL Open Font License. Public Sans (the U.S. Web
+ * Design System typeface) is the default and is preloaded by each page.
+ * Atkinson Hyperlegible Next, the Braille Institute's typeface designed to
+ * keep similar letterforms distinct, is fetched only when chosen. The system
+ * stack remains an option and the fallback.
  */
 @font-face {
   font-family: "Atkinson Hyperlegible Next";
@@ -40,12 +40,12 @@
   src: url("/fonts/public-sans-latin-italic.woff2") format("woff2");
 }
 
-/* Set by <font-picker> and by the inline script before first paint. */
+/* Public Sans is the default (the token). These are set by <font-picker> and by the inline script before first paint. */
+:root[data-font="system"] {
+  --font-family-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
 :root[data-font="atkinson"] {
   --font-family-sans: "Atkinson Hyperlegible Next", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-}
-:root[data-font="public-sans"] {
-  --font-family-sans: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
 @layer reset {

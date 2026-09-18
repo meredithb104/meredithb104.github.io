@@ -194,31 +194,34 @@ describe("<font-picker>", () => {
     document.body.innerHTML = `
       <font-picker>
         <fieldset><legend>Choose a typeface</legend>
-          <label><input type="radio" name="font" value="system" checked> System</label>
+          <label><input type="radio" name="font" value="public-sans" checked> Public Sans</label>
           <label><input type="radio" name="font" value="atkinson"> Atkinson Hyperlegible Next</label>
-          <label><input type="radio" name="font" value="public-sans"> Public Sans</label>
+          <label><input type="radio" name="font" value="system"> System</label>
         </fieldset>
       </font-picker>`;
     return [...document.querySelectorAll<HTMLInputElement>("input")];
   }
 
-  it("writes the choice to <html data-font>, persists it, and 'system' clears both", () => {
-    const [system, atkinson] = mount();
+  it("writes the choice to <html data-font>, persists it, and the default (Public Sans) clears both", () => {
+    const [publicSans, atkinson, system] = mount();
     atkinson!.checked = true;
     atkinson!.dispatchEvent(new Event("change", { bubbles: true }));
     expect(document.documentElement.dataset["font"]).toBe("atkinson");
     expect(localStorage.getItem("font")).toBe("atkinson");
     system!.checked = true;
     system!.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(document.documentElement.dataset["font"]).toBe("system");
+    publicSans!.checked = true;
+    publicSans!.dispatchEvent(new Event("change", { bubbles: true }));
     expect(document.documentElement.dataset["font"]).toBeUndefined();
     expect(localStorage.getItem("font")).toBeNull();
     delete document.documentElement.dataset["font"];
   });
 
   it("restores a saved choice and ignores garbage", () => {
-    localStorage.setItem("font", "public-sans");
-    expect(mount().find((i) => i.checked)?.value).toBe("public-sans");
+    localStorage.setItem("font", "atkinson");
+    expect(mount().find((i) => i.checked)?.value).toBe("atkinson");
     localStorage.setItem("font", "comic");
-    expect(mount().find((i) => i.checked)?.value).toBe("system");
+    expect(mount().find((i) => i.checked)?.value).toBe("public-sans");
   });
 });

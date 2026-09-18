@@ -1017,12 +1017,15 @@
       }
     }
 
+    /* The pill is a shape as well as a word: a border in the state color gives it a 3:1 boundary
+       on every surface (a tinted fill alone cannot reach that on the dark theme). */
     .pass,
     .fail {
       display: inline-flex;
       align-items: center;
       gap: var(--space-1);
       padding: 0.05em var(--space-2);
+      border: 1.5px solid currentColor;
       border-radius: var(--radius-sm);
       font-weight: var(--font-weight-medium);
 

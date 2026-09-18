@@ -91,6 +91,18 @@ for (const theme of ["light", "dark"] as const) {
     });
     expect(ratio(underline.line, underline.surround)).toBeGreaterThanOrEqual(3);
 
+    // Pass and Fail pills: text 4.5:1 on the fill, and a 3:1 boundary (border) against the card.
+    const pills = await page.evaluate(() => {
+      const toRgb = (s: string) => { const c = document.createElement("canvas").getContext("2d")!; c.fillStyle = s; const h = c.fillStyle as string; return [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16)); };
+      const bgOf = (e0: Element | null) => { let e = e0; while (e) { const c = getComputedStyle(e).backgroundColor; if (c && c !== "rgba(0, 0, 0, 0)" && c !== "transparent") return toRgb(c); e = e.parentElement; } return [255, 255, 255]; };
+      return [".contrast-result .pass", ".contrast-result .fail"].map((sel) => { const el = document.querySelector<HTMLElement>(sel)!; const cs = getComputedStyle(el); return { sel, fg: toRgb(cs.color), fill: toRgb(cs.backgroundColor), border: toRgb(cs.borderTopColor), bw: parseFloat(cs.borderTopWidth), surround: bgOf(el.parentElement) }; });
+    });
+    for (const p of pills) {
+      expect(ratio(p.fg, p.fill), `${p.sel} text`).toBeGreaterThanOrEqual(4.5);
+      expect(p.bw, `${p.sel} has a border`).toBeGreaterThan(0);
+      expect(ratio(p.border, p.surround), `${p.sel} boundary`).toBeGreaterThanOrEqual(3);
+    }
+
     // Diagram store boxes: axe does not measure SVG text, so measure it here. Label 7:1, sublabel 4.5:1 on the box fill.
     const store = await page.evaluate(() => {
       const toRgb = (s: string) => { const c = document.createElement("canvas").getContext("2d")!; c.fillStyle = s; const h = c.fillStyle as string; return [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16)); };

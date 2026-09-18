@@ -203,8 +203,8 @@ export function page(opts: { title: string; description: string; path: string; m
     <title>${escapeHtml(opts.title)}</title>
     <meta name="description" content="${escapeHtml(opts.description)}" />
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#FFFBF8" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#1E1512" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#F9FBF2" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0E1C36" media="(prefers-color-scheme: dark)" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="${escapeHtml(opts.title)}" />
     <meta property="og:description" content="${escapeHtml(opts.description)}" />

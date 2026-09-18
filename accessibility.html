@@ -81,6 +81,7 @@
         <li><strong>Token contrast build.</strong> 81 color pairs across three themes, checked with the WCAG 2.x relative-luminance formula. A failing pair stops the build.</li>
         <li><strong>Unit and component tests</strong> with Vitest: keyboard behavior of the theme picker, the filter, and the contrast checker, plus the contrast math against the published WCAG example values.</li>
         <li><strong>axe-core in a real browser</strong> with Playwright, using the WCAG 2.0, 2.1, and 2.2 A and AA rule sets and best-practice rules, on both pages and in all three themes. Zero violations is the pass condition.</li>
+        <li><strong>Rendered contrast</strong> at phone width in every theme: the focus ring measured against the color it actually borders for each kind of control, and each control's text and boundary in default, hover, pressed, and selected states.</li>
         <li><strong>Keyboard walk</strong> with Playwright: the first Tab reaches the skip link, every interactive element is reachable in order, and the focused element is always inside the viewport.</li>
         <li><strong>Reflow</strong> at 320 by 256 pixels: no horizontal scrollbar on either page.</li>
       </ol>

@@ -20,7 +20,7 @@ export default defineConfig({
     reuseExistingServer: !process.env["CI"],
   },
   projects: [
-    { name: "chromium", use: { ...devices["Desktop Chrome"] } },
+    { name: "chromium", use: { ...devices["Desktop Chrome"] }, grepInvert: /@webkit/ },
     // WebKit as an iPhone, for the specs that opt in with a tag: layout bugs Chromium does not show.
     { name: "webkit-iphone", use: { ...devices["iPhone 14"] }, grep: /@webkit/ },
   ],

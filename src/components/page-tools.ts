@@ -31,9 +31,10 @@ export class PageTools extends HTMLElement {
     if (this.sections.length === 0 || !this.prev || !this.next) return;
     this.prev.addEventListener("click", this.onPrev);
     this.next.addEventListener("click", this.onNext);
-    // The Top link targets the navigation inside the sticky header, which the browser counts as
-    // already in view, so following it would not scroll, and its no-op scroll would cancel one we
-    // started. Set the fragment ourselves (the fragment handler lands focus on the nav), then scroll.
+    // The Top link targets the <site-nav> wrapper in the header (always rendered, unlike the <nav>
+    // inside it, which is the collapsed panel on a phone). The browser counts it as already in view
+    // in the sticky header, so following it would not scroll, and its no-op scroll would cancel one
+    // we started. Set the fragment ourselves (the fragment handler lands focus), then scroll.
     this.querySelector<HTMLAnchorElement>("[data-top]")?.addEventListener("click", (event) => {
       event.preventDefault();
       location.hash = (event.currentTarget as HTMLAnchorElement).hash;
@@ -51,11 +52,15 @@ export class PageTools extends HTMLElement {
     window.removeEventListener("scrollend", this.settle);
   }
 
-  /** The viewport's reading line: just under the sticky header when there is one. */
+  /**
+   * The viewport's reading line: where a jump lands a section's top. That is the root's
+   * scroll-padding-block-start (which clears the sticky header on wide screens and still applies
+   * on phones, where the header is not sticky), plus a little, so a section sitting exactly on the
+   * landing line counts as current.
+   */
   private line(): number {
-    const header = document.querySelector<HTMLElement>(".site-header");
-    const sticky = header !== null && getComputedStyle(header).position === "sticky";
-    return scrollY + (sticky ? header.getBoundingClientRect().height : 0) + 16;
+    const padding = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+    return scrollY + padding + 8;
   }
 
   private top(el: HTMLElement): number {

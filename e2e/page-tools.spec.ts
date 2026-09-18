@@ -21,7 +21,7 @@ test("page tools appear past the hero, jump between sections, and return to the 
   await expect.poll(() => page.evaluate(() => document.activeElement?.id)).toBe("work");
 
   await tools.getByRole("link", { name: "Back to top" }).click();
-  await expect.poll(() => page.evaluate(() => document.activeElement?.id)).toBe("sections-nav");
+  await expect.poll(() => page.evaluate(() => document.activeElement?.id)).toBe("site-nav");
   await expect.poll(() => page.evaluate(() => location.hash)).toBe("");
   await expect(tools).toBeHidden();
   await page.keyboard.press("Tab");

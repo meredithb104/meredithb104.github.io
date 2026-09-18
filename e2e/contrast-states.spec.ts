@@ -12,7 +12,7 @@ function lum([r, g, b]: number[]): number {
   const f = (v: number) => { const c = v / 255; return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4; };
   return 0.2126 * f(r!) + 0.7152 * f(g!) + 0.0722 * f(b!);
 }
-function ratio(a: number[], b: number[]): number { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x! + 0.05) / (y! + 0.05); }
+function ratio(a: number[], b: number[]): number { const [x, y] = [lum(a), lum(b)].toSorted((p, q) => q - p); return (x! + 0.05) / (y! + 0.05); }
 
 const THEMES = ["light", "dark", "high-contrast"] as const;
 

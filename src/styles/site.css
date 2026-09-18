@@ -157,42 +157,73 @@
   }
 
   @media (max-width: 71.99em) {
-    /* Phone header: wordmark and Menu on one row, the list on its own full-width row beneath. */
+    /* Below the desktop breakpoint the header is one row (wordmark, Menu) and the navigation is a
+       disclosure panel anchored under the Menu button: about a quarter of a wide screen, the full
+       width minus gutters on a phone. It is a list of links (APG disclosure navigation), not a menu
+       role, so every item is a plain link with the link's keyboard behavior. */
+    .site-header {
+      position: relative;
+    }
+
     .site-header > .wrap:has(.site-nav[data-collapsible]) {
-      display: grid;
-      grid-template-columns: 1fr auto;
+      display: flex;
       align-items: center;
-      gap: var(--space-2) var(--space-3);
+      justify-content: space-between;
+      gap: var(--space-3);
     }
 
     .site-nav[data-collapsible] {
-      display: contents; /* the custom element carries no semantics; its children become grid items */
+      position: static;
+      margin-inline-start: auto;
 
       .nav-toggle {
         display: inline-flex;
-        grid-column: 2;
-        grid-row: 1;
       }
 
       nav {
+        position: absolute;
+        inset-block-start: calc(100% + var(--space-2));
+        inset-inline-end: var(--gutter);
+        z-index: 20;
+        inline-size: min(max(16rem, 25vw), 100vw - 2 * var(--gutter));
+        padding: var(--space-2);
+
+        /* On a phone a quarter of the screen is too narrow to tap; use the width minus the gutters. */
+        @media (max-width: 40em) {
+          inline-size: calc(100vw - 2 * var(--gutter));
+        }
+        background: var(--color-surface);
+        border: var(--size-border) solid var(--color-border);
+        border-radius: var(--radius-lg);
+        box-shadow: 0 12px 32px rgb(0 0 0 / 0.18);
         display: block;
-        grid-column: 1 / -1;
-        grid-row: 2;
       }
 
       ul {
-        flex-direction: column;
+        display: block;
         gap: 0;
-        padding-block: var(--space-2);
-        border-block-start: var(--size-border) solid var(--color-border-subtle);
+        border: 0;
+        padding: 0;
       }
 
+      /* Every row is the full width of the panel and at least 44px tall: the whole row is the target. */
       a {
-        padding-block: var(--space-2);
+        display: flex;
+        inline-size: 100%;
+        min-block-size: var(--size-target);
+        padding: var(--space-2) var(--space-3);
+        border-radius: var(--radius-md);
       }
 
       &:not([data-open="true"]) nav {
         display: none;
+      }
+    }
+
+    @media (forced-colors: active) {
+      .site-nav[data-collapsible] nav {
+        border: 2px solid CanvasText;
+        box-shadow: none;
       }
     }
   }

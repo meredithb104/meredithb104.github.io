@@ -30,6 +30,59 @@ test("below 72em the nav collapses behind a Menu button with correct state", asy
   await expect(page.locator("#work")).toBeFocused();
 });
 
+test("the open menu is an anchored panel under the button; every row is a full-width 44px target", async ({ page }) => {
+  for (const width of [375, 1024]) {
+    await page.setViewportSize({ width, height: 812 });
+    await page.goto("/");
+    const button = page.getByRole("button", { name: "Menu" });
+    await button.click();
+    const geo = await page.evaluate(() => {
+      const btn = document.querySelector<HTMLElement>(".nav-toggle")!.getBoundingClientRect();
+      const panel = document.querySelector<HTMLElement>(".site-nav nav")!.getBoundingClientRect();
+      const links = [...document.querySelectorAll<HTMLElement>(".site-nav ul a")].map((a) => {
+        const b = a.getBoundingClientRect();
+        // A tap anywhere along the row, including its far right, must land on the link.
+        const hitRight = document.elementFromPoint(b.right - 6, b.top + b.height / 2);
+        const hitLeft = document.elementFromPoint(b.left + 6, b.top + b.height / 2);
+        return { text: a.textContent!.trim(), w: Math.round(b.width), h: Math.round(b.height), rowSpansPanel: b.width >= panel.width - 32, hits: (hitRight === a || a.contains(hitRight!)) && (hitLeft === a || a.contains(hitLeft!)) };
+      });
+      return { vw: innerWidth, btn: { right: Math.round(btn.right), bottom: Math.round(btn.bottom) }, panel: { x: Math.round(panel.x), right: Math.round(panel.right), top: Math.round(panel.top), w: Math.round(panel.width) }, links };
+    });
+    // Anchored: the panel's top edge is just below the button and its right edge lines up with the button's.
+    expect(geo.panel.top).toBeGreaterThanOrEqual(geo.btn.bottom);
+    expect(geo.panel.top - geo.btn.bottom).toBeLessThan(24);
+    expect(Math.abs(geo.panel.right - geo.btn.right)).toBeLessThan(4);
+    // Sized: about a quarter of a wide screen; the full width minus gutters on a phone.
+    if (width >= 1000) { expect(geo.panel.w).toBeGreaterThanOrEqual(width * 0.24); expect(geo.panel.w).toBeLessThanOrEqual(width * 0.34); }
+    else expect(geo.panel.w).toBeGreaterThanOrEqual(width - 64);
+    for (const l of geo.links) {
+      expect(l.h, `${l.text} height`).toBeGreaterThanOrEqual(44);
+      expect(l.rowSpansPanel, `${l.text} spans the panel`).toBe(true);
+      expect(l.hits, `${l.text} is hit at both ends of its row`).toBe(true);
+    }
+  }
+});
+
+test("the panel closes on an outside click and when focus tabs past its last link", async ({ page }) => {
+  await page.setViewportSize({ width: 1024, height: 812 });
+  await page.goto("/");
+  const button = page.getByRole("button", { name: "Menu" });
+  const nav = page.getByRole("navigation", { name: "Sections" });
+  await button.click();
+  await expect(nav).toBeVisible();
+  await page.mouse.click(200, 600);
+  await expect(nav).toBeHidden();
+  await expect(button).toHaveAttribute("aria-expanded", "false");
+
+  await button.click();
+  await nav.getByRole("link", { name: "Contact" }).focus();
+  await page.keyboard.press("Tab");
+  await expect(nav).toBeHidden();
+  // Focus moved on to the page content and is not under a closed panel.
+  const onPage = await page.evaluate(() => !document.activeElement?.closest(".site-nav"));
+  expect(onPage).toBe(true);
+});
+
 test("the open menu is axe-clean and every item is a real target", async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
   await page.goto("/");

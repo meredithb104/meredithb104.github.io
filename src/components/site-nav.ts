@@ -4,7 +4,9 @@
  * 1. On narrow screens the list collapses behind a "Menu" button. The
  *    button is created by the script, so without JavaScript the full list
  *    simply shows. aria-expanded and aria-controls describe the state;
- *    Escape closes and returns focus to the button; choosing a link closes.
+ *    Escape closes and returns focus to the button; choosing a link closes;
+ *    a click outside or focus leaving the panel closes it, so the open panel
+ *    can never sit on top of something else that has focus (2.4.11).
  *    CSS decides when it applies (the [data-collapsible] attribute plus a
  *    width query), so resizing never leaves the menu stuck closed.
  *
@@ -30,6 +32,8 @@ export class SiteNav extends HTMLElement {
   disconnectedCallback(): void {
     this.observer?.disconnect();
     this.removeEventListener("keydown", this.onKeydown);
+    this.removeEventListener("focusout", this.onFocusOut);
+    document.removeEventListener("pointerdown", this.onPointerDown);
   }
 
   private setupToggle(nav: HTMLElement, list: HTMLElement): void {
@@ -48,6 +52,8 @@ export class SiteNav extends HTMLElement {
     this.toggle = button;
     this.dataset["collapsible"] = "true";
     this.addEventListener("keydown", this.onKeydown);
+    this.addEventListener("focusout", this.onFocusOut);
+    document.addEventListener("pointerdown", this.onPointerDown);
     list.addEventListener("click", (e) => {
       if ((e.target as Element).closest("a")) this.setOpen(false, false);
     });
@@ -62,6 +68,16 @@ export class SiteNav extends HTMLElement {
     this.toggle?.setAttribute("aria-expanded", open ? "true" : "false");
     if (focusToggle) this.toggle?.focus();
   }
+
+  /** Focus moved outside the component (Tab past the last link, or a click elsewhere): close without stealing focus. */
+  private readonly onFocusOut = (event: FocusEvent): void => {
+    const next = event.relatedTarget;
+    if (this.isOpen() && (!(next instanceof Node) || !this.contains(next))) this.setOpen(false, false);
+  };
+
+  private readonly onPointerDown = (event: PointerEvent): void => {
+    if (this.isOpen() && event.target instanceof Node && !this.contains(event.target)) this.setOpen(false, false);
+  };
 
   private readonly onKeydown = (event: KeyboardEvent): void => {
     if (event.key === "Escape" && this.isOpen()) {

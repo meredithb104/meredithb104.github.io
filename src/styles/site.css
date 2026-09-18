@@ -922,9 +922,11 @@
     position: relative;
   }
   @media (min-width: 72em) {
+    /* A max width, not padding: padding is inside the box, and a box that reaches under a bloom
+       is an overlap even when its text does not. */
     #contact > :not(.hydrangea),
     #experience > :not(.hydrangea):not(.credentials) {
-      padding-inline-end: clamp(13rem, 20vw, 19rem);
+      max-inline-size: min(var(--size-measure), calc(100% - clamp(13rem, 20vw, 19rem)));
     }
   }
 

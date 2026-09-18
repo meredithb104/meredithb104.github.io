@@ -6,13 +6,15 @@ const SETUPS = [
   { width: 1152, fontSize: 16, name: "72em at 16px" },
   { width: 1280, fontSize: 20, name: "1280px at 20px" },
   { width: 1920, fontSize: 18, name: "1920px at 18px" },
+  // A wide fallback face, as the reflow spec uses: CI machines and readers do not all have Public Sans metrics.
+  { width: 1280, fontSize: 18, name: "1280px at 18px in a wide fallback font", font: "'Comic Sans MS', 'Verdana', sans-serif" },
 ];
 
 for (const setup of SETUPS) {
   test(`no hydrangea overlaps text or a control: ${setup.name}`, async ({ page }) => {
     await page.setViewportSize({ width: setup.width, height: 1000 });
     await page.goto("/");
-    await page.addStyleTag({ content: `html{font-size:${setup.fontSize}px}` });
+    await page.addStyleTag({ content: `html{font-size:${setup.fontSize}px}${setup.font ? `:root{--font-family-sans:${setup.font}}` : ""}` });
     await page.waitForTimeout(200);
     const result = await page.evaluate(() => {
       const blooms = [...document.querySelectorAll<HTMLElement>(".hydrangea")]

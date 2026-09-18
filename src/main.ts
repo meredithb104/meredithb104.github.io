@@ -16,6 +16,7 @@ import "./components/work-filter.ts";
 import "./components/site-nav.ts";
 import "./components/tab-set.ts";
 import "./components/carousel-slider.ts";
+import "./components/page-tools.ts";
 
 mountLiveRegions();
 

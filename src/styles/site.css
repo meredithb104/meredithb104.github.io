@@ -846,6 +846,86 @@
     }
   }
 
+  /* ---- Page tools: Previous, Next, Top ------------------------------ */
+  /* Fixed at the bottom right, after <main> in the DOM, hidden until the reader has scrolled past
+     the hero (the component toggles the hidden attribute). scroll-padding-block-end on html keeps
+     a focused element scrolled up from below clear of it (2.4.11). */
+  .page-tools {
+    position: fixed;
+    inset-block-end: var(--space-4);
+    inset-inline-end: var(--space-4);
+    z-index: 9;
+
+    nav {
+      display: flex;
+      gap: var(--space-2);
+    }
+
+    a,
+    button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-1);
+      min-inline-size: var(--size-target);
+      min-block-size: var(--size-target);
+      padding-inline: var(--space-3);
+      border: var(--size-border-strong) solid var(--color-border);
+      border-radius: 999px;
+      background: var(--color-surface);
+      color: var(--color-text);
+      font-weight: var(--font-weight-medium);
+      font-size: var(--font-size-sm);
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 2px 8px color-mix(in srgb, var(--color-text) 18%, transparent);
+
+      &:hover {
+        border-color: var(--color-primary);
+        color: var(--color-primary);
+      }
+
+      /* Inactive at an end of the page: stays focusable and named, reads as inactive. */
+      &[aria-disabled="true"] {
+        color: var(--color-text-muted);
+        border-color: var(--color-border-subtle);
+        cursor: default;
+      }
+    }
+
+    svg {
+      flex: none;
+    }
+
+    /* Phones: icons only; the names stay ("Previous section", "Next section", "Back to top"). */
+    @media (max-width: 47.99em) {
+      .page-tools-label {
+        position: absolute;
+        inline-size: 1px;
+        block-size: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+      }
+
+      a,
+      button {
+        padding-inline: 0;
+      }
+    }
+
+    @media (forced-colors: active) {
+      a,
+      button {
+        border-color: ButtonText;
+      }
+    }
+
+    @media print {
+      display: none;
+    }
+  }
+
   /* ---- Dictionary --------------------------------------------------- */
   .glossary {
     display: grid;

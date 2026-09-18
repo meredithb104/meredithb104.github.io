@@ -40,7 +40,7 @@
               <li><a href="/#experience">Experience</a></li>
               <li><a href="/#skills">Skills</a></li>
               <li><a href="/#case-studies">Case studies</a></li>
-              <li><a href="/#approach">Approach</a></li>
+              <li><a href="/#approach">My approach</a></li>
               <li><a href="/posts/">Writing</a></li>
               <li><a href="/#dictionary">Dictionary</a></li>
             </ul>
@@ -78,6 +78,7 @@
         <li>Nothing here is disabled while it works, and no control requires dragging, a specific pointer, or a path-based gesture (2.5.1, 2.5.7).</li>
         <li>Content reflows to a 320-pixel-wide viewport with no horizontal scrolling, survives 200% zoom and user text-spacing overrides, and line length is capped at 68 characters (1.4.4, 1.4.10, 1.4.12, 1.4.8).</li>
         <li>Diagrams are inline SVG with a title and long description, plus a caption that says the same thing in prose. Each diagram has two drawings, a wide one and a stacked one for phones; only one is rendered at a time, so assistive technology meets exactly one image.</li>
+        <li>Previous section, Next section, and Back to top sit in one small landmark (the "Page" navigation) after the main content, hidden until you scroll past the introduction. They are not hidden from assistive technology: a focusable control that is hidden from the accessibility tree is a silent tab stop, and the Tab key is shared by screen reader users and sighted keyboard users alike. Screen reader users have their own heading and landmark keys and can skip the landmark in one keystroke.</li>
         <li>The tabs and the carousel in the Lab follow the WAI-ARIA Authoring Practices: one tab stop per tablist with arrow keys, focusable panels, and a carousel that never rotates by itself. Its slides are not interactive, so focus stays on the Previous and Next buttons and a polite live region announces only the slide's position and heading.</li>
         <li>Posts are written in Markdown and rendered to static HTML at build time. The build refuses a post whose images lack alt text, whose headings skip a level, or whose body contains a second <code>h1</code>. Every post carries a dated byline, and the Atom feed carries the full text.</li>
         <li>The C.V. is a tagged PDF with a document title and language set, and every fact in it also appears as HTML in the Experience section, so the PDF is never the only route to the information.</li>

@@ -20,8 +20,7 @@
     border-block-end: var(--size-border) solid var(--color-border-subtle);
     padding-block: var(--space-3);
 
-    /* The brand rule: one line in the pink accent, the same pink as the monogram tile and the card
-       rules. (A multi-stop pastel gradient sat here once and read as an Easter palette on navy.)
+    /* The brand rule: one line in the tangerine, the same as the monogram tile and the card rules.
        Decorative, so no contrast claim. */
     &::after {
       content: "";
@@ -29,7 +28,7 @@
       inset-inline: 0;
       inset-block-end: -1px;
       block-size: 4px;
-      background: var(--color-brand6);
+      background: var(--color-brand1);
       pointer-events: none;
     }
 
@@ -75,12 +74,13 @@
     color: var(--color-text);
     text-decoration: none;
 
-    /* The tile is the pink and the letters are Prussian: 5.2:1. */
+    /* The tile is the tangerine and the letters are the plum ink in both themes: 6.4:1. */
     .brand-mark {
       inline-size: 2rem;
       block-size: 2rem;
       flex: none;
-      color: var(--color-brand6);
+      color: var(--color-brand1);
+      --brand-ink: #231b1e;
     }
 
     &:hover {
@@ -91,6 +91,7 @@
       .brand-mark {
         forced-color-adjust: none;
         color: CanvasText;
+        --brand-ink: Canvas; /* letters in the page color on a text-color tile, whichever way round */
       }
     }
   }
@@ -708,7 +709,7 @@
 
   .callout {
     padding: var(--space-4) var(--space-5);
-    border-inline-start: 4px solid var(--color-brand6);
+    border-inline-start: 4px solid var(--color-brand1);
     background: var(--color-accent-bg);
     color: var(--color-on-accent-bg);
     border-radius: 0 var(--radius-md) var(--radius-md) 0;
@@ -756,7 +757,7 @@
     background: var(--color-surface);
     border: var(--size-border) solid var(--color-border-subtle);
     /* Decorative rule in brand stop 2; it is not a control boundary, so 1.4.11 does not apply. */
-    border-block-start: 4px solid var(--color-brand6);
+    border-block-start: 4px solid var(--color-brand1);
     border-radius: var(--radius-lg);
 
     h3 {
@@ -1395,7 +1396,7 @@
     background: var(--color-bg-subtle);
     border: var(--size-border) solid var(--color-border-subtle);
     /* The pink signature, as on cards and callouts: emphasis for sighted readers, decorative to AT. */
-    border-inline-start: 4px solid var(--color-brand6);
+    border-inline-start: 4px solid var(--color-brand1);
     border-radius: var(--radius-md);
 
     h4 {

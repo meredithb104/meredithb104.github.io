@@ -846,6 +846,77 @@
     }
   }
 
+  /* ---- Decorative hydrangeas ----------------------------------------- */
+  /* Purely visual (aria-hidden, no name). Drawn in the palette's blues so they recolour with the
+     theme; parked in space the text never uses, and gone at narrow widths, in print, and under
+     forced colors. */
+  .hydrangea {
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+    --hy-1: #c9d8f0; /* back florets: monaco blue lightened */
+    --hy-2: #a9c1e8; /* monaco blue */
+    --hy-3: #8aa8db; /* front florets: toward yearbook */
+    --hy-centre: #3550b0;
+    --hy-leaf: #d6dde8;
+    --hy-vein: #b4c0d4;
+
+    .hy-1 { fill: var(--hy-1); }
+    .hy-2 { fill: var(--hy-2); }
+    .hy-3 { fill: var(--hy-3); }
+    .hy-f { fill-opacity: 0.92; }
+    .hy-c { fill: var(--hy-centre); fill-opacity: 0.85; }
+    .hy-leaf { fill: var(--hy-leaf); }
+    .hy-vein { stroke: var(--hy-vein); stroke-width: 1.4; stroke-linecap: round; }
+
+    @media (max-width: 63.99em), print, (forced-colors: active) {
+      display: none;
+    }
+  }
+
+  :root[data-theme="dark"] .hydrangea,
+  :root:not([data-theme]) .hydrangea {
+    @media (prefers-color-scheme: dark) {
+      --hy-1: #6f86bb;
+      --hy-2: #8ea9db;
+      --hy-3: #a9c1e8;
+      --hy-centre: #f4f1e8;
+      --hy-leaf: #2c3f72;
+      --hy-vein: #4e63a0;
+    }
+  }
+  :root[data-theme="dark"] .hydrangea {
+    --hy-1: #6f86bb;
+    --hy-2: #8ea9db;
+    --hy-3: #a9c1e8;
+    --hy-centre: #f4f1e8;
+    --hy-leaf: #2c3f72;
+    --hy-vein: #4e63a0;
+  }
+  :root[data-theme="high-contrast"] .hydrangea {
+    display: none;
+  }
+
+  .hero {
+    position: relative;
+  }
+  .hydrangea--hero {
+    inset-inline-end: 0;
+    inset-block-start: var(--space-5);
+    inline-size: clamp(12rem, 19vw, 16rem);
+    block-size: auto;
+  }
+  #contact {
+    position: relative;
+  }
+  .hydrangea--contact {
+    inset-inline-end: var(--space-4);
+    inset-block-end: var(--space-4);
+    inline-size: 9rem;
+    block-size: auto;
+    transform: scaleX(-1);
+  }
+
   /* ---- Page tools: Previous, Next, Top ------------------------------ */
   /* Fixed at the bottom right, after <main> in the DOM, hidden until the reader has scrolled past
      the hero (the component toggles the hidden attribute). scroll-padding-block-end on html keeps

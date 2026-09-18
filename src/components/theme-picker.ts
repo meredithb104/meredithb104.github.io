@@ -61,6 +61,10 @@ export class ThemePicker extends HTMLElement {
     const input = event.target;
     if (!(input instanceof HTMLInputElement) || !isTheme(input.value)) return;
     applyTheme(input.value);
+    // Make DOM focus follow the choice. A screen reader activating the radio from its virtual
+    // cursor may leave DOM focus on whatever had it before (the section a nav link landed on);
+    // after the page re-themes, the reader re-orients to that stale element. No scrolling.
+    if (document.activeElement !== input) input.focus({ preventScroll: true });
     const label = input.labels?.[0]?.textContent?.trim() ?? input.value;
     announce(`Theme: ${label}`);
   };

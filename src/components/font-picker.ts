@@ -53,6 +53,7 @@ export class FontPicker extends HTMLElement {
     const input = event.target;
     if (!(input instanceof HTMLInputElement) || !isFont(input.value)) return;
     applyFont(input.value);
+    if (document.activeElement !== input) input.focus({ preventScroll: true }); // see theme-picker
     announce(`Typeface: ${input.labels?.[0]?.textContent?.trim() ?? input.value}`);
   };
 }

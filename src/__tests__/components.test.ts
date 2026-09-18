@@ -41,6 +41,19 @@ describe("<theme-picker>", () => {
     vi.useRealTimers();
   });
 
+  it("moves DOM focus to the chosen radio when a change arrives while focus is elsewhere", () => {
+    document.body.innerHTML = `<section id="lab" tabindex="-1"></section>`;
+    const section = document.getElementById("lab")!;
+    const inputs = mount();
+    document.body.prepend(section);
+    section.focus();
+    expect(document.activeElement).toBe(section);
+    const dark = inputs[2]!;
+    dark.checked = true;
+    dark.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(document.activeElement).toBe(dark);
+  });
+
   it("'auto' removes the attribute and the stored value", () => {
     localStorage.setItem("theme", "light");
     document.documentElement.dataset["theme"] = "light";

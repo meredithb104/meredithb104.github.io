@@ -144,3 +144,43 @@ test("a fragment is cleared from the address once it has done its job", async ({
   expect(await page.evaluate(() => Math.round(scrollY))).toBe(y);
   expect(await page.evaluate(() => (document.activeElement as HTMLInputElement).value)).toBe("dark");
 });
+
+test("every fragment lands: a heading with no tabindex takes focus, on a link, on hashchange, and on load", async ({ page }) => {
+  // Post headings have ids but no tabindex. A link to one (from anywhere) must still land focus there.
+  await page.goto("/posts/");
+  const postHref = await page.locator("main a[href^='/posts/']").first().getAttribute("href");
+  await page.goto(postHref!);
+  const headingId = await page.locator("main h2[id]").last().getAttribute("id");
+  expect(headingId).toBeTruthy();
+
+  // 1. A same-document link injected by the test (posts have no in-body links to their headings).
+  await page.evaluate((id) => {
+    const a = document.createElement("a");
+    a.href = `#${id}`;
+    a.textContent = "jump";
+    a.id = "test-jump";
+    document.querySelector("main")!.prepend(a);
+  }, headingId);
+  await page.locator("#test-jump").click();
+  await expect.poll(async () => (await focused(page)).id).toBe(headingId);
+  await expect.poll(() => page.evaluate(() => location.hash)).toBe("");
+  // The tabindex is a temporary aid, gone once focus moves on.
+  await page.keyboard.press("Tab");
+  expect(await page.locator(`#${headingId}`).getAttribute("tabindex")).toBeNull();
+
+  // 2. Back or Forward, or an edited address: hashchange.
+  await page.evaluate((id) => { location.hash = `#${id}`; }, headingId);
+  await expect.poll(async () => (await focused(page)).id).toBe(headingId);
+  await expect.poll(() => page.evaluate(() => location.hash)).toBe("");
+
+  // 3. On load, the fragment is cleared after the browser has scrolled to it.
+  await page.goto(`${postHref}#${headingId}`);
+  await expect.poll(() => page.evaluate(() => location.hash)).toBe("");
+  await expect.poll(() => page.locator(`#${headingId}`).evaluate((el) => Math.round(el.getBoundingClientRect().top)), { timeout: 10_000 }).toBeLessThan(400);
+
+  // 4. Cross-page links to the home page's sections land on the section (it has tabindex="-1" already).
+  await page.goto("/accessibility.html");
+  await page.getByRole("link", { name: "Lab" }).first().click();
+  await expect.poll(() => page.evaluate(() => location.pathname)).toBe("/");
+  await expect.poll(() => page.evaluate(() => location.hash)).toBe("");
+});

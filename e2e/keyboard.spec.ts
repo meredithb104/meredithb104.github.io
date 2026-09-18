@@ -125,8 +125,8 @@ test("a fragment is cleared from the address once it has done its job", async ({
   await page.goto("/#tab-markup");
   await expect(page.getByRole("tab", { name: "Markup" })).toHaveAttribute("aria-selected", "true");
   await expect.poll(() => page.evaluate(() => location.hash)).toBe("");
-  const labTop = await page.locator("#lab").evaluate((el) => el.getBoundingClientRect().top);
-  expect(labTop).toBeLessThan(800); // still scrolled to the Lab area
+  // Still scrolled to the Lab area once the browser's own fragment scroll has landed.
+  await expect.poll(() => page.locator("#lab").evaluate((el) => Math.round(el.getBoundingClientRect().top)), { timeout: 10_000 }).toBeLessThan(800);
 
   // After an in-page jump: focus lands on the section, then the fragment goes.
   await page.goto("/");

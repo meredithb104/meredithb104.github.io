@@ -22,7 +22,11 @@ mountLiveRegions();
 // A fragment in the address (arriving at /#lab, or a tab-set deep link) has done its work once the
 // browser has scrolled to it and the components have read it. Clear it so that a later buffer
 // refresh in a screen reader cannot keep pulling the reading cursor back to that target.
-requestAnimationFrame(() => requestAnimationFrame(settleHash));
+const settleAfterLoad = (): void => {
+  requestAnimationFrame(() => requestAnimationFrame(settleHash));
+};
+if (document.readyState === "complete") settleAfterLoad();
+else window.addEventListener("load", settleAfterLoad, { once: true });
 
 // Keyboard users who follow an in-page link should land *on* the section, not
 // just scroll to it (2.4.3 Focus Order). Sections carry tabindex="-1".

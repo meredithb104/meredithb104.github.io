@@ -28,7 +28,7 @@ npm install
 npm run dev          # compiles tokens and posts, starts Vite on :5173; saving a post in writing/ rebuilds and reloads
 npm run posts        # rebuilds posts/, public/feed.xml, and the Writing block in index.html
 npm test             # tokens + Vitest (unit, component, jsdom axe)
-npm run test:e2e     # production build + Playwright: axe in Chromium, keyboard walk, reflow
+npm run test:e2e     # builds, then Playwright: axe in Chromium, keyboard walk, reflow
 npm run check        # lint + typecheck + both test suites
 npm run build        # tokens -> typecheck -> Vite build into dist/
 ```

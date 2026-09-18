@@ -222,6 +222,8 @@ export function page(opts: { title: string; description: string; path: string; m
       try {
         var t = localStorage.getItem("theme");
         if (t === "light" || t === "dark" || t === "high-contrast") document.documentElement.dataset.theme = t;
+        var f = localStorage.getItem("font");
+        if (f === "atkinson" || f === "public-sans") document.documentElement.dataset.font = f;
       } catch (e) {}
     </script>
     <script type="module" src="/src/main.ts"></script>

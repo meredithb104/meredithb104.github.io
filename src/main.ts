@@ -9,6 +9,7 @@ import "./styles/site.css";
 
 import { mountLiveRegions } from "./lib/announce.ts";
 import "./components/theme-picker.ts";
+import "./components/font-picker.ts";
 import "./components/contrast-checker.ts";
 import "./components/work-filter.ts";
 import "./components/site-nav.ts";

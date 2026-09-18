@@ -114,3 +114,24 @@ test("without JavaScript the full list is simply visible", async ({ browser }) =
   await expect(page.getByRole("navigation", { name: "Sections" }).getByRole("link", { name: "Contact" })).toBeVisible();
   await context.close();
 });
+
+test("choosing a typeface loads it only then, applies before first paint on reload, and stays axe-clean", async ({ page }) => {
+  await page.goto("/");
+  const fontRequests: string[] = [];
+  page.on("request", (r) => { if (r.url().includes("/fonts/")) fontRequests.push(r.url()); });
+  await page.waitForTimeout(500);
+  expect(fontRequests, "no web font on the default page").toEqual([]);
+
+  await page.getByRole("radio", { name: "Atkinson Hyperlegible Next" }).check();
+  await expect(page.locator("html")).toHaveAttribute("data-font", "atkinson");
+  await page.waitForFunction(() => document.fonts.check('16px "Atkinson Hyperlegible Next"'));
+  expect(fontRequests.some((u) => u.includes("atkinson-hyperlegible-next-latin.woff2"))).toBe(true);
+  const family = await page.evaluate(() => getComputedStyle(document.body).fontFamily);
+  expect(family).toMatch(/Atkinson Hyperlegible Next/);
+
+  await page.reload();
+  await expect(page.locator("html")).toHaveAttribute("data-font", "atkinson");
+  await expect(page.getByRole("radio", { name: "Atkinson Hyperlegible Next" })).toBeChecked();
+  const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa", "best-practice"]).analyze();
+  expect(results.violations.map((v) => v.id)).toEqual([]);
+});

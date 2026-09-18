@@ -673,10 +673,12 @@
       fill: var(--color-border);
     }
 
+    /* Captions carry the diagram's meaning for many readers: body size and medium weight, not a footnote. */
     figcaption {
       margin-block-start: var(--space-3);
-      font-size: var(--font-size-sm);
-      color: var(--color-text-muted);
+      font-size: var(--font-size-md);
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text);
     }
 
     @media (forced-colors: active) {

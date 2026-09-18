@@ -34,6 +34,8 @@
       try {
         var t = localStorage.getItem("theme");
         if (t === "light" || t === "dark" || t === "high-contrast") document.documentElement.dataset.theme = t;
+        var f = localStorage.getItem("font");
+        if (f === "atkinson" || f === "public-sans") document.documentElement.dataset.font = f;
       } catch (e) {}
     </script>
     <script type="module" src="/src/main.ts"></script>
@@ -230,7 +232,7 @@
               </p>
               <p class="card-links">
                 <a href="https://meredithb104.github.io/commons-ui/">Live demo<span class="visually-hidden"> of Commons UI</span></a>
-                <a href="https://github.com/meredithb104/commons-ui">Source<span class="visually-hidden"> for Commons UI</span> on GitHub</a>
+                <a href="https://github.com/meredithb104/commons-ui">Source on GitHub<span class="visually-hidden"> (Commons UI)</span></a>
               </p>
             </li>
             <li class="card" data-tags="back-end ai-integration">
@@ -282,12 +284,12 @@
                 ><span class="tag">Web Components</span><span class="tag">Playwright</span>
               </p>
               <p>
-                This site runs no framework. It is static HTML, cascade layers, container queries, and six small
+                This site runs no framework. It is static HTML, cascade layers, container queries, and seven small
                 custom elements, including APG-pattern tabs and a carousel, with the Commons UI token pipeline
                 ported to TypeScript and run natively by Node. axe-core audits it in a real browser on every push.
               </p>
               <p class="card-links">
-                <a href="https://github.com/meredithb104/meredithb104.github.io">Source<span class="visually-hidden"> for this site</span> on GitHub</a>
+                <a href="https://github.com/meredithb104/meredithb104.github.io">Source on GitHub<span class="visually-hidden"> (this site)</span></a>
                 <a href="/accessibility.html">Accessibility statement</a>
               </p>
             </li>
@@ -790,7 +792,7 @@
       <section id="lab" class="section" tabindex="-1" aria-labelledby="lab-h">
         <h2 id="lab-h">Lab</h2>
         <p class="section-lede measure">
-          Here are two small things from this page's own source. Both are plain custom elements around native form
+          Here are three small things from this page's own source. All are plain custom elements around native form
           controls, and the HTML works before the JavaScript arrives.
         </p>
         <div class="lab-grid">
@@ -812,6 +814,25 @@
                 </div>
               </fieldset>
             </theme-picker>
+          </div>
+
+          <div class="panel">
+            <h3>Typeface</h3>
+            <p>
+              The site ships no web font by default. Choose one here and it loads only then, is remembered, and is
+              applied before first paint next time. Atkinson Hyperlegible Next is the Braille Institute's typeface,
+              drawn so that similar letters stay distinct; Public Sans is the U.S. Web Design System typeface.
+            </p>
+            <font-picker>
+              <fieldset>
+                <legend>Choose a typeface</legend>
+                <div class="radio-row">
+                  <label class="radio-option"><input type="radio" name="font" value="system" checked /> System</label>
+                  <label class="radio-option"><input type="radio" name="font" value="atkinson" /> Atkinson Hyperlegible Next</label>
+                  <label class="radio-option"><input type="radio" name="font" value="public-sans" /> Public Sans</label>
+                </div>
+              </fieldset>
+            </font-picker>
           </div>
 
           <div class="panel">

@@ -847,34 +847,32 @@
   }
 
   /* ---- Decorative hydrangeas ----------------------------------------- */
-  /* Purely visual (aria-hidden, no name). Drawn in the palette's blues so they recolour with the
-     theme; parked in space the text never uses, and gone at narrow widths, in print, and under
-     forced colors. */
+  /* Coastal grandma: blue hydrangeas in the palette's blues, filling about a quarter of the empty
+     space beside measure-limited text on wide screens. Purely visual: aria-hidden, no name, no
+     pointer events; gone below 72em (where the text needs the width), in print, under forced
+     colors, and in the high-contrast theme. Regenerate with scripts/make-hydrangea.py. */
+  .hydrangea-sprite {
+    position: absolute;
+  }
+
   .hydrangea {
     position: absolute;
     pointer-events: none;
     user-select: none;
+    block-size: auto;
+    aspect-ratio: 1;
     --hy-1: #c9d8f0; /* back florets: monaco blue lightened */
     --hy-2: #a9c1e8; /* monaco blue */
     --hy-3: #8aa8db; /* front florets: toward yearbook */
     --hy-centre: #3550b0;
-    --hy-leaf: #d6dde8;
+    --hy-leaf: #d9dfe9;
     --hy-vein: #b4c0d4;
 
-    .hy-1 { fill: var(--hy-1); }
-    .hy-2 { fill: var(--hy-2); }
-    .hy-3 { fill: var(--hy-3); }
-    .hy-f { fill-opacity: 0.92; }
-    .hy-c { fill: var(--hy-centre); fill-opacity: 0.85; }
-    .hy-leaf { fill: var(--hy-leaf); }
-    .hy-vein { stroke: var(--hy-vein); stroke-width: 1.4; stroke-linecap: round; }
-
-    @media (max-width: 63.99em), print, (forced-colors: active) {
+    @media (max-width: 71.99em), print, (forced-colors: active) {
       display: none;
     }
   }
 
-  :root[data-theme="dark"] .hydrangea,
   :root:not([data-theme]) .hydrangea {
     @media (prefers-color-scheme: dark) {
       --hy-1: #6f86bb;
@@ -897,24 +895,46 @@
     display: none;
   }
 
-  .hero {
+  /* Hosts: each section that carries a bloom becomes the positioning box. */
+  .hero,
+  #contact,
+  #experience {
     position: relative;
   }
-  .hydrangea--hero {
-    inset-inline-end: 0;
-    inset-block-start: var(--space-5);
-    inline-size: clamp(12rem, 19vw, 16rem);
-    block-size: auto;
+
+  /* Hero: a pair, one large and one small, in the empty right-hand column. */
+  .hydrangea--hero-a {
+    inset-inline-end: -1rem;
+    inset-block-start: var(--space-4);
+    inline-size: clamp(14rem, 20vw, 20rem);
   }
-  #contact {
-    position: relative;
+  /* The small one sits beside the button row, where nothing else is. */
+  .hydrangea--hero-b {
+    inset-inline-end: 18rem;
+    inset-block-end: -1rem;
+    inline-size: clamp(7rem, 10vw, 9rem);
+    transform: scaleX(-1) rotate(12deg);
   }
   .hydrangea--contact {
     inset-inline-end: var(--space-4);
-    inset-block-end: var(--space-4);
-    inline-size: 9rem;
-    block-size: auto;
+    inset-block-end: var(--space-3);
+    inline-size: clamp(9rem, 13vw, 12rem);
     transform: scaleX(-1);
+  }
+  /* Lab: a grid item in the empty cell beside the contrast checker (three panels, two columns),
+     laid out by the grid rather than positioned over anything. */
+  .hydrangea--lab {
+    position: static;
+    justify-self: center;
+    align-self: center;
+    inline-size: clamp(13rem, 20vw, 18rem);
+    transform: rotate(-8deg);
+  }
+  .hydrangea--experience {
+    inset-inline-end: 0;
+    inset-block-start: 8rem;
+    inline-size: clamp(11rem, 16vw, 15rem);
+    transform: scaleX(-1) rotate(6deg);
   }
 
   /* ---- Page tools: Previous, Next, Top ------------------------------ */
@@ -1202,6 +1222,15 @@
       th {
         font-weight: var(--font-weight-medium);
       }
+
+      /* The Needs and Result columns size to their content and never wrap; the first column takes
+         the wrapping. Without this, a narrow phone table hands the last column less than the
+         pill's width and the word runs past its border (seen in iOS Safari). */
+      th:not(:first-child),
+      td:not(:first-child) {
+        white-space: nowrap;
+        inline-size: 1%;
+      }
     }
 
     /* The pill is a shape as well as a word: a border in the state color gives it a 3:1 boundary
@@ -1215,6 +1244,8 @@
       border: 1.5px solid currentColor;
       border-radius: var(--radius-sm);
       font-weight: var(--font-weight-medium);
+      white-space: nowrap;
+      min-inline-size: max-content; /* the box is never narrower than icon plus word */
 
       /* The icon is inline SVG in the markup (aria-hidden): icon, word, and color together (1.4.1). */
       svg {

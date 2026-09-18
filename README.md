@@ -33,7 +33,7 @@ npm run check        # lint + typecheck + both test suites
 npm run build        # tokens -> typecheck -> Vite build into dist/
 ```
 
-Playwright needs a browser once: `npx playwright install chromium`.
+Playwright needs its browsers once: `npx playwright install chromium webkit` (WebKit runs as an iPhone for the specs tagged `@webkit`).
 
 ## How it is tested
 

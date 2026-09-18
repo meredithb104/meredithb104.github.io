@@ -38,8 +38,8 @@ jobs:
       - name: Production build
         run: npm run build
 
-      - name: Install Playwright Chromium
-        run: npx playwright install --with-deps chromium
+      - name: Install Playwright Chromium and WebKit
+        run: npx playwright install --with-deps chromium webkit
       - name: axe-core, keyboard, and reflow tests in Chromium
         run: npx playwright test
         env:

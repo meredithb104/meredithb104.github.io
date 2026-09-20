@@ -817,12 +817,16 @@
     padding: 0;
     margin-block-end: var(--space-6);
 
-    /* Direct children only: each entry carries a nested list of résumé bullets. */
+    /* Direct children only: each entry carries a nested list of résumé bullets. Each entry is a card
+       (surface, 3:1 border, radius), with the monaco rule kept on its start edge. */
     > li {
       display: grid;
       gap: var(--space-1);
-      padding-inline-start: var(--space-5);
+      padding: var(--space-4) var(--space-5);
+      background: var(--color-surface);
+      border: var(--size-border) solid var(--color-border);
       border-inline-start: 3px solid var(--color-brand4);
+      border-radius: var(--radius-lg);
       max-inline-size: none;
     }
 

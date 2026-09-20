@@ -35,7 +35,8 @@ const format = (v: axe.Result[]): string =>
   v.map((x) => `${x.id}: ${x.help}\n  ${x.nodes.map((n) => n.target.join(" ")).join("\n  ")}`).join("\n");
 
 describe.each(["index.html", "accessibility.html", "posts/index.html", "posts/accessibility-is-a-build-error/index.html", "posts/talkover-revisited/index.html"])("%s (jsdom axe)", (file) => {
-  it("has no axe violations", async () => {
+  // The home page has grown past what axe scans in jsdom's default 5 s on a busy machine.
+  it("has no axe violations", { timeout: 30_000 }, async () => {
     loadPage(file);
     const results = await scan();
     expect(format(results.violations)).toBe("");

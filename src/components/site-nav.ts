@@ -1,105 +1,66 @@
 /**
- * <site-nav>: two enhancements to a plain <nav><ul> of links.
+ * <site-nav>: enhancements to a plain <nav><ul> of links, with two menu
+ * buttons from Commons UI (<cui-menu-button>, the library's MenuButton as a
+ * framework-free custom element).
  *
- * 1. On narrow screens the list collapses behind a "Menu" button. The
- *    button is created by the script, so without JavaScript the full list
- *    simply shows. aria-expanded and aria-controls describe the state;
- *    Escape closes and returns focus to the button; choosing a link closes;
- *    a click outside or focus leaving the panel closes it, so the open panel
- *    can never sit on top of something else that has focus (2.4.11).
- *    CSS decides when it applies (the [data-collapsible] attribute plus a
- *    width query), so resizing never leaves the menu stuck closed.
+ * 1. On narrow screens the list collapses behind the "Menu" button. Without
+ *    JavaScript the custom element renders nothing and the full list simply
+ *    shows. The button owns its own manners (aria-expanded, aria-controls,
+ *    Escape closing and returning focus, a pointer down outside closing);
+ *    this element listens for its cui-open-change event, shows the panel,
+ *    and adds what only the page knows: choosing a link closes, and focus
+ *    leaving the panel closes it, so an open panel never sits on top of
+ *    something else that has focus (2.4.11). CSS decides when the collapse
+ *    applies (the [data-collapsible] attribute plus a width query), so
+ *    resizing never leaves the menu stuck closed.
  *
- * 2. Marks the in-page link for the section currently in view with
+ * 2. On wide screens six of the sections sit behind a second button, "More
+ *    information", the same component in its quiet variant, with the same
+ *    wiring; inside the phone panel CSS hides that button and the six links
+ *    show flat, so the panel is one list of ten.
+ *
+ * 3. Marks the in-page link for the section currently in view with
  *    aria-current="location" (underline as well as color). Uses
  *    IntersectionObserver, so nothing runs on scroll.
- *
- * 3. On wide screens six of the sections sit behind a "More information"
- *    button, a hamburger in the Commons UI secondary-button style and the
- *    same disclosure pattern as the Menu button: aria-expanded and
- *    aria-controls describe the state; Escape closes and returns focus to the
- *    button; a click outside or focus leaving closes; choosing a link closes.
- *    The button is created by the script, so without JavaScript the six links
- *    simply show, and inside the phone panel (where CSS hides the button) the
- *    panel is one flat list of ten.
  */
+import type { CuiMenuButton } from "commons-ui/element";
+
 export class SiteNav extends HTMLElement {
   private observer: IntersectionObserver | undefined;
   private readonly visible = new Map<string, number>();
-  private toggle: HTMLButtonElement | undefined;
   private list: HTMLElement | undefined;
+  private menu: CuiMenuButton | null = null;
+  private more: CuiMenuButton | null = null;
   private moreItem: HTMLElement | null = null;
-  private moreButton: HTMLButtonElement | null = null;
 
   connectedCallback(): void {
     const nav = this.querySelector("nav");
     const list = nav?.querySelector("ul");
     if (!nav || !list) return;
     this.list = list;
-    this.addEventListener("keydown", this.onKeydown);
     this.addEventListener("focusout", this.onFocusOut);
-    document.addEventListener("pointerdown", this.onPointerDown);
-    this.setupToggle(nav, list);
+    this.setupMenu(list);
     this.setupMore();
     this.setupCurrentSection();
   }
 
   disconnectedCallback(): void {
     this.observer?.disconnect();
-    this.removeEventListener("keydown", this.onKeydown);
     this.removeEventListener("focusout", this.onFocusOut);
-    document.removeEventListener("pointerdown", this.onPointerDown);
   }
 
-  private setupMore(): void {
-    const list = this.querySelector<HTMLElement>("ul.nav-more-list");
-    const item = list?.parentElement;
-    if (!list || !item || this.moreButton) return;
-    list.id ||= "nav-more-list";
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "nav-toggle nav-more-toggle";
-    button.setAttribute("aria-expanded", "false");
-    button.setAttribute("aria-controls", list.id);
-    button.innerHTML = `<svg aria-hidden="true" viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 5h14M3 10h14M3 15h14"/></svg> More information`;
-    button.addEventListener("click", () => this.setMoreOpen(!this.isMoreOpen()));
-    list.before(button);
-    this.moreItem = item;
-    this.moreButton = button;
-    item.dataset["more"] = "true"; // CSS: the list is a panel shown only while open, on wide screens
-    list.addEventListener("click", (e) => {
-      if ((e.target as Element).closest("a")) this.setMoreOpen(false, false);
-    });
-  }
-
-  isMoreOpen(): boolean {
-    return this.moreItem?.dataset["open"] === "true";
-  }
-
-  setMoreOpen(open: boolean, focusButton = false): void {
-    if (!this.moreItem || !this.moreButton) return;
-    this.moreItem.dataset["open"] = open ? "true" : "false";
-    this.moreButton.setAttribute("aria-expanded", open ? "true" : "false");
-    if (focusButton) this.moreButton.focus();
-  }
-
-  private setupToggle(nav: HTMLElement, list: HTMLElement): void {
-    if (this.toggle) return;
+  /** The phone Menu button: the element is in the HTML; wire it to the list. */
+  private setupMenu(list: HTMLElement): void {
+    const menu = this.querySelector<CuiMenuButton>("cui-menu-button.nav-toggle");
+    if (!menu) return;
     list.id ||= "site-nav-list";
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "nav-toggle";
-    button.setAttribute("aria-expanded", "false");
-    button.setAttribute("aria-controls", list.id);
-    button.innerHTML = `<svg aria-hidden="true" viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 5h14M3 10h14M3 15h14"/></svg> Menu`;
-    button.addEventListener("click", () => this.setOpen(!this.isOpen()));
-    // Before the <nav>, not inside it, so the header grid can place the button beside the wordmark
-    // and the list on its own row. The button still names the list through aria-controls.
-    nav.before(button);
-    this.toggle = button;
+    menu.setAttribute("controls", list.id);
+    this.menu = menu;
     this.dataset["collapsible"] = "true";
+    menu.addEventListener("cui-open-change", (e) => this.setOpen(e.detail.open));
+    this.setOpen(false);
     list.addEventListener("click", (e) => {
-      if ((e.target as Element).closest("a")) this.setOpen(false, false);
+      if ((e.target as Element).closest("a")) this.setOpen(false);
     });
   }
 
@@ -107,35 +68,44 @@ export class SiteNav extends HTMLElement {
     return this.dataset["open"] === "true";
   }
 
-  setOpen(open: boolean, focusToggle = false): void {
+  setOpen(open: boolean): void {
     this.dataset["open"] = open ? "true" : "false";
-    this.toggle?.setAttribute("aria-expanded", open ? "true" : "false");
-    if (focusToggle) this.toggle?.focus();
+    if (this.menu) this.menu.open = open;
   }
 
-  /** Focus moved outside the component (Tab past the last link, or a click elsewhere): close without stealing focus. */
+  /** The "More information" button: the same element, quiet variant, wired to its own list. */
+  private setupMore(): void {
+    const item = this.querySelector<HTMLElement>("li.nav-more-item");
+    const more = item?.querySelector<CuiMenuButton>("cui-menu-button");
+    const list = item?.querySelector<HTMLElement>("ul.nav-more-list");
+    if (!item || !more || !list) return;
+    list.id ||= "nav-more-list";
+    more.setAttribute("controls", list.id);
+    this.moreItem = item;
+    this.more = more;
+    item.dataset["more"] = "true"; // CSS: the list is a panel shown only while open, on wide screens
+    more.addEventListener("cui-open-change", (e) => this.setMoreOpen(e.detail.open));
+    this.setMoreOpen(false);
+    list.addEventListener("click", (e) => {
+      if ((e.target as Element).closest("a")) this.setMoreOpen(false);
+    });
+  }
+
+  isMoreOpen(): boolean {
+    return this.moreItem?.dataset["open"] === "true";
+  }
+
+  setMoreOpen(open: boolean): void {
+    if (!this.moreItem || !this.more) return;
+    this.moreItem.dataset["open"] = open ? "true" : "false";
+    this.more.open = open;
+  }
+
+  /** Focus moved outside a panel (Tab past its last link): close it without stealing focus. */
   private readonly onFocusOut = (event: FocusEvent): void => {
     const next = event.relatedTarget;
-    if (this.isOpen() && (!(next instanceof Node) || !this.contains(next))) this.setOpen(false, false);
-    if (this.isMoreOpen() && (!(next instanceof Node) || !this.moreItem?.contains(next))) this.setMoreOpen(false, false);
-  };
-
-  private readonly onPointerDown = (event: PointerEvent): void => {
-    if (this.isOpen() && event.target instanceof Node && !this.contains(event.target)) this.setOpen(false, false);
-    if (this.isMoreOpen() && event.target instanceof Node && !this.moreItem?.contains(event.target)) this.setMoreOpen(false, false);
-  };
-
-  private readonly onKeydown = (event: KeyboardEvent): void => {
-    if (event.key !== "Escape") return;
-    if (this.isMoreOpen() && this.moreItem?.contains(event.target as Node)) {
-      event.preventDefault();
-      this.setMoreOpen(false, true);
-      return;
-    }
-    if (this.isOpen()) {
-      event.preventDefault();
-      this.setOpen(false, true);
-    }
+    if (this.isOpen() && (!(next instanceof Node) || !this.contains(next))) this.setOpen(false);
+    if (this.isMoreOpen() && (!(next instanceof Node) || !this.moreItem?.contains(next))) this.setMoreOpen(false);
   };
 
   private setupCurrentSection(): void {

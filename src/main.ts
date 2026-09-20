@@ -6,6 +6,8 @@
 import "./styles/tokens.css";
 import "./styles/base.css";
 import "./styles/site.css";
+import "commons-ui/styles/menu-button.css";
+import "commons-ui/element";
 
 import { mountLiveRegions } from "./lib/announce.ts";
 import { installFragmentHandling } from "./lib/fragments.ts";

@@ -2,7 +2,7 @@
 
 **Portfolio of Meredith Boyce, accessibility engineer and front-end developer.** Live at **https://meredithb104.github.io/**
 
-Static HTML, hand-written CSS, and a few kilobytes of TypeScript. No framework runtime. Built to WCAG 2.2 AA, with contrast enforced at build time and axe-core run in a real browser on every push.
+Static HTML, hand-written CSS, and a few kilobytes of TypeScript. No framework runtime. Built to WCAG 2.2 AA, with contrast enforced at build time and axe-core run in a real browser on every deploy.
 
 The site is the portfolio piece: the source is meant to be read. It is the sibling of [Commons UI](https://github.com/meredithb104/commons-ui), my React component library, and shares its token pipeline and testing philosophy, minus React.
 

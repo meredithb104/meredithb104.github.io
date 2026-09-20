@@ -21,7 +21,7 @@ Every color in my design tokens can say what it sits on and the ratio it owes:
 }
 ```
 
-When the tokens compile, a script checks every pair with the WCAG 2.x formula. If one pair is short, the script prints the pair, the ratio it got, and the ratio it needed, and it exits. No CSS is written. The site does not build. Eighty-one pairs, three themes, every push.
+When the tokens compile, a script checks every pair with the WCAG 2.x formula. If one pair is short, the script prints the pair, the ratio it got, and the ratio it needed, and it exits. No CSS is written. The site does not build. Eighty-one pairs, three themes, every deploy.
 
 ## What it caught on day one
 

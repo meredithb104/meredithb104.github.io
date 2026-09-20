@@ -2,8 +2,8 @@ import { expect, test, type Page } from "@playwright/test";
 
 /** Six sections sit under the "More" disclosure on wide screens; open it before reaching for one. */
 async function openMore(page: Page, navName: string): Promise<void> {
-  const more = page.getByRole("navigation", { name: navName }).locator("details.nav-more");
-  if (!(await more.evaluate((d) => (d as HTMLDetailsElement).open))) await more.locator("summary").click();
+  const button = page.getByRole("navigation", { name: navName }).getByRole("button", { name: "More" });
+  if ((await button.getAttribute("aria-expanded")) === "false") await button.click();
 }
 
 /** The Writing section, the archive, a post page, and the feed. */

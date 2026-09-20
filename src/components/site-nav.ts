@@ -14,23 +14,21 @@
  *    aria-current="location" (underline as well as color). Uses
  *    IntersectionObserver, so nothing runs on scroll.
  *
- * 3. On wide screens six of the sections sit under a native <details>
- *    disclosure labelled "More". The element works without any script; the
- *    script adds what a menu-like disclosure should do: Escape closes it and
- *    returns focus to its summary, a click outside or focus leaving closes it,
- *    and inside the phone panel it stays open with its summary hidden, so the
- *    panel is one flat list.
+ * 3. On wide screens six of the sections sit behind a "More" button, the
+ *    same disclosure pattern as the Menu button: aria-expanded and
+ *    aria-controls describe the state; Escape closes and returns focus to the
+ *    button; a click outside or focus leaving closes; choosing a link closes.
+ *    The button is created by the script, so without JavaScript the six links
+ *    simply show, and inside the phone panel (where CSS hides the button) the
+ *    panel is one flat list of ten.
  */
 export class SiteNav extends HTMLElement {
   private observer: IntersectionObserver | undefined;
   private readonly visible = new Map<string, number>();
   private toggle: HTMLButtonElement | undefined;
   private list: HTMLElement | undefined;
-  private more: HTMLDetailsElement | null = null;
-  /** Narrow-screen query; jsdom has no matchMedia, so tests get a query that never matches. */
-  private readonly narrow: MediaQueryList = typeof window.matchMedia === "function"
-    ? window.matchMedia("(max-width: 71.99em)")
-    : ({ matches: false, addEventListener() {}, removeEventListener() {} } as unknown as MediaQueryList);
+  private moreItem: HTMLElement | null = null;
+  private moreButton: HTMLButtonElement | null = null;
 
   connectedCallback(): void {
     const nav = this.querySelector("nav");
@@ -50,29 +48,38 @@ export class SiteNav extends HTMLElement {
     this.removeEventListener("keydown", this.onKeydown);
     this.removeEventListener("focusout", this.onFocusOut);
     document.removeEventListener("pointerdown", this.onPointerDown);
-    this.narrow.removeEventListener("change", this.syncMore);
   }
 
   private setupMore(): void {
-    this.more = this.querySelector<HTMLDetailsElement>("details.nav-more");
-    if (!this.more) return;
-    this.narrow.addEventListener("change", this.syncMore);
-    this.syncMore();
-    // Choosing a link closes the disclosure on wide screens (on narrow ones the whole panel closes).
-    this.more.addEventListener("click", (e) => {
-      if ((e.target as Element).closest("a") && !this.narrow.matches) this.more!.open = false;
+    const list = this.querySelector<HTMLElement>("ul.nav-more-list");
+    const item = list?.parentElement;
+    if (!list || !item || this.moreButton) return;
+    list.id ||= "nav-more-list";
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "nav-more-toggle";
+    button.setAttribute("aria-expanded", "false");
+    button.setAttribute("aria-controls", list.id);
+    button.innerHTML = `More <svg aria-hidden="true" viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8l5 5 5-5"/></svg>`;
+    button.addEventListener("click", () => this.setMoreOpen(!this.isMoreOpen()));
+    list.before(button);
+    this.moreItem = item;
+    this.moreButton = button;
+    item.dataset["more"] = "true"; // CSS: the list is a panel shown only while open, on wide screens
+    list.addEventListener("click", (e) => {
+      if ((e.target as Element).closest("a")) this.setMoreOpen(false, false);
     });
   }
 
-  /** Narrow: the disclosure stays open inside the panel (CSS hides its summary). Wide: closed until asked. */
-  private readonly syncMore = (): void => {
-    if (this.more) this.more.open = this.narrow.matches;
-  };
+  isMoreOpen(): boolean {
+    return this.moreItem?.dataset["open"] === "true";
+  }
 
-  private closeMore(focusSummary: boolean): void {
-    if (!this.more || this.narrow.matches || !this.more.open) return;
-    this.more.open = false;
-    if (focusSummary) this.more.querySelector("summary")?.focus();
+  setMoreOpen(open: boolean, focusButton = false): void {
+    if (!this.moreItem || !this.moreButton) return;
+    this.moreItem.dataset["open"] = open ? "true" : "false";
+    this.moreButton.setAttribute("aria-expanded", open ? "true" : "false");
+    if (focusButton) this.moreButton.focus();
   }
 
   private setupToggle(nav: HTMLElement, list: HTMLElement): void {
@@ -109,19 +116,19 @@ export class SiteNav extends HTMLElement {
   private readonly onFocusOut = (event: FocusEvent): void => {
     const next = event.relatedTarget;
     if (this.isOpen() && (!(next instanceof Node) || !this.contains(next))) this.setOpen(false, false);
-    if (this.more?.open && (!(next instanceof Node) || !this.more.contains(next))) this.closeMore(false);
+    if (this.isMoreOpen() && (!(next instanceof Node) || !this.moreItem?.contains(next))) this.setMoreOpen(false, false);
   };
 
   private readonly onPointerDown = (event: PointerEvent): void => {
     if (this.isOpen() && event.target instanceof Node && !this.contains(event.target)) this.setOpen(false, false);
-    if (this.more?.open && event.target instanceof Node && !this.more.contains(event.target)) this.closeMore(false);
+    if (this.isMoreOpen() && event.target instanceof Node && !this.moreItem?.contains(event.target)) this.setMoreOpen(false, false);
   };
 
   private readonly onKeydown = (event: KeyboardEvent): void => {
     if (event.key !== "Escape") return;
-    if (this.more?.open && !this.narrow.matches && this.more.contains(event.target as Node)) {
+    if (this.isMoreOpen() && this.moreItem?.contains(event.target as Node)) {
       event.preventDefault();
-      this.closeMore(true);
+      this.setMoreOpen(false, true);
       return;
     }
     if (this.isOpen()) {

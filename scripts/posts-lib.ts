@@ -173,17 +173,14 @@ const NAV = `
               <li><a href="/#experience">Experience</a></li>
               <li><a href="/#skills">Skills</a></li>
               <li class="nav-more-item">
-                <details class="nav-more">
-                  <summary>More<svg aria-hidden="true" viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8l5 5 5-5"/></svg></summary>
-                  <ul role="list">
-                    <li><a href="/#lab">Lab</a></li>
-                    <li><a href="/#work">Work</a></li>
-                    <li><a href="/#case-studies">Case studies</a></li>
-                    <li><a href="/#approach">My approach</a></li>
-                    <li><a href="/posts/" data-nav="posts">Writing</a></li>
-                    <li><a href="/#dictionary">Dictionary</a></li>
-                  </ul>
-                </details>
+                <ul id="nav-more-list" role="list" class="nav-more-list">
+                  <li><a href="/#lab">Lab</a></li>
+                  <li><a href="/#work">Work</a></li>
+                  <li><a href="/#case-studies">Case studies</a></li>
+                  <li><a href="/#approach">My approach</a></li>
+                  <li><a href="/posts/" data-nav="posts">Writing</a></li>
+                  <li><a href="/#dictionary">Dictionary</a></li>
+                </ul>
               </li>
             </ul>
           </nav>

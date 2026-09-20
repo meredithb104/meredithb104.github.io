@@ -154,43 +154,44 @@ test("a focused menu row is filled, not only ringed", async ({ page }) => {
   expect(row, "the fill differs from the panel").not.toBe(panel);
 });
 
-// "More": a native <details> holding six sections on wide screens.
-test("More opens as a disclosure, closes on Escape with focus back on its summary, and closes on an outside click", async ({ page }) => {
+// "More": six sections behind a button with aria-expanded, the same pattern as the phone Menu.
+test("More opens as a disclosure, closes on Escape with focus back on its button, and closes on an outside click", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/");
   const nav = page.getByRole("navigation", { name: "Sections" });
-  const more = nav.locator("details.nav-more");
-  const summary = more.locator("summary");
-  await expect(nav.getByRole("link", { name: "Lab" })).toHaveCount(0); // not in the tree while closed
-  await summary.focus();
+  const button = nav.getByRole("button", { name: "More" });
+  await expect(button).toHaveAttribute("aria-expanded", "false");
+  await expect(nav.getByRole("link", { name: "Lab" })).toBeHidden();
+  await button.focus();
   await page.keyboard.press("Enter");
-  await expect(more).toHaveJSProperty("open", true);
+  await expect(button).toHaveAttribute("aria-expanded", "true");
   await expect(nav.getByRole("link", { name: "Lab" })).toBeVisible();
   await expect(nav.getByRole("link", { name: "Dictionary" })).toBeVisible();
-  // Every link inside is a real in-page target.
-  const hrefs = await more.getByRole("link").evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).hash.slice(1)));
+  // aria-controls names the list, and every link inside is a real in-page target.
+  const controls = await button.getAttribute("aria-controls");
+  const list = page.locator(`#${controls}`);
+  const hrefs = await list.getByRole("link").evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).hash.slice(1)));
   expect(hrefs).toEqual(["lab", "work", "case-studies", "approach", "writing", "dictionary"]);
   for (const id of hrefs) expect(await page.locator(`#${id}`).count(), id).toBe(1);
 
   await page.keyboard.press("Tab");
   await expect(nav.getByRole("link", { name: "Lab" })).toBeFocused();
   await page.keyboard.press("Escape");
-  await expect(more).toHaveJSProperty("open", false);
-  await expect(summary).toBeFocused();
+  await expect(button).toHaveAttribute("aria-expanded", "false");
+  await expect(button).toBeFocused();
 
-  await summary.click();
-  await expect(more).toHaveJSProperty("open", true);
+  await button.click();
+  await expect(button).toHaveAttribute("aria-expanded", "true");
   await page.mouse.click(300, 600);
-  await expect(more).toHaveJSProperty("open", false);
+  await expect(button).toHaveAttribute("aria-expanded", "false");
 });
 
-test("inside the phone menu the More list is flat and its summary is hidden", async ({ page }) => {
+test("inside the phone menu the More list is flat and its button is hidden", async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
   await page.goto("/");
   await page.getByRole("button", { name: "Menu" }).click();
   const nav = page.getByRole("navigation", { name: "Sections" });
   await expect(nav.getByRole("link")).toHaveCount(10);
-  await expect(nav.locator("details.nav-more")).toHaveJSProperty("open", true);
-  await expect(nav.locator("details.nav-more summary")).toBeHidden();
+  await expect(nav.locator(".nav-more-toggle")).toBeHidden();
   await expect(nav.getByRole("link", { name: "Dictionary" })).toBeVisible();
 });

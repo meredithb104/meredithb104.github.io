@@ -424,9 +424,11 @@
                 ><span class="tag">Gemini</span><span class="tag">node-cron</span>
               </p>
               <p>
-                PlannerBot is a Discord bot that runs a nonprofit's projects, to-dos, events, and social media
-                pipeline from idea to approval to publication, with alt text as a hard requirement. It spans about
-                7,600 lines across 70 modules, and the repository is private.
+                PlannerBot is a Discord bot that turns a nonprofit's Discord into its planning system: to-dos with
+                subtasks and private assignment threads, projects, events scheduled across four calendars, and a
+                social media pipeline that reads its own Instagram metrics and treats alt text as a hard
+                requirement. 7,749 lines of TypeScript across 78 modules, 107 pull requests in eight days; the
+                repository is private.
               </p>
               <p class="card-links">
                 <a href="#plannerbot">Read the case study<span class="visually-hidden"> for PlannerBot</span></a>
@@ -847,12 +849,15 @@
 
         <article id="plannerbot" class="case" tabindex="-1" aria-labelledby="plannerbot-h">
           <div class="case-header">
-            <p class="eyebrow">Discord bot · Node · Firestore · Gemini · Google Calendar</p>
-            <h3 id="plannerbot-h">PlannerBot: a project and social media pipeline for volunteers</h3>
+            <p class="eyebrow">Discord bot · Node · Firestore · Gemini · Google Calendar · Meta Graph API</p>
+            <h3 id="plannerbot-h">PlannerBot: a nonprofit's planning system, inside its Discord</h3>
             <p class="measure">
-              The NDProj runs on volunteers with limited hours. PlannerBot lives in the team's Discord and gives
-              them projects with tasks, to-dos with subtasks, events with conflict checks, and a social media
-              pipeline where nothing is posted without a caption, a graphic, alt text, and an approval.
+              The NDProj is run by two volunteers, and its plans lived in chat scrollback. PlannerBot turns the
+              Discord server itself into the planning system: you speak to it in sentences, it keeps the record,
+              and the record comes back as a card with buttons wherever the conversation is. I held it to the
+              rules I hold a product to in an audit. Nothing goes out without alt text. Every action confirms in
+              one message, not three. Nothing lives where the wrong person could reply to it. Nothing is deleted
+              without its deliverables surviving.
             </p>
           </div>
 
@@ -967,47 +972,91 @@
 
             <div class="case-columns">
               <div>
-                <h4>The post pipeline</h4>
+                <h4>To-dos, subtasks, and private threads</h4>
                 <p>
-                  One record follows each post through its whole life: <em>Idea → Drafted → In review → Approved →
-                  Posted</em>. Planned posts are the calendar, posted ones are the log, and the same document is both.
+                  A to-do starts as a sentence. "@PlannerBot review the treasurer résumé Ila emailed me, @Ila to
+                  handle" becomes a record with a title, the details, who thought of it, who owns it, and a due date
+                  read from "by Friday". A slash form is the alternative for anyone who prefers one.
                 </p>
                 <ol>
                   <li>
-                    <strong>Capture comes first.</strong> An @mention is routed by intent (post, to-do, or event) with explicit
-                    heuristics, then Gemini extracts topic, platform, owner, date, and content pillar. Attachments
-                    become files on the record.
+                    <strong>Assigned work is invisible to everyone else.</strong> Assignment opens a private thread
+                    for the assignee and the assigner, posts the card there, and removes the public one. Only the
+                    originator or the owner can close a to-do; being the assignee does not let you hand it on.
                   </li>
                   <li>
-                    <strong>Cards are private by default.</strong> Each post's card lives in its own private thread with the
-                    requester and owner; the channel gets a one-line pointer. Cards that predate this are migrated
-                    the next time they redraw.
+                    <strong>Subtasks go one level deep, on purpose.</strong> A subtask is a full to-do with its own
+                    thread, card, notes, and files, opened by a mention in the parent's thread, a button on the
+                    card, or the form. A subtask cannot have subtasks; asking for one is refused with a pointer to
+                    the parent. The parent's card shows progress: "Subtasks (1/3 done)".
                   </li>
                   <li>
-                    <strong>Readiness is checked, not assumed.</strong> "Request review" runs a pre-flight checklist. A missing
-                    caption or a leftover <code>[placeholder]</code> blocks submission; missing hashtags, graphic,
-                    alt text, pillar, or date are warnings. The same rules drive the weekly cadence report, so the
-                    checklist and the report never disagree.
+                    <strong>Closing a parent settles everything under it.</strong> Open subtasks close with credit
+                    to their assignees, their notes and files roll up onto the parent, a full Deliverables message is
+                    left in the thread, and the thread is locked and archived. Reopen restores it.
                   </li>
                   <li>
-                    <strong>Alt text is required to count.</strong> A post with a graphic and no alt text is not a
-                    finished post. The "copy caption" action sends caption, hashtags, and alt text as three separate
-                    messages so that a long-press on a phone copies exactly one.
+                    <strong>Deliverables are reachable from the interface, not a command.</strong> Every card has a
+                    Deliverables button that lists each file as a permanent jump link, and each person involved has
+                    a private Deliverables thread that receives the list when a to-do closes.
                   </li>
                   <li>
-                    <strong>Drafting is assisted, not automatic.</strong> A "write draft" button asks what to steer
-                    toward, generates in the organization's documented voice with per-platform rules, and previews
-                    privately with shorter / warmer / more direct / try again. Nothing is saved until someone
-                    chooses it, and facts that weren't supplied come back as placeholders, never invented.
+                    <strong>Names resolve to people.</strong> "Ila", "ila :)", or a username, ignoring case, spaces,
+                    and punctuation, so forms that cannot carry an @mention still assign the right person.
+                  </li>
+                </ol>
+                <p>
+                  Cards are sticky: while a to-do is open, every note, reply, or edit brings its card back to the
+                  bottom of the thread, and duplicates in one channel collapse to one. Any private thread whose item
+                  is deleted or reassigned is removed, so nobody replies into a dead thread.
+                </p>
+
+                <h4>The post pipeline</h4>
+                <p>
+                  One record follows each post through its whole life: <em>Idea → Drafted → In review → Approved →
+                  Posted</em>. Planned posts are the calendar, posted ones are the log, and the same document is
+                  both. Capture works by intent, not only by prefix: "create a post about…" files a post, and a
+                  bare "on LinkedIn" does not, because plenty of to-dos are about the platforms themselves.
+                </p>
+                <ol>
+                  <li>
+                    <strong>Readiness is checked, not assumed.</strong> "Request review" runs a pre-flight checklist.
+                    A missing caption or a leftover <code>[placeholder]</code> blocks submission; missing hashtags,
+                    graphic, alt text, pillar, or date are warnings. Approve and Request Changes notify the owner in
+                    a private thread, and a caption edited after approval goes back to review.
+                  </li>
+                  <li>
+                    <strong>Alt text is required to count.</strong> A post counts as "written with graphics" only
+                    when it has both an image and alt text, and the writing-week coach says exactly which is
+                    missing. The Graphic button nudges when the alt text reads like a caption.
+                  </li>
+                  <li>
+                    <strong>Drafting is assisted, never automatic.</strong> Gemini writes in the organization's
+                    documented voice, with Shorter, Warmer, More direct, and Another go; nothing is saved until
+                    someone chooses it, and facts that were not supplied come back as placeholders, never invented.
+                    Content pillars, a Saturday balance nudge, and five ideas that lean toward whichever pillars are
+                    running dry keep the calendar honest.
+                  </li>
+                  <li>
+                    <strong>Metrics come from the platform.</strong> Pressing Metrics on a posted Instagram card reads
+                    likes, comments, shares, saves, and reach through Meta's Graph API from the post's link and offers
+                    Save or Edit first; nothing is written until you choose. A nightly job re-reads them 3, 7, and 30
+                    days after posting and never overwrites a newer manual entry. LinkedIn exposes no such API, so
+                    it stays by hand, and the form says so.
+                  </li>
+                  <li>
+                    <strong>Copy works on a phone.</strong> "Copy caption" sends caption, hashtags, and alt text as
+                    three separate plain messages, because Discord mobile copies a whole message at a time.
                   </li>
                 </ol>
 
-                <h4>Cards that stay current</h4>
+                <h4>Events across four calendars</h4>
                 <p>
-                  Every record renders to a "card" message. When anything changes, the card is edited in place if it
-                  is still the newest message in its channel, otherwise deleted and re-sent at the bottom so it stays
-                  next to where people type. Duplicates in one channel collapse to one. Nobody is ever asked to press
-                  Refresh.
+                  "Create event: body doubling this Saturday 2–4pm in Quiet Study 1, I'll host" lands as a forum post
+                  and on the organization's Google Calendar, and edits sync both ways. <code>/event find</code> ranks
+                  free slots across four shared calendars using only busy intervals, never titles, with weekday
+                  evenings and weekends first, a fifteen-minute buffer, and at most two picks a day. Creating or
+                  moving an event onto someone's busy time warns, with Move-to buttons.
                 </p>
               </div>
 
@@ -1016,8 +1065,9 @@
                 <dl>
                   <dt>Commands</dt>
                   <dd>
-                    One slash command per file (<code>/project</code>, <code>/todo</code>, <code>/post</code>,
-                    <code>/event</code>, <code>/stats</code>), listed once in <code>commands/index.ts</code>.
+                    Seven slash-command groups, one per file (<code>/project</code>, <code>/todo</code>,
+                    <code>/post</code>, <code>/event</code>, <code>/stats</code>, and two more), listed once in
+                    <code>commands/index.ts</code>. Twenty-five services do the work behind them.
                   </dd>
                   <dt>Interactions</dt>
                   <dd>
@@ -1027,33 +1077,62 @@
                   </dd>
                   <dt>Jobs</dt>
                   <dd>
-                    node-cron at 9:00: weekly digest, post reminders, content cadence, monthly social stats,
-                    metrics refresh from Instagram and LinkedIn providers, and release notes to a docs channel.
+                    Eight scheduled jobs on node-cron: the weekly digest, post reminders, the writing-week coach,
+                    the pillar balance nudge, the metrics re-read, the month-end report, the Monday productivity
+                    summary, and release notes to the docs channel.
+                  </dd>
+                  <dt>Record keeping</dt>
+                  <dd>
+                    An activity log that outlives the item: assignments, completions with on-time status, hosted
+                    events, and posts are written as rows with deterministic IDs, so deleting a to-do keeps the
+                    credit and reopening one removes it. <code>/stats</code> reports per member and per team, with a
+                    CSV export.
                   </dd>
                   <dt>Documentation</dt>
                   <dd>
-                    A README for engineers and an HTML field guide for the team, served by the bot and pinned in
-                    Discord. Release notes are posted automatically on deploy.
+                    A README for engineers and a field guide for the team: one WCAG 2.2 AA HTML page, served by the
+                    bot at a stable URL and pinned in Discord, with axe-core run on every change and zero
+                    violations allowed. Release notes ship with the code: a Markdown note in the repository is
+                    posted automatically when the deploy that carries it comes up, and the guide's version is
+                    derived from the count of notes, so nobody bumps a number by hand.
                   </dd>
                 </dl>
 
-                <h4>Two production problems, solved</h4>
+                <h4>Three production problems, solved</h4>
                 <div class="callout">
                   <p>
                     <strong>Overlapping deploys.</strong> Railway starts the new container before stopping the old
                     one, and for those seconds Discord delivers every message and cron tick to both. A subtask once
                     got two threads and a delete cascade ran halfway. The fix is an instance lock: on start, each
-                    instance writes its ID to a settings document and subscribes to it, and the moment a newer instance
-                    claims it, the older one ignores messages, interactions, and cron until it is stopped. The lock is per bot user, so a dev
-                    bot beside prod never silences prod.
+                    instance writes its ID to a settings document and subscribes to it, and the moment a newer
+                    instance claims it, the older one ignores messages, interactions, and cron until it is stopped.
+                    The lock is per bot user, so a dev bot beside prod never silences prod.
                   </p>
                   <p>
-                    <strong>Testing without touching prod.</strong> Feature branches run as a second Discord
-                    application in the same server with jobs disabled, no docs channel, and a separate lock.
-                    Component interactions always route to the app that owns the message, so prod cards and dev
-                    cards can't cross.
+                    <strong>A client that died and reported ready.</strong> A Discord gateway outage showed that a
+                    destroyed client could still fire its ready event. Login now retries with exponential back-off
+                    and a fresh client on every attempt.
+                  </p>
+                  <p>
+                    <strong>A glyph that rejected every card.</strong> Discord validates message components on its
+                    servers, and a checkbox character that is not a Unicode emoji once rejected every project card
+                    with an open task. A card probe sends every card variant to Discord and deletes it, so that
+                    class of failure is caught before a deploy.
                   </p>
                 </div>
+
+                <h4>By the numbers</h4>
+                <ul>
+                  <li>107 merged pull requests in eight days; 102 commits on <code>main</code>.</li>
+                  <li>78 modules and 7,749 lines of TypeScript; 5 runtime dependencies.</li>
+                  <li>7 slash-command groups, 8 scheduled jobs, 25 services, 24 release notes.</li>
+                  <li>Zero axe-core violations on the field guide across 36 rules, in both themes.</li>
+                  <li>Four Google calendars in the scheduler, one Meta Graph API integration, one Gemini integration for parsing, drafting, and ideation.</li>
+                </ul>
+                <p>
+                  Built with Claude Code as pair programmer; every feature was specified, live-tested, and accepted
+                  by me in the server, usually in the same hour it shipped.
+                </p>
               </div>
             </div>
           </div>

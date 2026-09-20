@@ -31,6 +31,7 @@ npm test             # tokens + Vitest (unit, component, jsdom axe)
 npm run test:e2e     # builds, then Playwright: axe in Chromium, keyboard walk, reflow
 npm run check        # lint + typecheck + both test suites
 npm run build        # tokens -> typecheck -> Vite build into dist/
+npm run og-card -- public/og-card-<date>.png   # re-render the social card (new name each time; LinkedIn caches by URL)
 ```
 
 Playwright needs its browsers once: `npx playwright install chromium webkit` (WebKit runs as an iPhone for the specs tagged `@webkit`).

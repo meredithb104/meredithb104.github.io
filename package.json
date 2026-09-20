@@ -26,6 +26,7 @@
     "test": "npm run prepare-content && vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
+    "og-card": "node scripts/og-card/render.mjs",
     "check": "npm run lint && npm run typecheck && npm test && npm run test:e2e"
   },
   "devDependencies": {

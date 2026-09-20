@@ -27,7 +27,10 @@ export class SiteNav extends HTMLElement {
   private toggle: HTMLButtonElement | undefined;
   private list: HTMLElement | undefined;
   private more: HTMLDetailsElement | null = null;
-  private readonly narrow = window.matchMedia("(max-width: 71.99em)");
+  /** Narrow-screen query; jsdom has no matchMedia, so tests get a query that never matches. */
+  private readonly narrow: MediaQueryList = typeof window.matchMedia === "function"
+    ? window.matchMedia("(max-width: 71.99em)")
+    : ({ matches: false, addEventListener() {}, removeEventListener() {} } as unknown as MediaQueryList);
 
   connectedCallback(): void {
     const nav = this.querySelector("nav");

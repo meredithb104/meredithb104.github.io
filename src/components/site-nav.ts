@@ -13,19 +13,32 @@
  * 2. Marks the in-page link for the section currently in view with
  *    aria-current="location" (underline as well as color). Uses
  *    IntersectionObserver, so nothing runs on scroll.
+ *
+ * 3. On wide screens six of the sections sit under a native <details>
+ *    disclosure labelled "More". The element works without any script; the
+ *    script adds what a menu-like disclosure should do: Escape closes it and
+ *    returns focus to its summary, a click outside or focus leaving closes it,
+ *    and inside the phone panel it stays open with its summary hidden, so the
+ *    panel is one flat list.
  */
 export class SiteNav extends HTMLElement {
   private observer: IntersectionObserver | undefined;
   private readonly visible = new Map<string, number>();
   private toggle: HTMLButtonElement | undefined;
   private list: HTMLElement | undefined;
+  private more: HTMLDetailsElement | null = null;
+  private readonly narrow = window.matchMedia("(max-width: 71.99em)");
 
   connectedCallback(): void {
     const nav = this.querySelector("nav");
     const list = nav?.querySelector("ul");
     if (!nav || !list) return;
     this.list = list;
+    this.addEventListener("keydown", this.onKeydown);
+    this.addEventListener("focusout", this.onFocusOut);
+    document.addEventListener("pointerdown", this.onPointerDown);
     this.setupToggle(nav, list);
+    this.setupMore();
     this.setupCurrentSection();
   }
 
@@ -34,6 +47,29 @@ export class SiteNav extends HTMLElement {
     this.removeEventListener("keydown", this.onKeydown);
     this.removeEventListener("focusout", this.onFocusOut);
     document.removeEventListener("pointerdown", this.onPointerDown);
+    this.narrow.removeEventListener("change", this.syncMore);
+  }
+
+  private setupMore(): void {
+    this.more = this.querySelector<HTMLDetailsElement>("details.nav-more");
+    if (!this.more) return;
+    this.narrow.addEventListener("change", this.syncMore);
+    this.syncMore();
+    // Choosing a link closes the disclosure on wide screens (on narrow ones the whole panel closes).
+    this.more.addEventListener("click", (e) => {
+      if ((e.target as Element).closest("a") && !this.narrow.matches) this.more!.open = false;
+    });
+  }
+
+  /** Narrow: the disclosure stays open inside the panel (CSS hides its summary). Wide: closed until asked. */
+  private readonly syncMore = (): void => {
+    if (this.more) this.more.open = this.narrow.matches;
+  };
+
+  private closeMore(focusSummary: boolean): void {
+    if (!this.more || this.narrow.matches || !this.more.open) return;
+    this.more.open = false;
+    if (focusSummary) this.more.querySelector("summary")?.focus();
   }
 
   private setupToggle(nav: HTMLElement, list: HTMLElement): void {
@@ -51,9 +87,6 @@ export class SiteNav extends HTMLElement {
     nav.before(button);
     this.toggle = button;
     this.dataset["collapsible"] = "true";
-    this.addEventListener("keydown", this.onKeydown);
-    this.addEventListener("focusout", this.onFocusOut);
-    document.addEventListener("pointerdown", this.onPointerDown);
     list.addEventListener("click", (e) => {
       if ((e.target as Element).closest("a")) this.setOpen(false, false);
     });
@@ -73,14 +106,22 @@ export class SiteNav extends HTMLElement {
   private readonly onFocusOut = (event: FocusEvent): void => {
     const next = event.relatedTarget;
     if (this.isOpen() && (!(next instanceof Node) || !this.contains(next))) this.setOpen(false, false);
+    if (this.more?.open && (!(next instanceof Node) || !this.more.contains(next))) this.closeMore(false);
   };
 
   private readonly onPointerDown = (event: PointerEvent): void => {
     if (this.isOpen() && event.target instanceof Node && !this.contains(event.target)) this.setOpen(false, false);
+    if (this.more?.open && event.target instanceof Node && !this.more.contains(event.target)) this.closeMore(false);
   };
 
   private readonly onKeydown = (event: KeyboardEvent): void => {
-    if (event.key === "Escape" && this.isOpen()) {
+    if (event.key !== "Escape") return;
+    if (this.more?.open && !this.narrow.matches && this.more.contains(event.target as Node)) {
+      event.preventDefault();
+      this.closeMore(true);
+      return;
+    }
+    if (this.isOpen()) {
       event.preventDefault();
       this.setOpen(false, true);
     }

@@ -153,3 +153,44 @@ test("a focused menu row is filled, not only ringed", async ({ page }) => {
   expect(row, "the row has its own fill").not.toBe("rgba(0, 0, 0, 0)");
   expect(row, "the fill differs from the panel").not.toBe(panel);
 });
+
+// "More": a native <details> holding six sections on wide screens.
+test("More opens as a disclosure, closes on Escape with focus back on its summary, and closes on an outside click", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto("/");
+  const nav = page.getByRole("navigation", { name: "Sections" });
+  const more = nav.locator("details.nav-more");
+  const summary = more.locator("summary");
+  await expect(nav.getByRole("link", { name: "Lab" })).toHaveCount(0); // not in the tree while closed
+  await summary.focus();
+  await page.keyboard.press("Enter");
+  await expect(more).toHaveJSProperty("open", true);
+  await expect(nav.getByRole("link", { name: "Lab" })).toBeVisible();
+  await expect(nav.getByRole("link", { name: "Dictionary" })).toBeVisible();
+  // Every link inside is a real in-page target.
+  const hrefs = await more.getByRole("link").evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).hash.slice(1)));
+  expect(hrefs).toEqual(["lab", "work", "case-studies", "approach", "writing", "dictionary"]);
+  for (const id of hrefs) expect(await page.locator(`#${id}`).count(), id).toBe(1);
+
+  await page.keyboard.press("Tab");
+  await expect(nav.getByRole("link", { name: "Lab" })).toBeFocused();
+  await page.keyboard.press("Escape");
+  await expect(more).toHaveJSProperty("open", false);
+  await expect(summary).toBeFocused();
+
+  await summary.click();
+  await expect(more).toHaveJSProperty("open", true);
+  await page.mouse.click(300, 600);
+  await expect(more).toHaveJSProperty("open", false);
+});
+
+test("inside the phone menu the More list is flat and its summary is hidden", async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto("/");
+  await page.getByRole("button", { name: "Menu" }).click();
+  const nav = page.getByRole("navigation", { name: "Sections" });
+  await expect(nav.getByRole("link")).toHaveCount(10);
+  await expect(nav.locator("details.nav-more")).toHaveJSProperty("open", true);
+  await expect(nav.locator("details.nav-more summary")).toBeHidden();
+  await expect(nav.getByRole("link", { name: "Dictionary" })).toBeVisible();
+});

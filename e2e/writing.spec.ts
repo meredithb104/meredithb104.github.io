@@ -1,4 +1,10 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
+
+/** Six sections sit under the "More" disclosure on wide screens; open it before reaching for one. */
+async function openMore(page: Page, navName: string): Promise<void> {
+  const more = page.getByRole("navigation", { name: navName }).locator("details.nav-more");
+  if (!(await more.evaluate((d) => (d as HTMLDetailsElement).open))) await more.locator("summary").click();
+}
 
 /** The Writing section, the archive, a post page, and the feed. */
 
@@ -8,6 +14,7 @@ test("the landing page lists the newest posts and links to the archive and feed"
   await expect(section.getByRole("link", { name: "Accessibility is a build error, not a review comment" })).toBeVisible();
   await expect(section.getByRole("link", { name: /archive has all of them/ })).toHaveAttribute("href", "/posts/");
   await expect(section.getByRole("link", { name: "Atom feed" })).toHaveAttribute("href", "/feed.xml");
+  await openMore(page, "Sections");
   await expect(page.getByRole("navigation", { name: "Sections" }).getByRole("link", { name: "Writing" })).toHaveAttribute("href", "#writing");
 });
 
@@ -17,6 +24,7 @@ test("a post page has one h1, a dated byline, and returns to the archive", async
   await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
   await expect(page.locator("time[datetime='2026-09-17']").first()).toBeVisible();
   await expect(page.getByRole("heading", { level: 2, name: "The rule" })).toBeVisible();
+  await openMore(page, "Site");
   await expect(page.getByRole("navigation", { name: "Site" }).getByRole("link", { name: "Writing" })).toHaveAttribute("aria-current", "page");
   await page.getByRole("link", { name: "All posts" }).first().click();
   await expect(page).toHaveURL(/\/posts\/$/);

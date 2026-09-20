@@ -5,6 +5,12 @@ import { expect, test, type Page } from "@playwright/test";
  * whether every control can be reached and operated from the keyboard.
  */
 
+/** Six sections sit under the "More" disclosure on wide screens; open it before reaching for one. */
+async function openMore(page: Page, navName = "Sections"): Promise<void> {
+  const more = page.getByRole("navigation", { name: navName }).locator("details.nav-more");
+  if (!(await more.evaluate((d) => (d as HTMLDetailsElement).open))) await more.locator("summary").click();
+}
+
 async function focused(page: Page): Promise<{ tag: string; text: string; id: string; inView: boolean; unobscured: boolean }> {
   return page.evaluate(() => {
     const el = document.activeElement as HTMLElement | null;
@@ -42,6 +48,7 @@ test("the first Tab lands on the skip link, and the skip link moves focus to mai
 test("in-page navigation moves focus to the section and the sticky header never covers it", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/");
+  await openMore(page);
   await page.getByRole("navigation", { name: "Sections" }).getByRole("link", { name: "Case studies" }).click();
   await expect.poll(async () => (await focused(page)).id).toBe("case-studies");
   // The section heading should be below the sticky header, not hidden under it.
@@ -136,6 +143,7 @@ test("a fragment is cleared from the address once it has done its job", async ({
 
   // After an in-page jump: focus lands on the section, then the fragment goes.
   await page.goto("/");
+  await openMore(page);
   await page.getByRole("navigation", { name: "Sections" }).getByRole("link", { name: "Lab" }).click();
   await expect.poll(async () => (await focused(page)).id).toBe("lab");
   await expect.poll(() => page.evaluate(() => location.hash)).toBe("");
@@ -186,6 +194,7 @@ test("every fragment lands: a heading with no tabindex takes focus, on a link, o
 
   // 4. Cross-page links to the home page's sections land on the section (it has tabindex="-1" already).
   await page.goto("/accessibility.html");
+  await openMore(page, "Site");
   await page.getByRole("link", { name: "Lab" }).first().click();
   await expect.poll(() => page.evaluate(() => location.pathname)).toBe("/");
   await expect.poll(() => page.evaluate(() => location.hash)).toBe("");

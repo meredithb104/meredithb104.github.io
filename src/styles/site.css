@@ -141,6 +141,91 @@
     }
   }
 
+  /* "More": a native <details> holding six sections. On wide screens its summary is a pill among the
+     links and its list opens as a panel beneath; inside the phone panel the disclosure is held open by
+     the script and its summary hidden, so the panel reads as one flat list. */
+  .nav-more {
+    position: relative;
+
+    summary {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      min-block-size: var(--size-target);
+      padding-inline: var(--space-2);
+      border-radius: var(--radius-md);
+      color: var(--color-text);
+      font-weight: var(--font-weight-medium);
+      list-style: none;
+      cursor: pointer;
+
+      &::-webkit-details-marker {
+        display: none;
+      }
+
+      &:hover,
+      &:focus-visible {
+        background: color-mix(in srgb, var(--color-primary) 18%, var(--color-surface));
+        color: var(--color-primary);
+      }
+
+      svg {
+        transition: transform var(--motion-duration-fast) var(--motion-easing-standard);
+      }
+    }
+
+    &[open] > summary svg {
+      transform: rotate(180deg);
+    }
+
+    /* The summary carries the current-section mark when a section inside it is current. */
+    &:has(a[aria-current]) > summary {
+      text-decoration: underline;
+      text-decoration-thickness: 0.14em;
+      text-underline-offset: 0.3em;
+      color: var(--color-primary);
+    }
+
+    @media (min-width: 72em) {
+      > ul {
+        position: absolute;
+        inset-block-start: calc(100% + var(--space-2));
+        inset-inline-end: 0;
+        z-index: 20;
+        display: block;
+        min-inline-size: 14rem;
+        padding: var(--space-2);
+        background: var(--color-surface);
+        border: var(--size-border) solid var(--color-border);
+        border-radius: var(--radius-lg);
+        box-shadow: 0 12px 32px rgb(0 0 0 / 0.18);
+
+        a {
+          display: flex;
+          inline-size: 100%;
+          padding: var(--space-2) var(--space-3);
+        }
+      }
+    }
+
+    @media (max-width: 71.99em) {
+      summary {
+        display: none; /* the script keeps the disclosure open here; the list is flat */
+      }
+
+      > ul {
+        display: block;
+      }
+    }
+
+    @media (forced-colors: active) {
+      > ul {
+        border: 2px solid CanvasText;
+        box-shadow: none;
+      }
+    }
+  }
+
   /* The Menu button exists only once the script runs; the list is always in the HTML. */
   .nav-toggle {
     display: none;

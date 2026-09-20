@@ -156,31 +156,23 @@
     position: relative;
   }
 
-  .nav-more-toggle {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-1);
-    min-block-size: var(--size-target);
-    padding: 0 var(--space-2);
-    border: 0;
-    border-radius: var(--radius-md);
-    background: none;
-    color: var(--color-text);
-    font-weight: var(--font-weight-medium);
-    cursor: pointer;
-
+  /* The "More information" button shares the Menu button's style (the Commons UI secondary button:
+     surface, primary text and border, 44px minimum) and its hamburger icon. On the tint it keeps the
+     page text colour, as every menu row does, so hover and focus text hold 7:1. */
+  .site-nav .nav-more-toggle {
+    /* Specific enough to outrank the Menu button's expanded-state colour while hovered or focused. */
     &:hover,
     &:focus-visible {
       background: color-mix(in srgb, var(--color-primary) 18%, var(--color-surface));
-      color: var(--color-text); /* 7:1 or better on the tint in both themes; the primary is not */
+      border-color: var(--color-primary);
+      color: var(--color-text);
     }
+  }
 
-    svg {
-      transition: transform var(--motion-duration-fast) var(--motion-easing-standard);
-    }
-
-    &[aria-expanded="true"] svg {
-      transform: rotate(180deg);
+  /* Wide screens: shown (the generic .nav-toggle rule hides it otherwise). */
+  @media (min-width: 72em) {
+    .site-nav .nav-more-toggle {
+      display: inline-flex;
     }
   }
 
@@ -224,8 +216,8 @@
   }
 
   @media (max-width: 71.99em) {
-    .nav-more-toggle {
-      display: none; /* inside the phone panel the list is flat */
+    .site-nav[data-collapsible] .nav-toggle.nav-more-toggle {
+      display: none; /* inside the phone panel the list is flat; outranks the Menu button's rule */
     }
 
     .nav-more-list {
@@ -234,10 +226,6 @@
   }
 
   @media (forced-colors: active) {
-    .nav-more-toggle {
-      border: 2px solid ButtonText;
-    }
-
     .nav-more-item[data-more] > .nav-more-list {
       border: 2px solid CanvasText;
       box-shadow: none;

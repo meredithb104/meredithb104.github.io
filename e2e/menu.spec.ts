@@ -159,7 +159,7 @@ test("More opens as a disclosure, closes on Escape with focus back on its button
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/");
   const nav = page.getByRole("navigation", { name: "Sections" });
-  const button = nav.getByRole("button", { name: "More" });
+  const button = nav.getByRole("button", { name: "More information" });
   await expect(button).toHaveAttribute("aria-expanded", "false");
   await expect(nav.getByRole("link", { name: "Lab" })).toBeHidden();
   await button.focus();
@@ -217,10 +217,14 @@ test("hovered and focused menu rows keep 7:1 text on their tint in every theme",
   for (const theme of ["light", "dark"]) {
     await page.evaluate((t) => { document.documentElement.dataset["theme"] = t; }, theme);
     const nav = page.getByRole("navigation", { name: "Sections" });
-    const more = nav.getByRole("button", { name: "More" });
+    const more = nav.getByRole("button", { name: "More information" });
     await more.hover();
-    expect(await ratio(more), `${theme}: More hovered`).toBeGreaterThanOrEqual(7);
+    expect(await ratio(more), `${theme}: More information hovered`).toBeGreaterThanOrEqual(7);
     if ((await more.getAttribute("aria-expanded")) === "false") await more.click();
+    await more.hover();
+    expect(await ratio(more), `${theme}: More information expanded and hovered`).toBeGreaterThanOrEqual(7);
+    await more.focus();
+    expect(await ratio(more), `${theme}: More information expanded and focused`).toBeGreaterThanOrEqual(7);
     const lab = nav.getByRole("link", { name: "Lab" });
     await lab.hover();
     expect(await ratio(lab), `${theme}: Lab hovered`).toBeGreaterThanOrEqual(7);

@@ -14,7 +14,8 @@
  *    aria-current="location" (underline as well as color). Uses
  *    IntersectionObserver, so nothing runs on scroll.
  *
- * 3. On wide screens six of the sections sit behind a "More" button, the
+ * 3. On wide screens six of the sections sit behind a "More information"
+ *    button, a hamburger in the Commons UI secondary-button style and the
  *    same disclosure pattern as the Menu button: aria-expanded and
  *    aria-controls describe the state; Escape closes and returns focus to the
  *    button; a click outside or focus leaving closes; choosing a link closes.
@@ -57,10 +58,10 @@ export class SiteNav extends HTMLElement {
     list.id ||= "nav-more-list";
     const button = document.createElement("button");
     button.type = "button";
-    button.className = "nav-more-toggle";
+    button.className = "nav-toggle nav-more-toggle";
     button.setAttribute("aria-expanded", "false");
     button.setAttribute("aria-controls", list.id);
-    button.innerHTML = `More <svg aria-hidden="true" viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8l5 5 5-5"/></svg>`;
+    button.innerHTML = `<svg aria-hidden="true" viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 5h14M3 10h14M3 15h14"/></svg> More information`;
     button.addEventListener("click", () => this.setMoreOpen(!this.isMoreOpen()));
     list.before(button);
     this.moreItem = item;

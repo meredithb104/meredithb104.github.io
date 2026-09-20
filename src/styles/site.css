@@ -160,11 +160,18 @@
      surface, primary text and border, 44px minimum) and its hamburger icon. On the tint it keeps the
      page text colour, as every menu row does, so hover and focus text hold 7:1. */
   .site-nav .nav-more-toggle {
-    /* Specific enough to outrank the Menu button's expanded-state colour while hovered or focused. */
+    /* Dressed like the links beside it: no box, the same padding and weight, the icon in front. The
+       selector is specific enough to outrank the Menu button's own border and expanded colour. */
+    padding: 0 var(--space-2);
+    border-color: transparent;
+    background: none;
+    color: var(--color-text);
+
     &:hover,
-    &:focus-visible {
+    &:focus-visible,
+    &[aria-expanded="true"] {
       background: color-mix(in srgb, var(--color-primary) 18%, var(--color-surface));
-      border-color: var(--color-primary);
+      border-color: transparent;
       color: var(--color-text);
     }
   }

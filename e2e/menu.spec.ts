@@ -195,3 +195,41 @@ test("inside the phone menu the More list is flat and its button is hidden", asy
   await expect(nav.locator(".nav-more-toggle")).toBeHidden();
   await expect(nav.getByRole("link", { name: "Dictionary" })).toBeVisible();
 });
+
+// Hovered and focused rows: the text on the tinted row must hold 7:1 in every theme, including the
+// current-section row and the More button, which otherwise take the primary colour.
+test("hovered and focused menu rows keep 7:1 text on their tint in every theme", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto("/");
+  const ratio = async (locator: ReturnType<typeof page.locator>) =>
+    locator.evaluate((el) => {
+      // Chromium reports color-mix() results as color(srgb r g b) with 0..1 channels; rgb() uses 0..255.
+      const lum = (c: string) => {
+        const nums = c.match(/[\d.]+/g)!.map(Number);
+        const scale = c.startsWith("color(srgb") ? 1 : 255;
+        const [r, g, b] = nums.slice(0, 3).map((v) => v / scale).map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
+        return 0.2126 * r! + 0.7152 * g! + 0.0722 * b!;
+      };
+      const cs = getComputedStyle(el);
+      const [a, b] = [lum(cs.color), lum(cs.backgroundColor)];
+      return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+    });
+  for (const theme of ["light", "dark"]) {
+    await page.evaluate((t) => { document.documentElement.dataset["theme"] = t; }, theme);
+    const nav = page.getByRole("navigation", { name: "Sections" });
+    const more = nav.getByRole("button", { name: "More" });
+    await more.hover();
+    expect(await ratio(more), `${theme}: More hovered`).toBeGreaterThanOrEqual(7);
+    if ((await more.getAttribute("aria-expanded")) === "false") await more.click();
+    const lab = nav.getByRole("link", { name: "Lab" });
+    await lab.hover();
+    expect(await ratio(lab), `${theme}: Lab hovered`).toBeGreaterThanOrEqual(7);
+    await lab.evaluate((el) => el.setAttribute("aria-current", "location")); // the current-section state
+    expect(await ratio(lab), `${theme}: Lab current and hovered`).toBeGreaterThanOrEqual(7);
+    await lab.evaluate((el) => el.removeAttribute("aria-current"));
+    await page.keyboard.press("Escape");
+    const about = nav.getByRole("link", { name: "About" });
+    await about.hover();
+    expect(await ratio(about), `${theme}: About hovered`).toBeGreaterThanOrEqual(7);
+  }
+});

@@ -124,11 +124,12 @@
 
       /* The row itself changes on hover and on keyboard focus, not only the ring around it. The tint
          is the primary mixed into the surface, so it shows inside the phone panel (whose own
-         background is the surface) as well as on the desktop header. */
+         background is the surface) as well as on the desktop header. The text stays the page text
+         colour: the primary on this tint is 4.7:1 on the dark theme, the page text 7.6:1. */
       &:hover,
       &:focus-visible {
         background: color-mix(in srgb, var(--color-primary) 18%, var(--color-surface));
-        color: var(--color-primary);
+        color: var(--color-text);
       }
 
       /* Current section while scrolling: set by <site-nav>. Underline, not color alone (1.4.1). */
@@ -137,6 +138,12 @@
         text-decoration-thickness: 0.14em;
         text-underline-offset: 0.3em;
         color: var(--color-primary);
+
+        /* On the tinted row the page text colour wins, as for any other row. */
+        &:hover,
+        &:focus-visible {
+          color: var(--color-text);
+        }
       }
     }
   }
@@ -165,7 +172,7 @@
     &:hover,
     &:focus-visible {
       background: color-mix(in srgb, var(--color-primary) 18%, var(--color-surface));
-      color: var(--color-primary);
+      color: var(--color-text); /* 7:1 or better on the tint in both themes; the primary is not */
     }
 
     svg {
@@ -183,6 +190,11 @@
     text-decoration-thickness: 0.14em;
     text-underline-offset: 0.3em;
     color: var(--color-primary);
+
+    &:hover,
+    &:focus-visible {
+      color: var(--color-text);
+    }
   }
 
   @media (min-width: 72em) {

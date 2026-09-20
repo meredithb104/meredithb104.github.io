@@ -726,12 +726,19 @@
     padding: 0;
     margin-block-end: var(--space-6);
 
-    li {
+    /* Direct children only: each entry carries a nested list of résumé bullets. */
+    > li {
       display: grid;
       gap: var(--space-1);
       padding-inline-start: var(--space-5);
       border-inline-start: 3px solid var(--color-brand4);
       max-inline-size: none;
+    }
+
+    ul {
+      padding-inline-start: 1.2em;
+      display: grid;
+      gap: var(--space-1);
     }
 
     h3 {

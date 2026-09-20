@@ -57,7 +57,7 @@ for (const theme of ["light", "dark"] as const) {
     await page.getByRole("button", { name: "Menu" }).click();
 
     const controls = [
-      "a.button:not(.button--secondary)", "a.button.button--secondary", "button.nav-toggle",
+      "a.button:not(.button--secondary)", "a.button.button--secondary", "button.cui-menu-button",
       ".chip[aria-pressed='true']", ".chip[aria-pressed='false']", ".carousel-button",
       ".carousel-dot[aria-selected='true']", ".carousel-dot[aria-selected='false']",
     ];

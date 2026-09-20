@@ -166,13 +166,15 @@ const NAV = `
       <div class="wrap">
         <a class="brand" href="/"><svg class="brand-mark" aria-hidden="true" viewBox="0 0 64 64" width="32" height="32"><rect width="64" height="64" rx="14" fill="currentColor"/><text x="32" y="43" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="30" font-weight="700" fill="var(--brand-ink, #FFFFFF)">MB</text></svg><span>Meredith Boyce</span></a>
         <site-nav class="site-nav">
+          <cui-menu-button class="nav-toggle" label="Menu" controls="site-nav-list"></cui-menu-button>
           <nav aria-label="Site">
-            <ul role="list">
+            <ul id="site-nav-list" role="list">
               <li><a href="/#about">About</a></li>
               <li><a href="/#contact">Contact</a></li>
               <li><a href="/#experience">Experience</a></li>
               <li><a href="/#skills">Skills</a></li>
               <li class="nav-more-item">
+                <cui-menu-button class="nav-more-toggle" label="More information" controls="nav-more-list" variant="quiet"></cui-menu-button>
                 <ul id="nav-more-list" role="list" class="nav-more-list">
                   <li><a href="/#lab">Lab</a></li>
                   <li><a href="/#work">Work</a></li>

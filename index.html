@@ -49,13 +49,15 @@
       <div class="wrap">
         <a class="brand" href="/"><svg class="brand-mark" aria-hidden="true" viewBox="0 0 64 64" width="32" height="32"><rect width="64" height="64" rx="14" fill="currentColor"/><text x="32" y="43" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="30" font-weight="700" fill="var(--brand-ink, #FFFFFF)">MB</text></svg><span>Meredith Boyce</span></a>
         <site-nav id="site-nav" class="site-nav">
+          <cui-menu-button class="nav-toggle" label="Menu" controls="site-nav-list"></cui-menu-button>
           <nav aria-label="Sections">
-            <ul role="list">
+            <ul id="site-nav-list" role="list">
               <li><a href="#about">About</a></li>
               <li><a href="#contact">Contact</a></li>
               <li><a href="#experience">Experience</a></li>
               <li><a href="#skills">Skills</a></li>
               <li class="nav-more-item">
+                <cui-menu-button class="nav-more-toggle" label="More information" controls="nav-more-list" variant="quiet"></cui-menu-button>
                 <ul id="nav-more-list" role="list" class="nav-more-list">
                   <li><a href="#lab">Lab</a></li>
                   <li><a href="#work">Work</a></li>
@@ -389,7 +391,8 @@
                 Commons UI provides accessible-by-default React components for organizers, advocates, and mutual-aid
                 networks. Its design tokens declare which colors sit on which backgrounds; the build computes every
                 pair with the WCAG formula and refuses to emit CSS if one fails. It includes an accordion, tabs, a
-                dialog, a switch, form errors, and live regions, each with keyboard tests and an axe scan.
+                dialog, a switch, form errors, live regions, and a menu button that also ships as a framework-free
+                custom element, each with keyboard tests and an axe scan. This site's two menus use that element.
               </p>
               <p class="card-links">
                 <a href="https://meredithb104.github.io/commons-ui/">Live demo<span class="visually-hidden"> of Commons UI</span></a>
@@ -447,8 +450,9 @@
               </p>
               <p>
                 This site runs no framework. It is static HTML, cascade layers, container queries, and eight small
-                custom elements, including APG-pattern tabs and a carousel, with the Commons UI token pipeline
-                ported to TypeScript and run natively by Node. axe-core audits it in a real browser on every deploy.
+                custom elements, including APG-pattern tabs and a carousel. Both of its menu buttons are Commons UI's
+                MenuButton, installed from that repository as a framework-free custom element, and the Commons UI
+                token pipeline runs here ported to TypeScript. axe-core audits it in a real browser on every deploy.
               </p>
               <p class="card-links">
                 <a href="https://github.com/meredithb104/meredithb104.github.io">Source on GitHub<span class="visually-hidden"> (this site)</span></a>

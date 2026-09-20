@@ -156,42 +156,30 @@
     position: relative;
   }
 
-  /* The "More information" button shares the Menu button's style (the Commons UI secondary button:
-     surface, primary text and border, 44px minimum) and its hamburger icon. On the tint it keeps the
-     page text colour, as every menu row does, so hover and focus text hold 7:1. */
-  .site-nav .nav-more-toggle {
-    /* Dressed like the links beside it: no box, the same padding and weight, the icon in front. The
-       selector is specific enough to outrank the Menu button's own border and expanded colour. */
-    padding: 0 var(--space-2);
-    border-color: transparent;
-    background: none;
-    color: var(--color-text);
-
-    &:hover,
-    &:focus-visible,
-    &[aria-expanded="true"] {
-      background: color-mix(in srgb, var(--color-primary) 18%, var(--color-surface));
-      border-color: transparent;
-      color: var(--color-text);
-    }
+  /* Both menu buttons are <cui-menu-button> from Commons UI, drawn by the library's stylesheet
+     (menu-button.css): the Menu button in its default boxed style, the "More information" button in
+     its quiet variant, which keeps hover, focus, and the expanded state at the page text colour on
+     the tint (7:1 or better on every theme). The site only decides where each host element shows. */
+  .nav-more-toggle {
+    display: none;
   }
 
-  /* Wide screens: shown (the generic .nav-toggle rule hides it otherwise). */
   @media (min-width: 72em) {
     .site-nav .nav-more-toggle {
-      display: inline-flex;
+      display: inline-block;
     }
   }
 
   /* The button carries the current-section mark when a section inside the list is current. */
-  .nav-more-item:has(a[aria-current]) > .nav-more-toggle {
+  .nav-more-item:has(a[aria-current]) > .nav-more-toggle .cui-menu-button {
     text-decoration: underline;
     text-decoration-thickness: 0.14em;
     text-underline-offset: 0.3em;
     color: var(--color-primary);
 
     &:hover,
-    &:focus-visible {
+    &:focus-visible,
+    &[aria-expanded="true"] {
       color: var(--color-text);
     }
   }
@@ -223,9 +211,6 @@
   }
 
   @media (max-width: 71.99em) {
-    .site-nav[data-collapsible] .nav-toggle.nav-more-toggle {
-      display: none; /* inside the phone panel the list is flat; outranks the Menu button's rule */
-    }
 
     .nav-more-list {
       display: block;
@@ -239,24 +224,9 @@
     }
   }
 
-  /* The Menu button exists only once the script runs; the list is always in the HTML. */
+  /* The Menu button (a <cui-menu-button> host) shows only at phone widths, below. */
   .nav-toggle {
     display: none;
-    align-items: center;
-    gap: var(--space-2);
-    min-block-size: var(--size-target);
-    padding: var(--space-2) var(--space-4);
-    border: var(--size-border-strong) solid var(--color-border);
-    border-radius: var(--radius-md);
-    background: var(--color-surface);
-    color: var(--color-text);
-    font-weight: var(--font-weight-medium);
-    cursor: pointer;
-
-    &[aria-expanded="true"] {
-      border-color: var(--color-primary);
-      color: var(--color-primary);
-    }
   }
 
   @media (max-width: 71.99em) {
@@ -280,7 +250,7 @@
       margin-inline-start: auto;
 
       .nav-toggle {
-        display: inline-flex;
+        display: inline-block;
       }
 
       nav {

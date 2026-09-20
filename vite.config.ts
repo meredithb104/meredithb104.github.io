@@ -65,5 +65,7 @@ export default defineConfig({
     include: ["src/**/*.test.ts"],
     setupFiles: ["./src/test/setup.ts"],
     css: false,
+    // Commons UI ships TypeScript source; run it through Vite's transform rather than Node's loader.
+    server: { deps: { inline: ["commons-ui"] } },
   },
 });

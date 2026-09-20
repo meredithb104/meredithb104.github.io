@@ -192,7 +192,7 @@ test("inside the phone menu the More list is flat and its button is hidden", asy
   await page.getByRole("button", { name: "Menu" }).click();
   const nav = page.getByRole("navigation", { name: "Sections" });
   await expect(nav.getByRole("link")).toHaveCount(10);
-  await expect(nav.locator(".nav-more-toggle")).toBeHidden();
+  await expect(nav.locator("cui-menu-button.nav-more-toggle")).toBeHidden();
   await expect(nav.getByRole("link", { name: "Dictionary" })).toBeVisible();
 });
 
@@ -200,18 +200,42 @@ test("inside the phone menu the More list is flat and its button is hidden", asy
 // current-section row and the More button, which otherwise take the primary colour.
 test("hovered and focused menu rows keep 7:1 text on their tint in every theme", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
+  // The buttons transition their colours; reduced motion zeroes every duration, so a reading taken
+  // right after a hover is the settled colour, not a frame of the interpolation.
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   const ratio = async (locator: ReturnType<typeof page.locator>) =>
     locator.evaluate((el) => {
-      // Chromium reports color-mix() results as color(srgb r g b) with 0..1 channels; rgb() uses 0..255.
-      const lum = (c: string) => {
-        const nums = c.match(/[\d.]+/g)!.map(Number);
-        const scale = c.startsWith("color(srgb") ? 1 : 255;
-        const [r, g, b] = nums.slice(0, 3).map((v) => v / scale).map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
-        return 0.2126 * r! + 0.7152 * g! + 0.0722 * b!;
+      // Computed colours arrive as rgb(), color(srgb …), or oklab() depending on how they were written
+      // and minified; a canvas normalises any of them to #rrggbb.
+      const toRgba = (c: string): [number, number, number, number] => {
+        const ctx = document.createElement("canvas").getContext("2d")!;
+        ctx.fillStyle = c;
+        const n = ctx.fillStyle as string; // #rrggbb, rgba(r, g, b, a), or color(srgb r g b [/ a]) with 0..1 channels
+        if (n.startsWith("#")) return [1, 3, 5].map((i) => parseInt(n.slice(i, i + 2), 16)).concat(1) as [number, number, number, number];
+        const [r, g, b, a] = n.match(/[\d.]+/g)!.map(Number);
+        const scale = n.startsWith("color(srgb") ? 255 : 1;
+        return [r! * scale, g! * scale, b! * scale, a ?? 1];
       };
-      const cs = getComputedStyle(el);
-      const [a, b] = [lum(cs.color), lum(cs.backgroundColor)];
+      // The colour actually painted behind the text: the element's background composited over its
+      // ancestors' backgrounds (a tinted state can carry alpha).
+      const painted = (start: HTMLElement): [number, number, number] => {
+        let acc: [number, number, number] | null = null;
+        const layers: [number, number, number, number][] = [];
+        for (let e: HTMLElement | null = start; e; e = e.parentElement) layers.push(toRgba(getComputedStyle(e).backgroundColor));
+        layers.push([255, 255, 255, 1]);
+        for (let i = layers.length - 1; i >= 0; i--) {
+          const [r, g, b, a] = layers[i]!;
+          acc = acc ? [r * a + acc[0] * (1 - a), g * a + acc[1] * (1 - a), b * a + acc[2] * (1 - a)] : [r, g, b];
+        }
+        return acc!;
+      };
+      const lum = ([r, g, b]: [number, number, number]) => {
+        const [R, G, B] = [r, g, b].map((v) => v / 255).map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
+        return 0.2126 * R! + 0.7152 * G! + 0.0722 * B!;
+      };
+      const [tr, tg, tb] = toRgba(getComputedStyle(el).color);
+      const [a, b] = [lum([tr, tg, tb]), lum(painted(el as HTMLElement))];
       return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
     });
   for (const theme of ["light", "dark"]) {
@@ -236,4 +260,27 @@ test("hovered and focused menu rows keep 7:1 text on their tint in every theme",
     await about.hover();
     expect(await ratio(about), `${theme}: About hovered`).toBeGreaterThanOrEqual(7);
   }
+});
+
+// Both menu buttons are Commons UI's <cui-menu-button>; expanded is bold as well as tinted, the
+// label reserves its bold width, and Escape closes from anywhere while open.
+test("the Commons UI menu buttons: bold when expanded without shifting, and Escape closes", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto("/");
+  const hosts = await page.locator("cui-menu-button").count();
+  expect(hosts).toBe(2);
+  const button = page.getByRole("navigation", { name: "Sections" }).getByRole("button", { name: "More information" });
+  await expect(button).toHaveClass(/cui-menu-button--quiet/);
+  const before = await button.evaluate((b) => b.getBoundingClientRect().width);
+  await button.focus();
+  await page.keyboard.press("Enter");
+  await expect(button).toHaveAttribute("aria-expanded", "true");
+  expect(await button.evaluate((b) => b.getBoundingClientRect().width)).toBeCloseTo(before, 0);
+  expect(await button.locator(".cui-menu-button__label").evaluate((el) => getComputedStyle(el).fontWeight)).toBe("700");
+  await expect(button).toHaveAccessibleName("More information");
+  // Focus leaving the panel closes it before Escape could (2.4.11), so the element's Escape-from-anywhere
+  // path is exercised here with the pointer: open by click, Escape with focus still on the button.
+  await page.keyboard.press("Escape");
+  await expect(button).toHaveAttribute("aria-expanded", "false");
+  await expect(button).toBeFocused();
 });

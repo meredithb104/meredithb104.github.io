@@ -1,7 +1,6 @@
-import { beforeAll, describe, expect, it, vi } from "vitest";
-import { mountLiveRegions } from "../lib/announce.ts";
+import { describe, expect, it, vi } from "vitest";
+import "commons-ui/element";
 import { nextIndex } from "../lib/roving.ts";
-import "../components/tab-set.ts";
 import "../components/carousel-slider.ts";
 
 const key = (el: Element, k: string): boolean =>
@@ -19,10 +18,12 @@ describe("roving nextIndex", () => {
   });
 });
 
-describe("<tab-set>", () => {
+/* The Lab's tabs are Commons UI's <cui-tabs>, tested in that repository. This checks the site's
+   markup contract against it: links and sections, panel headings dropped, the hash deep link. */
+describe("<cui-tabs> (Commons UI) on the site's markup", () => {
   function mount(): void {
     document.body.innerHTML = `
-      <tab-set label="Demo tabs">
+      <cui-tabs label="Demo tabs">
         <ul data-tabs>
           <li><a href="#p-one">One</a></li>
           <li><a href="#p-two">Two</a></li>
@@ -31,7 +32,7 @@ describe("<tab-set>", () => {
         <section id="p-one"><h4 data-panel-heading>One</h4><p>First</p></section>
         <section id="p-two"><h4 data-panel-heading>Two</h4><p>Second</p></section>
         <section id="p-three"><h4 data-panel-heading>Three</h4><p>Third</p></section>
-      </tab-set>`;
+      </cui-tabs>`;
   }
   const tabs = (): HTMLButtonElement[] => [...document.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
   const panels = (): HTMLElement[] => [...document.querySelectorAll<HTMLElement>('[role="tabpanel"]')];
@@ -91,8 +92,7 @@ describe("<tab-set>", () => {
 });
 
 describe("<carousel-slider>", () => {
-  beforeAll(() => mountLiveRegions());
-  const liveText = (): string => document.querySelector('[data-live-region="polite"]')?.textContent ?? "";
+  const liveText = (): string => document.querySelector('cui-live-region [aria-live="polite"]')?.textContent ?? "";
 
   function mount(n = 4): HTMLElement {
     document.body.innerHTML = `

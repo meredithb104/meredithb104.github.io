@@ -433,47 +433,15 @@
         grid-column: 1 / -1;
       }
 
-      .button {
+      .cui-button {
         padding-inline: var(--space-3);
       }
     }
   }
 
-  /* ---- Buttons ------------------------------------------------------- */
-  .button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-2);
-    min-block-size: var(--size-target);
-    min-inline-size: var(--size-target);
-    padding: var(--space-2) var(--space-5);
-    border: var(--size-border-strong) solid var(--color-primary);
-    border-radius: var(--radius-md);
-    background: var(--color-primary);
-    color: var(--color-on-primary);
-    font-weight: var(--font-weight-medium);
+  /* ---- Buttons: Commons UI's button.css; the site adds only what a link needs ---- */
+  a.cui-button {
     text-decoration: none;
-    cursor: pointer;
-    transition:
-      background var(--motion-duration-fast) var(--motion-easing-standard),
-      border-color var(--motion-duration-fast) var(--motion-easing-standard);
-
-    &:hover {
-      background: var(--color-primary-hover);
-      border-color: var(--color-primary-hover);
-      color: var(--color-on-primary);
-    }
-
-    &.button--secondary {
-      background: transparent;
-      color: var(--color-primary);
-
-      &:hover {
-        background: var(--color-bg-subtle);
-        color: var(--color-primary-hover);
-      }
-    }
 
     svg {
       inline-size: 1.1em;
@@ -1262,73 +1230,34 @@
     }
   }
 
-  .field {
+  /* A Commons UI text field with a native color picker beside its input. The picker sits on the
+     field's last row, so it lines up with the input whether or not a hint or error is showing. */
+  .color-pair {
     display: grid;
-    /* minmax(0, 1fr), not auto: a text input's intrinsic size (size=20) must not set the column width. */
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--space-1);
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--space-2);
+    align-items: end;
     margin-block-end: var(--space-4);
 
-    label {
-      font-weight: var(--font-weight-medium);
+    .cui-field {
+      margin-block-end: 0;
+      max-inline-size: none;
     }
 
-    .hint {
-      font-size: var(--font-size-sm);
-      color: var(--color-text-muted);
-    }
-
-    .field-row {
-      display: flex;
-      gap: var(--space-2);
-      align-items: center;
-      min-inline-size: 0;
-    }
-
-    input[type="text"] {
-      flex: 1 1 0;
+    .cui-field__input {
       inline-size: 100%;
       min-inline-size: 0;
-      min-block-size: var(--size-target);
-      padding-inline: var(--space-3);
-      border: var(--size-border) solid var(--color-border);
-      border-radius: var(--radius-md);
-      background: var(--color-surface);
       font-family: var(--font-family-mono);
-
-      &[aria-invalid="true"] {
-        border-color: var(--color-error);
-        border-width: var(--size-border-strong);
-      }
     }
 
     input[type="color"] {
       inline-size: var(--size-target);
       block-size: var(--size-target);
       padding: 2px;
-      border: var(--size-border) solid var(--color-border);
-      border-radius: var(--radius-md);
+      border: var(--size-border-strong) solid var(--color-border);
+      border-radius: var(--radius-sm);
       background: var(--color-surface);
       cursor: pointer;
-    }
-
-    .error {
-      display: flex;
-      align-items: flex-start;
-      gap: var(--space-1);
-      color: var(--color-error);
-      font-size: var(--font-size-sm);
-
-      svg {
-        flex: none;
-        inline-size: 1.1em;
-        block-size: 1.1em;
-        margin-block-start: 0.15em;
-      }
-
-      &:empty {
-        display: none;
-      }
     }
   }
 
@@ -1421,9 +1350,9 @@
     }
   }
 
-  /* ---- Tabs (APG tabs pattern, see <tab-set>) ------------------------ */
+  /* ---- Tabs: Commons UI's <cui-tabs> and tabs.css; the site adds the no-JS list and the code blocks ---- */
   /* Custom elements are inline by default; these are containers. */
-  tab-set,
+  cui-tabs,
   carousel-slider,
   theme-picker,
   contrast-checker,
@@ -1435,15 +1364,14 @@
     grid-column: 1 / -1;
   }
 
-  .tabs-list {
+  /* No-JS: the tabs are a plain list of in-page links; keep it readable. */
+  cui-tabs > [data-tabs] {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-2);
     padding: 0;
     margin-block-end: var(--space-4);
-    border-block-end: var(--size-border) solid var(--color-border-subtle);
 
-    /* No-JS: it is a plain list of links; keep it readable. */
     li {
       list-style: none;
     }
@@ -1455,45 +1383,15 @@
     }
   }
 
-  .tab {
-    display: inline-flex;
-    align-items: center;
-    min-block-size: var(--size-target);
-    padding: var(--space-2) var(--space-4);
-    margin-block-end: calc(-1 * var(--size-border));
-    border: 0;
-    border-block-end: 3px solid transparent;
-    background: transparent;
-    color: var(--color-text-muted);
-    font-weight: var(--font-weight-medium);
-    cursor: pointer;
-
-    &:hover {
-      color: var(--color-primary);
-    }
-
-    /* Selected: weight and a thick underline, never color alone. */
-    &[aria-selected="true"] {
-      color: var(--color-text);
-      font-weight: var(--font-weight-bold);
-      border-block-end-color: var(--color-primary);
-    }
-
+  .cui-tabs__tab:focus-visible {
     /* The ring sits inside so the tablist's bottom border doesn't clip it. */
-    &:focus-visible {
-      outline-offset: -3px;
-      border-radius: var(--radius-sm);
-    }
-
-    @media (forced-colors: active) {
-      &[aria-selected="true"] {
-        border-block-end-color: Highlight;
-        text-decoration: underline;
-      }
-    }
+    outline-offset: -3px;
+    border-radius: var(--radius-sm);
   }
 
-  .tab-panel {
+  .cui-tabs__panel {
+    padding: 0;
+
     /* Focusable panel (APG): give the ring some room. */
     &:focus-visible {
       outline-offset: var(--space-2);

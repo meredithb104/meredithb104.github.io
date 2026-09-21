@@ -25,7 +25,7 @@
     <script type="module" src="/src/main.ts"></script>
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to main content</a>
+    <a class="cui-skip-link" href="#main">Skip to main content</a>
 
     <header class="site-header">
       <div class="wrap">
@@ -86,7 +86,7 @@
         <li>Content reflows to a 320-pixel-wide viewport with no horizontal scrolling, survives 200% zoom and user text-spacing overrides, and line length is capped at 68 characters (1.4.4, 1.4.10, 1.4.12, 1.4.8).</li>
         <li>Diagrams are inline SVG with a title and long description, plus a caption that says the same thing in prose. Each diagram has two drawings, a wide one and a stacked one for phones; only one is rendered at a time, so assistive technology meets exactly one image.</li>
         <li>Previous section, Next section, and Back to top sit in one small landmark (the "Page" navigation) after the main content, hidden until you scroll past the introduction. They are not hidden from assistive technology: a focusable control that is hidden from the accessibility tree is a silent tab stop, and the Tab key is shared by screen reader users and sighted keyboard users alike. Screen reader users have their own heading and landmark keys and can skip the landmark in one keystroke.</li>
-        <li>The tabs and the carousel in the Lab follow the WAI-ARIA Authoring Practices: one tab stop per tablist with arrow keys, focusable panels, and a carousel that never rotates by itself. Its slides are not interactive, so focus stays on the Previous and Next buttons and a polite live region announces only the slide's position and heading.</li>
+        <li>The tabs and the carousel in the Lab follow the WAI-ARIA Authoring Practices: one tab stop per tablist with arrow keys, focusable panels, and a carousel that never rotates by itself. The tabs, like the menu buttons, the contrast checker's text fields, the live region, the buttons, and the skip link, are Commons UI components used as framework-free custom elements, so the pattern tested there is the pattern that runs here. Its slides are not interactive, so focus stays on the Previous and Next buttons and a polite live region announces only the slide's position and heading.</li>
         <li>Posts are written in Markdown and rendered to static HTML at build time. The build refuses a post whose images lack alt text, whose headings skip a level, or whose body contains a second <code>h1</code>. Every post carries a dated byline, and the Atom feed carries the full text.</li>
         <li>The résumé is a tagged PDF with a document title and language set, and every fact in it also appears as HTML in the Experience section, so the PDF is never the only route to the information.</li>
         <li>No cookies, analytics, or third-party scripts. The theme and typeface choices are saved in your browser's local storage and never leave it. The typeface is Public Sans, served from this site; Atkinson Hyperlegible Next loads from this site only when chosen, and System uses no web font.</li>
@@ -147,7 +147,7 @@
       </p>
       <div class="table-scroll" role="region" aria-label="WCAG 2.2 conformance table. Scrolls sideways on narrow screens." tabindex="0">
         <table>
-          <caption class="visually-hidden">WCAG 2.2 Level A and AA criteria and this site's conformance</caption>
+          <caption class="cui-visually-hidden">WCAG 2.2 Level A and AA criteria and this site's conformance</caption>
           <thead>
             <tr>
               <th scope="col">Criterion</th>
@@ -508,5 +508,6 @@
         <p>Built by Meredith Boyce with HTML, CSS, and TypeScript. No analytics, no cookies, no tracking.</p>
       </div>
     </footer>
+    <cui-live-region></cui-live-region>
   </body>
 </html>

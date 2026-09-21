@@ -237,7 +237,7 @@ export function page(opts: { title: string; description: string; path: string; m
     <script type="module" src="/src/main.ts"></script>
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to main content</a>
+    <a class="cui-skip-link" href="#main">Skip to main content</a>
 
     <header class="site-header">${nav}
     </header>
@@ -246,6 +246,7 @@ export function page(opts: { title: string; description: string; path: string; m
 ${opts.main}
     </main>
 ${FOOTER}
+    <cui-live-region></cui-live-region>
   </body>
 </html>
 `;
@@ -254,7 +255,7 @@ ${FOOTER}
 /** One post's page. */
 export function postPage(post: Post): string {
   const tags = post.tags.length
-    ? `<p class="post-tags"><span class="visually-hidden">Tags: </span>${post.tags.map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join(" ")}</p>`
+    ? `<p class="post-tags"><span class="cui-visually-hidden">Tags: </span>${post.tags.map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join(" ")}</p>`
     : "";
   const main = `      <article class="post" aria-labelledby="post-h">
         <header class="post-header">

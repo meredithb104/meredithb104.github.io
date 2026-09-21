@@ -41,7 +41,7 @@ for (const path of PAGES) {
     // other than the visually-hidden utility which is meant to.
     const clipped = await page.evaluate(() =>
       [...document.querySelectorAll<HTMLElement>("*")].filter((el) => {
-        if (el.matches(".visually-hidden, [data-live-region], .skip-link")) return false;
+        if (el.matches(".cui-visually-hidden, cui-live-region, cui-live-region *, .cui-skip-link")) return false;
         const s = getComputedStyle(el);
         return (s.overflowY === "hidden" || s.overflow === "hidden") && el.scrollHeight > el.clientHeight + 1;
       }).length,
@@ -61,7 +61,7 @@ for (const path of PAGES) {
 test("reduced motion zeroes every transition and disables smooth scrolling", async ({ page }) => {
   const read = () =>
     page.evaluate(() => ({
-      link: getComputedStyle(document.querySelector("a.button")!).transitionDuration,
+      link: getComputedStyle(document.querySelector("a.cui-button")!).transitionDuration,
       card: getComputedStyle(document.querySelector(".card")!).transitionDuration,
       scroll: getComputedStyle(document.documentElement).scrollBehavior,
     }));
@@ -84,7 +84,7 @@ test("all interactive targets are at least 24 by 24 CSS pixels (2.5.8)", async (
   await page.goto("/");
   const small = await page.evaluate(() =>
     [...document.querySelectorAll<HTMLElement>("a, button, input, [role='button']")]
-      .filter((el) => el.offsetParent !== null || el.matches(".skip-link"))
+      .filter((el) => el.offsetParent !== null || el.matches(".cui-skip-link"))
       // A radio inside its <label> is operated through the 44px label, which is the real target.
       .filter((el) => !(el instanceof HTMLInputElement && el.type === "radio" && el.closest("label")))
       // 2.5.8 exempts inline links in a sentence; a wrapped one also reports only its first line box.

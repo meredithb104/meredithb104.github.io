@@ -61,7 +61,7 @@ test("the carousel exposes one slide at a time and never moves on its own", asyn
   await expect(first).toBeHidden();
   await expect(next).toBeFocused();
   // The announcement is one short line: position and heading, not the slide body.
-  await expect(page.locator('[data-live-region="polite"]')).toHaveText("Slide 2 of 12: Icon buttons with no name");
+  await expect(page.locator('cui-live-region [aria-live="polite"]')).toHaveText("Slide 2 of 12: Icon buttons with no name");
   expect(await carousel.locator("[data-track]").getAttribute("aria-live")).toBeNull();
 
   // Left/Right on either button move slides too, so it doesn't matter which one has focus.

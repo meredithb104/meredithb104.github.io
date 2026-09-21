@@ -29,7 +29,7 @@ for (const theme of THEMES) {
       const out: { kind: string; ring: number[]; adjacent: number[] }[] = [];
       const seen = new Set<string>();
       for (const el of document.querySelectorAll<HTMLElement>("a[href], button, input, [tabindex='0']")) {
-        if (el.offsetParent === null && !el.matches(".skip-link")) continue;
+        if (el.offsetParent === null && !el.matches(".cui-skip-link")) continue;
         const cs = getComputedStyle(el);
         const offset = parseFloat(cs.outlineOffset);
         // A ring outside the box (offset >= 0) borders the parent's background; inside, the element's own.
@@ -57,7 +57,7 @@ for (const theme of ["light", "dark"] as const) {
     await page.getByRole("button", { name: "Menu" }).click();
 
     const controls = [
-      "a.button:not(.button--secondary)", "a.button.button--secondary", "button.cui-menu-button",
+      "a.cui-button--primary", "a.cui-button--secondary", "button.cui-menu-button",
       ".chip[aria-pressed='true']", ".chip[aria-pressed='false']", ".carousel-button",
       ".carousel-dot[aria-selected='true']", ".carousel-dot[aria-selected='false']",
     ];
@@ -86,7 +86,7 @@ for (const theme of ["light", "dark"] as const) {
     const underline = await page.evaluate(() => {
       const toRgb = (s: string) => { const c = document.createElement("canvas").getContext("2d")!; c.fillStyle = s; const h = c.fillStyle as string; return [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16)); };
       const bgOf = (e0: Element | null) => { let e = e0; while (e) { const c = getComputedStyle(e).backgroundColor; if (c && c !== "rgba(0, 0, 0, 0)" && c !== "transparent") return toRgb(c); e = e.parentElement; } return [255, 255, 255]; };
-      const tab = document.querySelector<HTMLElement>(".tab[aria-selected='true']")!;
+      const tab = document.querySelector<HTMLElement>(".cui-tabs__tab[aria-selected='true']")!;
       return { line: toRgb(getComputedStyle(tab).borderBottomColor), surround: bgOf(tab.parentElement) };
     });
     expect(ratio(underline.line, underline.surround)).toBeGreaterThanOrEqual(3);

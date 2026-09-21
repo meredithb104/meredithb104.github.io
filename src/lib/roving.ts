@@ -2,7 +2,8 @@
  * Roving tabindex for a horizontal set of controls (tabs, a slide picker).
  * One tab stop for the group; Left/Right move, Home/End jump, wrapping at
  * the ends. This is the keyboard half of the APG tabs pattern, kept
- * separate so <tab-set> and <carousel-slider> share exactly one copy.
+ * separate from <carousel-slider> so it can be tested on its own. (The Lab's
+ * tabs are Commons UI's <cui-tabs>, which carries its own keyboard handling.)
  */
 
 export interface RovingOptions {

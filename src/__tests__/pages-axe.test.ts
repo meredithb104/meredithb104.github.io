@@ -2,13 +2,12 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import axe from "axe-core";
 import { describe, expect, it } from "vitest";
-import { mountLiveRegions } from "../lib/announce.ts";
+import "commons-ui/element";
 import "../components/theme-picker.ts";
 import "../components/font-picker.ts";
 import "../components/contrast-checker.ts";
 import "../components/work-filter.ts";
 import "../components/site-nav.ts";
-import "../components/tab-set.ts";
 import "../components/carousel-slider.ts";
 
 /**
@@ -20,8 +19,7 @@ import "../components/carousel-slider.ts";
 function loadPage(file: string): void {
   const html = readFileSync(resolve(import.meta.dirname, "../..", file), "utf8");
   const body = /<body[^>]*>([\s\S]*)<\/body>/.exec(html)?.[1] ?? "";
-  document.body.innerHTML = body;
-  mountLiveRegions();
+  document.body.innerHTML = body; // includes the page's own <cui-live-region>
 }
 
 async function scan(): Promise<axe.AxeResults> {
@@ -45,7 +43,7 @@ describe.each(["index.html", "accessibility.html", "posts/index.html", "posts/ac
   it("has exactly one h1 and a skip link first", () => {
     loadPage(file);
     expect(document.querySelectorAll("h1")).toHaveLength(1);
-    expect(document.body.firstElementChild?.matches("a.skip-link[href='#main']")).toBe(true);
+    expect(document.body.firstElementChild?.matches("a.cui-skip-link[href='#main']")).toBe(true);
     expect(document.getElementById("main")?.tabIndex).toBe(-1);
   });
 });

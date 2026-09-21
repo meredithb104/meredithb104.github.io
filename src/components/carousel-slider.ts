@@ -1,4 +1,4 @@
-import { announce } from "../lib/announce.ts";
+import { announce } from "commons-ui/element";
 import { attachRoving, setRovingFocus } from "../lib/roving.ts";
 
 /**
@@ -118,7 +118,7 @@ export class CarouselSlider extends HTMLElement {
   private button(name: string, glyph: string, text: string): HTMLButtonElement {
     const b = document.createElement("button");
     b.type = "button";
-    b.className = "button button--secondary carousel-button";
+    b.className = "cui-button cui-button--secondary carousel-button";
     b.setAttribute("aria-label", name);
     b.innerHTML = `<span aria-hidden="true">${glyph}</span> ${text}`;
     return b;

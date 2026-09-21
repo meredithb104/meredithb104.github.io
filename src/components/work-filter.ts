@@ -1,4 +1,4 @@
-import { announce } from "../lib/announce.ts";
+import { announce } from "commons-ui/element";
 
 /**
  * <work-filter>: toggle buttons that filter a list of project cards by tag.

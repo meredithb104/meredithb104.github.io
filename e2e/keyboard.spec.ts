@@ -118,7 +118,7 @@ test("the contrast checker validates and describes errors in text", async ({ pag
   await expect(fg).toHaveAttribute("aria-invalid", "true");
   await expect(page.locator("#cc-fg-error")).toHaveText(/hex color/i);
   await fg.fill("#767676");
-  await expect(fg).toHaveAttribute("aria-invalid", "false");
+  await expect(fg).not.toHaveAttribute("aria-invalid"); // the field drops the attribute when the error clears
   await expect(page.locator(".contrast-result .ratio")).toHaveText(/4\.54:1/);
 });
 

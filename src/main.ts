@@ -5,22 +5,21 @@
  */
 import "./styles/tokens.css";
 import "./styles/base.css";
+import "./styles/commons-ui.css";
 import "./styles/site.css";
-import "commons-ui/styles/menu-button.css";
+// Commons UI's framework-free elements (<cui-menu-button>, <cui-tabs>, <cui-text-field>,
+// <cui-live-region>), defined before the site's own so a site element that wraps one finds it
+// already upgraded.
 import "commons-ui/element";
 
-import { mountLiveRegions } from "./lib/announce.ts";
 import { installFragmentHandling } from "./lib/fragments.ts";
 import "./components/theme-picker.ts";
 import "./components/font-picker.ts";
 import "./components/contrast-checker.ts";
 import "./components/work-filter.ts";
 import "./components/site-nav.ts";
-import "./components/tab-set.ts";
 import "./components/carousel-slider.ts";
 import "./components/page-tools.ts";
-
-mountLiveRegions();
 
 // Fragments: a link, Back or Forward, or an address with #section lands on the target, moves focus there
 // without scrolling, and then clears the fragment. A fragment left in the address pulls a screen

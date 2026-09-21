@@ -1,23 +1,23 @@
-import { announce } from "../lib/announce.ts";
+import { announce, type CuiTextField } from "commons-ui/element";
 import { contrastRatio, formatRatio, judge, normalizeHex, parseHex, type ContrastVerdict } from "../lib/contrast.ts";
 
 /**
  * <contrast-checker>: the same WCAG math the token build runs, live.
  *
- * Markup contract (see index.html): two pairs of inputs, a text field and a
- * native color picker for each of foreground and background, wired by
- * data-role. Results render as text in a table, and the whole verdict is
- * summarised to a polite live region, debounced so typing a hex does not
- * produce a word per keystroke.
+ * Markup contract (see index.html): two pairs of inputs, a Commons UI
+ * <cui-text-field> and a native color picker for each of foreground and
+ * background, wired by data-role on the field host and on the picker. Results
+ * render as text in a table, and the whole verdict is summarised to a polite
+ * live region, debounced so typing a hex does not produce a word per keystroke.
  *
- * Every pass/fail is a word, not just a color. Invalid input marks the text
- * field aria-invalid and points aria-describedby at the error (WCAG 3.3.1).
+ * Every pass/fail is a word, not just a color. Invalid input is handed to the
+ * text field as its `error`, which marks it aria-invalid and chains the message
+ * through aria-describedby (WCAG 3.3.1, 3.3.3).
  */
 
 /** Inline, aria-hidden icons so every state is icon + word + color, and JAWS never reads a glyph. */
 const ICON_PASS = `<svg aria-hidden="true" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg>`;
 const ICON_FAIL = `<svg aria-hidden="true" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 4l8 8M12 4l-8 8"/></svg>`;
-const ICON_ERROR = `<svg aria-hidden="true" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5v4.2M8 11.2v.3" stroke-width="2"/></svg>`;
 
 const ROWS: ReadonlyArray<{ key: keyof Omit<ContrastVerdict, "ratio">; label: string; needs: string }> = [
   { key: "aaText", label: "Normal text, AA (1.4.3)", needs: "4.5:1" },
@@ -31,6 +31,9 @@ export class ContrastChecker extends HTMLElement {
   private debounce: number | undefined;
 
   connectedCallback(): void {
+    // When this element and its fields are parsed together, the parent's callback runs first;
+    // upgrade the subtree now so the fields have rendered their inputs before the first check.
+    customElements.upgrade(this);
     this.addEventListener("input", this.onInput);
     this.addEventListener("submit", this.onSubmit);
     this.render(false);
@@ -42,8 +45,14 @@ export class ContrastChecker extends HTMLElement {
     if (this.debounce !== undefined) window.clearTimeout(this.debounce);
   }
 
+  /** The hex fields are <cui-text-field>s; the pickers are plain inputs. Both carry data-role. */
+  private hexField(which: "fg" | "bg"): CuiTextField | null {
+    return this.querySelector<CuiTextField>(`cui-text-field[data-role="${which}-hex"]`);
+  }
+
   private field(role: string): HTMLInputElement | null {
-    return this.querySelector<HTMLInputElement>(`[data-role="${role}"]`);
+    if (role.endsWith("-hex")) return (this.hexField(role.slice(0, 2) as "fg" | "bg")?.input as HTMLInputElement | null) ?? null;
+    return this.querySelector<HTMLInputElement>(`input[data-role="${role}"]`);
   }
 
   /** Enter in a field should re-check, never reload the page. */
@@ -55,7 +64,7 @@ export class ContrastChecker extends HTMLElement {
   private readonly onInput = (event: Event): void => {
     const target = event.target;
     if (!(target instanceof HTMLInputElement)) return;
-    const role = target.dataset["role"];
+    const role = target.dataset["role"] ?? target.closest("cui-text-field")?.dataset["role"];
     if (!role) return;
 
     // Keep the picker and the text box in sync in both directions.
@@ -68,15 +77,11 @@ export class ContrastChecker extends HTMLElement {
   };
 
   private validate(which: "fg" | "bg"): string | null {
-    const hex = this.field(`${which}-hex`);
-    const error = this.querySelector<HTMLElement>(`[data-error="${which}"]`);
-    if (!hex) return null;
-    const value = normalizeHex(hex.value);
-    const invalid = value === null;
-    hex.setAttribute("aria-invalid", invalid ? "true" : "false");
-    if (error) {
-      error.innerHTML = invalid ? `${ICON_ERROR}<span>Enter a hex color like #1B1F24 or #FFF.</span>` : "";
-    }
+    const field = this.hexField(which);
+    if (!field?.input) return null;
+    const value = normalizeHex(field.value);
+    const message = value === null ? "Enter a hex color like #1B1F24 or #FFF." : "";
+    if (field.error !== message) field.error = message;
     return value;
   }
 
@@ -113,9 +118,9 @@ export class ContrastChecker extends HTMLElement {
     ).join("");
 
     out.innerHTML = `
-      <p class="ratio"><span class="visually-hidden">Contrast ratio </span>${pretty}</p>
+      <p class="ratio"><span class="cui-visually-hidden">Contrast ratio </span>${pretty}</p>
       <table>
-        <caption class="visually-hidden">WCAG 2.2 results for ${fg} on ${bg}</caption>
+        <caption class="cui-visually-hidden">WCAG 2.2 results for ${fg} on ${bg}</caption>
         <thead><tr><th scope="col">Use</th><th scope="col">Needs</th><th scope="col">Result</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>`;

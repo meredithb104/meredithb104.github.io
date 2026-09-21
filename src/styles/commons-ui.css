@@ -1,0 +1,10 @@
+/*
+ * Commons UI's stylesheets, placed in the site's cascade layers. The library ships them unlayered;
+ * layered here, the site's own rules in the same layer (which come later in source order) override
+ * them the ordinary way, and the site's tokens.css supplies every token name they use.
+ */
+@import "commons-ui/styles/utilities.css" layer(utilities);
+@import "commons-ui/styles/button.css" layer(components);
+@import "commons-ui/styles/text-field.css" layer(components);
+@import "commons-ui/styles/tabs.css" layer(components);
+@import "commons-ui/styles/menu-button.css" layer(components);

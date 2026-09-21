@@ -1,17 +1,14 @@
-import { beforeAll, describe, expect, it, vi } from "vitest";
-import { mountLiveRegions } from "../lib/announce.ts";
+import { describe, expect, it, vi } from "vitest";
+import "commons-ui/element";
 import "../components/theme-picker.ts";
 import "../components/font-picker.ts";
 import "../components/contrast-checker.ts";
 import "../components/work-filter.ts";
 
-// The setup file clears <body> after each test; the announcer re-mounts its regions on demand.
-beforeAll(() => {
-  mountLiveRegions();
-});
-
+// The setup file clears <body> after each test; Commons UI's announce() re-creates its
+// <cui-live-region> on demand, so the polite region is looked up fresh each time.
 function liveText(): string {
-  return document.querySelector('[data-live-region="polite"]')?.textContent ?? "";
+  return document.querySelector('cui-live-region [aria-live="polite"]')?.textContent ?? "";
 }
 
 describe("<theme-picker>", () => {
@@ -137,18 +134,19 @@ describe("<work-filter>", () => {
 });
 
 describe("<contrast-checker>", () => {
+  // The site's markup contract: a Commons UI <cui-text-field> and a native picker per colour.
   function mount(fg = "#1B1F24", bg = "#FFFFFF"): HTMLElement {
     document.body.innerHTML = `
       <contrast-checker>
         <form aria-label="Contrast checker">
-          <label for="fg">Text color</label>
-          <input type="text" id="fg" data-role="fg-hex" value="${fg}" aria-describedby="fg-error">
-          <input type="color" data-role="fg-picker" value="${fg.toLowerCase()}" aria-label="Pick text color">
-          <p id="fg-error" data-error="fg"></p>
-          <label for="bg">Background color</label>
-          <input type="text" id="bg" data-role="bg-hex" value="${bg}" aria-describedby="bg-error">
-          <input type="color" data-role="bg-picker" value="${bg.toLowerCase()}" aria-label="Pick background color">
-          <p id="bg-error" data-error="bg"></p>
+          <div class="color-pair">
+            <cui-text-field data-role="fg-hex" field-id="fg" label="Text color" hint="Hex, like #1B1F24" value="${fg}"></cui-text-field>
+            <input type="color" data-role="fg-picker" value="${fg.toLowerCase()}" aria-label="Pick text color">
+          </div>
+          <div class="color-pair">
+            <cui-text-field data-role="bg-hex" field-id="bg" label="Background color" hint="Hex, like #FFFFFF" value="${bg}"></cui-text-field>
+            <input type="color" data-role="bg-picker" value="${bg.toLowerCase()}" aria-label="Pick background color">
+          </div>
         </form>
         <div data-swatch></div>
         <div data-result></div>
@@ -175,7 +173,7 @@ describe("<contrast-checker>", () => {
     // 4.47:1 -> fails AA normal text and AAA, passes large text and non-text.
     expect(cells).toEqual(["Fail", "Pass", "Pass", "Fail", "Fail"]);
     expect(document.querySelector<HTMLInputElement>('[data-role="fg-picker"]')!.value).toBe("#777777");
-    expect(fg.getAttribute("aria-invalid")).toBe("false");
+    expect(fg.getAttribute("aria-invalid")).toBeNull(); // the field only marks invalid while it has an error
   });
 
   it("marks invalid hex with aria-invalid and a text error, and does not announce", async () => {
@@ -186,7 +184,8 @@ describe("<contrast-checker>", () => {
     bg.dispatchEvent(new Event("input", { bubbles: true }));
 
     expect(bg.getAttribute("aria-invalid")).toBe("true");
-    expect(document.querySelector("#bg-error")!.textContent).toMatch(/hex color/i);
+    expect(bg.getAttribute("aria-describedby")).toBe("bg-hint bg-error");
+    expect(document.querySelector("#bg-error")!.textContent).toMatch(/^Error: .*hex color/i);
     expect(document.querySelector("[data-result]")!.textContent).toMatch(/two valid hex colors/);
     vi.advanceTimersByTime(1000);
     expect(liveText()).toBe("");

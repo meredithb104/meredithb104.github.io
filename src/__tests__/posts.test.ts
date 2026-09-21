@@ -134,7 +134,7 @@ describe("generated pages", () => {
     expect(html).toContain('<time datetime="2026-09-18">September 18, 2026</time>');
     expect(html).toContain('<link rel="canonical" href="https://meredithb104.github.io/posts/quotes/" />');
     expect(html).toContain('type="application/atom+xml"');
-    expect(html).toContain('<a class="skip-link" href="#main">');
+    expect(html).toContain('<a class="cui-skip-link" href="#main">');
     expect(html).toContain('<main id="main" tabindex="-1"');
     expect(html).toContain('href="/posts/" data-nav="posts" aria-current="page"');
     expect(html).toContain('<script type="module" src="/src/main.ts"></script>');

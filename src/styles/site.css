@@ -439,7 +439,23 @@
     }
   }
 
-  /* ---- Buttons: Commons UI's button.css; the site adds only what a link needs ---- */
+  /* ---- Buttons: Commons UI's button.css, kept in this site's dress ------ */
+  /* The library draws the buttons; these keep the site's look: roomier sides, a secondary button
+     that is an outline on the page rather than a white pill, and hover in the page text colour. */
+  .cui-button {
+    padding-inline: var(--space-5);
+  }
+
+  .cui-button--secondary {
+    background: transparent;
+
+    &:hover {
+      background: var(--color-bg-subtle);
+      border-color: var(--color-primary-hover);
+      color: var(--color-primary-hover);
+    }
+  }
+
   a.cui-button {
     text-decoration: none;
 
@@ -1447,17 +1463,14 @@
     }
   }
 
-  /* Previous and Next in the text color: on the dark theme the baby-blue primary passes on
-     paper but reads muted beside ivory text, and these two buttons are the carousel's controls. */
+  /* Previous and Next: secondary buttons with a border in the text colour, so the carousel's two
+     controls carry a firmer edge than the page's other outline buttons. */
   .carousel-button {
     padding-inline: var(--space-4);
-    color: var(--color-text);
     border-color: var(--color-text);
 
     &:hover {
-      color: var(--color-text);
       border-color: var(--color-text);
-      background: var(--color-bg-subtle);
     }
   }
 

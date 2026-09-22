@@ -49,7 +49,7 @@ test("in-page navigation moves focus to the section and the sticky header never 
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/");
   await openMore(page);
-  await page.getByRole("navigation", { name: "Sections" }).getByRole("link", { name: "Case studies" }).click();
+  await page.getByRole("navigation", { name: "Sections" }).getByRole("menuitem", { name: "Case studies" }).click();
   await expect.poll(async () => (await focused(page)).id).toBe("case-studies");
   // The section heading should be below the sticky header, not hidden under it.
   const headingTop = await page.locator("#cases-h").evaluate((el) => el.getBoundingClientRect().top);
@@ -144,7 +144,7 @@ test("a fragment is cleared from the address once it has done its job", async ({
   // After an in-page jump: focus lands on the section, then the fragment goes.
   await page.goto("/");
   await openMore(page);
-  await page.getByRole("navigation", { name: "Sections" }).getByRole("link", { name: "Lab" }).click();
+  await page.getByRole("navigation", { name: "Sections" }).getByRole("menuitem", { name: "Lab" }).click();
   await expect.poll(async () => (await focused(page)).id).toBe("lab");
   await expect.poll(() => page.evaluate(() => location.hash)).toBe("");
 
@@ -195,7 +195,7 @@ test("every fragment lands: a heading with no tabindex takes focus, on a link, o
   // 4. Cross-page links to the home page's sections land on the section (it has tabindex="-1" already).
   await page.goto("/accessibility.html");
   await openMore(page, "Site");
-  await page.getByRole("link", { name: "Lab" }).first().click();
+  await page.getByRole("menuitem", { name: "Lab" }).first().click();
   await expect.poll(() => page.evaluate(() => location.pathname)).toBe("/");
   await expect.poll(() => page.evaluate(() => location.hash)).toBe("");
 });

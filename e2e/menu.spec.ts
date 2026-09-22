@@ -15,7 +15,7 @@ test("below 72em the nav collapses behind a Menu button with correct state", asy
   await button.click();
   await expect(button).toHaveAttribute("aria-expanded", "true");
   await expect(nav).toBeVisible();
-  await expect(nav.getByRole("link", { name: "Writing" })).toBeVisible();
+  await expect(nav.getByRole("menuitem", { name: "Writing" })).toBeVisible();
 
   // Escape closes and returns focus to the button.
   await page.keyboard.press("Escape");
@@ -25,7 +25,7 @@ test("below 72em the nav collapses behind a Menu button with correct state", asy
 
   // Choosing a link closes the menu and lands on the section.
   await button.click();
-  await nav.getByRole("link", { name: "Work" }).click();
+  await nav.getByRole("menuitem", { name: "Work" }).click();
   await expect(nav).toBeHidden();
   await expect(page.locator("#work")).toBeFocused();
 });
@@ -75,7 +75,7 @@ test("the panel closes on an outside click and when focus tabs past its last lin
   await expect(button).toHaveAttribute("aria-expanded", "false");
 
   await button.click();
-  await nav.getByRole("link").last().focus();
+  await nav.getByRole("menuitem").last().focus();
   await page.keyboard.press("Tab");
   await expect(nav).toBeHidden();
   // Focus moved on to the page content and is not under a closed panel.
@@ -89,7 +89,7 @@ test("the open menu is axe-clean and every item is a real target", async ({ page
   await page.getByRole("button", { name: "Menu" }).click();
   const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa", "best-practice"]).analyze();
   expect(results.violations.map((v) => v.id)).toEqual([]);
-  const small = await page.getByRole("navigation", { name: "Sections" }).getByRole("link").evaluateAll((els) =>
+  const small = await page.getByRole("navigation", { name: "Sections" }).getByRole("menuitem").evaluateAll((els) =>
     els.map((el) => el.getBoundingClientRect().height).filter((h) => h < 44),
   );
   expect(small).toEqual([]);
@@ -144,7 +144,7 @@ test("a focused menu row is filled, not only ringed", async ({ page }) => {
   await page.getByRole("button", { name: "Menu" }).focus();
   await page.keyboard.press("Enter"); // opening moves focus onto the first row
   const nav = page.getByRole("navigation", { name: "Sections" });
-  await expect(nav.getByRole("link", { name: "About" })).toBeFocused();
+  await expect(nav.getByRole("menuitem", { name: "About" })).toBeFocused();
   const [row, panel] = await page.evaluate(() => [
     getComputedStyle(document.activeElement!).backgroundColor,
     getComputedStyle(document.querySelector('nav[aria-label="Sections"]')!).backgroundColor,
@@ -160,32 +160,32 @@ test("More opens onto its first item, arrows move through it, Escape returns foc
   const nav = page.getByRole("navigation", { name: "Sections" });
   const button = nav.getByRole("button", { name: "More information" });
   await expect(button).toHaveAttribute("aria-expanded", "false");
-  await expect(nav.getByRole("link", { name: "Lab" })).toBeHidden();
+  await expect(nav.getByRole("menuitem", { name: "Lab" })).toBeHidden();
   await button.focus();
   await page.keyboard.press("Enter");
   await expect(button).toHaveAttribute("aria-expanded", "true");
-  await expect(nav.getByRole("link", { name: "Lab" })).toBeVisible();
-  await expect(nav.getByRole("link", { name: "Dictionary" })).toBeVisible();
+  await expect(nav.getByRole("menuitem", { name: "Lab" })).toBeVisible();
+  await expect(nav.getByRole("menuitem", { name: "Dictionary" })).toBeVisible();
   // aria-controls names the list, and every link inside is a real in-page target.
   const controls = await button.getAttribute("aria-controls");
   const list = page.locator(`#${controls}`);
-  const hrefs = await list.getByRole("link").evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).hash.slice(1)));
+  const hrefs = await list.getByRole("menuitem").evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).hash.slice(1)));
   expect(hrefs).toEqual(["lab", "work", "case-studies", "approach", "writing", "dictionary"]);
   for (const id of hrefs) expect(await page.locator(`#${id}`).count(), id).toBe(1);
 
   // Opening moved focus onto the first item (JAWS only notices the revealed panel once real focus
   // lands inside it); Up/Down/Home/End move between items and wrap, as aria-haspopup="menu" promises.
-  await expect(nav.getByRole("link", { name: "Lab" })).toBeFocused();
+  await expect(nav.getByRole("menuitem", { name: "Lab" })).toBeFocused();
   await page.keyboard.press("ArrowDown");
-  await expect(nav.getByRole("link", { name: "Work" })).toBeFocused();
+  await expect(nav.getByRole("menuitem", { name: "Work" })).toBeFocused();
   await page.keyboard.press("End");
-  await expect(nav.getByRole("link", { name: "Dictionary" })).toBeFocused();
+  await expect(nav.getByRole("menuitem", { name: "Dictionary" })).toBeFocused();
   await page.keyboard.press("ArrowDown");
-  await expect(nav.getByRole("link", { name: "Lab" })).toBeFocused(); // wrapped
+  await expect(nav.getByRole("menuitem", { name: "Lab" })).toBeFocused(); // wrapped
   await page.keyboard.press("ArrowUp");
-  await expect(nav.getByRole("link", { name: "Dictionary" })).toBeFocused();
+  await expect(nav.getByRole("menuitem", { name: "Dictionary" })).toBeFocused();
   await page.keyboard.press("Home");
-  await expect(nav.getByRole("link", { name: "Lab" })).toBeFocused();
+  await expect(nav.getByRole("menuitem", { name: "Lab" })).toBeFocused();
   await page.keyboard.press("Escape");
   await expect(button).toHaveAttribute("aria-expanded", "false");
   await expect(button).toBeFocused();
@@ -202,10 +202,10 @@ test("the phone Menu opens onto About, and arrows walk all ten rows, skipping th
   await page.getByRole("button", { name: "Menu" }).focus();
   await page.keyboard.press("Enter");
   const nav = page.getByRole("navigation", { name: "Sections" });
-  await expect(nav.getByRole("link", { name: "About" })).toBeFocused();
+  await expect(nav.getByRole("menuitem", { name: "About" })).toBeFocused();
   // Skills is followed by the More button's host, which CSS hides at this width; Down must skip it.
   await page.keyboard.press("End");
-  await expect(nav.getByRole("link", { name: "Dictionary" })).toBeFocused();
+  await expect(nav.getByRole("menuitem", { name: "Dictionary" })).toBeFocused();
   await page.keyboard.press("Home");
   const seen: string[] = [];
   for (let i = 0; i < 10; i++) {
@@ -213,7 +213,36 @@ test("the phone Menu opens onto About, and arrows walk all ten rows, skipping th
     await page.keyboard.press("ArrowDown");
   }
   expect(seen).toEqual(["About", "Contact", "Experience", "Skills", "Lab", "Work", "Case studies", "My approach", "Writing", "Dictionary"]);
-  await expect(nav.getByRole("link", { name: "About" })).toBeFocused(); // wrapped
+  await expect(nav.getByRole("menuitem", { name: "About" })).toBeFocused(); // wrapped
+});
+
+// aria-haspopup="menu" promises a menu: the popup list carries role="menu" and its links are
+// menuitems, so JAWS hands the arrow keys to the page. Which list is the popup depends on the layout.
+test("the popup list has menu roles for its layout, and they follow a resize", async ({ page }) => {
+  const roles = () =>
+    page.evaluate(() => {
+      const outer = document.getElementById("site-nav-list")!;
+      const more = document.getElementById("nav-more-list")!;
+      const of = (ul: Element) => ({
+        list: ul.getAttribute("role"),
+        items: [...ul.querySelectorAll(":scope > li")].map((li) => li.getAttribute("role")),
+        links: [...ul.querySelectorAll(":scope > li > a")].map((a) => a.getAttribute("role")),
+      });
+      return { outer: of(outer), more: of(more) };
+    });
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto("/");
+  expect(await roles()).toEqual({
+    outer: { list: "list", items: [null, null, null, null, null], links: [null, null, null, null] },
+    more: { list: "menu", items: Array(6).fill("presentation"), links: Array(6).fill("menuitem") },
+  });
+  await page.setViewportSize({ width: 375, height: 812 });
+  expect(await roles()).toEqual({
+    outer: { list: "menu", items: Array(5).fill("presentation"), links: Array(4).fill("menuitem") },
+    more: { list: "group", items: Array(6).fill("presentation"), links: Array(6).fill("menuitem") },
+  });
+  await page.setViewportSize({ width: 1280, height: 800 });
+  expect((await roles()).outer.list).toBe("list");
 });
 
 test("inside the phone menu the More list is flat and its button is hidden", async ({ page }) => {
@@ -221,9 +250,9 @@ test("inside the phone menu the More list is flat and its button is hidden", asy
   await page.goto("/");
   await page.getByRole("button", { name: "Menu" }).click();
   const nav = page.getByRole("navigation", { name: "Sections" });
-  await expect(nav.getByRole("link")).toHaveCount(10);
+  await expect(nav.getByRole("menuitem")).toHaveCount(10);
   await expect(nav.locator("cui-menu-button.nav-more-toggle")).toBeHidden();
-  await expect(nav.getByRole("link", { name: "Dictionary" })).toBeVisible();
+  await expect(nav.getByRole("menuitem", { name: "Dictionary" })).toBeVisible();
 });
 
 // Hovered and focused rows: the text on the tinted row must hold 7:1 in every theme, including the
@@ -279,7 +308,7 @@ test("hovered and focused menu rows keep 7:1 text on their tint in every theme",
     expect(await ratio(more), `${theme}: More information expanded and hovered`).toBeGreaterThanOrEqual(7);
     await more.focus();
     expect(await ratio(more), `${theme}: More information expanded and focused`).toBeGreaterThanOrEqual(7);
-    const lab = nav.getByRole("link", { name: "Lab" });
+    const lab = nav.getByRole("menuitem", { name: "Lab" });
     await lab.hover();
     expect(await ratio(lab), `${theme}: Lab hovered`).toBeGreaterThanOrEqual(7);
     await lab.evaluate((el) => el.setAttribute("aria-current", "location")); // the current-section state

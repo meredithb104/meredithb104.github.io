@@ -142,8 +142,7 @@ test("a focused menu row is filled, not only ringed", async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
   await page.goto("/");
   await page.getByRole("button", { name: "Menu" }).focus();
-  await page.keyboard.press("Enter");
-  await page.keyboard.press("Tab");
+  await page.keyboard.press("Enter"); // opening moves focus onto the first row
   const nav = page.getByRole("navigation", { name: "Sections" });
   await expect(nav.getByRole("link", { name: "About" })).toBeFocused();
   const [row, panel] = await page.evaluate(() => [
@@ -154,8 +153,8 @@ test("a focused menu row is filled, not only ringed", async ({ page }) => {
   expect(row, "the fill differs from the panel").not.toBe(panel);
 });
 
-// "More": six sections behind a button with aria-expanded, the same pattern as the phone Menu.
-test("More opens as a disclosure, closes on Escape with focus back on its button, and closes on an outside click", async ({ page }) => {
+// "More": six sections behind a menu button (aria-haspopup, aria-expanded), the same component as the phone Menu.
+test("More opens onto its first item, arrows move through it, Escape returns focus to its button, and an outside click closes it", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/");
   const nav = page.getByRole("navigation", { name: "Sections" });
@@ -174,7 +173,18 @@ test("More opens as a disclosure, closes on Escape with focus back on its button
   expect(hrefs).toEqual(["lab", "work", "case-studies", "approach", "writing", "dictionary"]);
   for (const id of hrefs) expect(await page.locator(`#${id}`).count(), id).toBe(1);
 
-  await page.keyboard.press("Tab");
+  // Opening moved focus onto the first item (JAWS only notices the revealed panel once real focus
+  // lands inside it); Up/Down/Home/End move between items and wrap, as aria-haspopup="menu" promises.
+  await expect(nav.getByRole("link", { name: "Lab" })).toBeFocused();
+  await page.keyboard.press("ArrowDown");
+  await expect(nav.getByRole("link", { name: "Work" })).toBeFocused();
+  await page.keyboard.press("End");
+  await expect(nav.getByRole("link", { name: "Dictionary" })).toBeFocused();
+  await page.keyboard.press("ArrowDown");
+  await expect(nav.getByRole("link", { name: "Lab" })).toBeFocused(); // wrapped
+  await page.keyboard.press("ArrowUp");
+  await expect(nav.getByRole("link", { name: "Dictionary" })).toBeFocused();
+  await page.keyboard.press("Home");
   await expect(nav.getByRole("link", { name: "Lab" })).toBeFocused();
   await page.keyboard.press("Escape");
   await expect(button).toHaveAttribute("aria-expanded", "false");
@@ -184,6 +194,26 @@ test("More opens as a disclosure, closes on Escape with focus back on its button
   await expect(button).toHaveAttribute("aria-expanded", "true");
   await page.mouse.click(300, 600);
   await expect(button).toHaveAttribute("aria-expanded", "false");
+});
+
+test("the phone Menu opens onto About, and arrows walk all ten rows, skipping the hidden More button", async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto("/");
+  await page.getByRole("button", { name: "Menu" }).focus();
+  await page.keyboard.press("Enter");
+  const nav = page.getByRole("navigation", { name: "Sections" });
+  await expect(nav.getByRole("link", { name: "About" })).toBeFocused();
+  // Skills is followed by the More button's host, which CSS hides at this width; Down must skip it.
+  await page.keyboard.press("End");
+  await expect(nav.getByRole("link", { name: "Dictionary" })).toBeFocused();
+  await page.keyboard.press("Home");
+  const seen: string[] = [];
+  for (let i = 0; i < 10; i++) {
+    seen.push(await page.evaluate(() => (document.activeElement?.textContent ?? "").trim()));
+    await page.keyboard.press("ArrowDown");
+  }
+  expect(seen).toEqual(["About", "Contact", "Experience", "Skills", "Lab", "Work", "Case studies", "My approach", "Writing", "Dictionary"]);
+  await expect(nav.getByRole("link", { name: "About" })).toBeFocused(); // wrapped
 });
 
 test("inside the phone menu the More list is flat and its button is hidden", async ({ page }) => {

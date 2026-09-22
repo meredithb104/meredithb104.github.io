@@ -42,6 +42,6 @@
     "vitest": "^5.0.1"
   },
   "dependencies": {
-    "commons-ui": "github:meredithb104/commons-ui#f575a78"
+    "commons-ui": "github:meredithb104/commons-ui#87aee13"
   }
 }

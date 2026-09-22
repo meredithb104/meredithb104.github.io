@@ -15,7 +15,7 @@ test("the landing page lists the newest posts and links to the archive and feed"
   await expect(section.getByRole("link", { name: /archive has all of them/ })).toHaveAttribute("href", "/posts/");
   await expect(section.getByRole("link", { name: "Atom feed" })).toHaveAttribute("href", "/feed.xml");
   await openMore(page, "Sections");
-  await expect(page.getByRole("navigation", { name: "Sections" }).getByRole("link", { name: "Writing" })).toHaveAttribute("href", "#writing");
+  await expect(page.getByRole("navigation", { name: "Sections" }).getByRole("menuitem", { name: "Writing" })).toHaveAttribute("href", "#writing");
 });
 
 test("a post page has one h1, a dated byline, and returns to the archive", async ({ page }) => {
@@ -25,7 +25,7 @@ test("a post page has one h1, a dated byline, and returns to the archive", async
   await expect(page.locator("time[datetime='2026-09-17']").first()).toBeVisible();
   await expect(page.getByRole("heading", { level: 2, name: "The rule" })).toBeVisible();
   await openMore(page, "Site");
-  await expect(page.getByRole("navigation", { name: "Site" }).getByRole("link", { name: "Writing" })).toHaveAttribute("aria-current", "page");
+  await expect(page.getByRole("navigation", { name: "Site" }).getByRole("menuitem", { name: "Writing" })).toHaveAttribute("aria-current", "page");
   await page.getByRole("link", { name: "All posts" }).first().click();
   await expect(page).toHaveURL(/\/posts\/$/);
   await expect(page.getByRole("heading", { level: 1, name: "Posts" })).toBeVisible();

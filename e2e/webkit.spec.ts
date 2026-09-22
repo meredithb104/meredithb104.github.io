@@ -26,7 +26,7 @@ test("@webkit the phone menu rows are full width, 44px tall, and filled on focus
   await page.keyboard.press("Enter");
   const nav = page.getByRole("navigation", { name: "Sections" });
   await expect(nav).toBeVisible();
-  const rows = await nav.getByRole("link").evaluateAll((links) => {
+  const rows = await nav.getByRole("menuitem").evaluateAll((links) => {
     const panel = links[0]!.closest("nav")!.getBoundingClientRect();
     return links.map((a) => {
       const r = a.getBoundingClientRect();
@@ -45,8 +45,8 @@ test("@webkit the phone menu rows are full width, 44px tall, and filled on focus
   // WebKit does not emulate that preference, so put focus on the row directly (after a key press, so
   // :focus-visible applies) and check the row is filled.
   await page.keyboard.press("Shift");
-  await nav.getByRole("link", { name: "About" }).focus();
-  await expect(nav.getByRole("link", { name: "About" })).toBeFocused();
+  await nav.getByRole("menuitem", { name: "About" }).focus();
+  await expect(nav.getByRole("menuitem", { name: "About" })).toBeFocused();
   const [row, panel] = await page.evaluate(() => [
     getComputedStyle(document.activeElement!).backgroundColor,
     getComputedStyle(document.querySelector('nav[aria-label="Sections"]')!).backgroundColor,

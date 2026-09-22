@@ -19,7 +19,18 @@
  *    wiring; inside the phone panel CSS hides that button and the six links
  *    show flat, so the panel is one list of ten.
  *
- * 3. Marks the in-page link for the section currently in view with
+ * 3. Gives whichever list is a popup the menu roles the button promises
+ *    (aria-haspopup="menu"): role="menu" on the list, "presentation" on its
+ *    items, "menuitem" on the links. JAWS hands Up/Down/Home/End to the page
+ *    only inside a widget it recognises, so without these roles the arrow
+ *    keys the button supports never arrive. Which list is the popup depends
+ *    on the layout: below 72em the whole ten-row list is the phone menu and
+ *    the nested More list is a group inside it; from 72em the top four are
+ *    plain links on the bar and only the More list is a menu. A matchMedia on
+ *    the same breakpoint the CSS uses keeps the roles honest on resize, and
+ *    without JavaScript the lists stay the plain lists the HTML declares.
+ *
+ * 4. Marks the in-page link for the section currently in view with
  *    aria-current="location" (underline as well as color). Uses
  *    IntersectionObserver, so nothing runs on scroll.
  */
@@ -41,13 +52,54 @@ export class SiteNav extends HTMLElement {
     this.addEventListener("focusout", this.onFocusOut);
     this.setupMenu(list);
     this.setupMore();
+    this.setupRoles();
     this.setupCurrentSection();
   }
 
   disconnectedCallback(): void {
     this.observer?.disconnect();
     this.removeEventListener("focusout", this.onFocusOut);
+    this.wide?.removeEventListener("change", this.applyRoles);
   }
+
+  /** The CSS breakpoint at which the full nav shows on one row and only More is a popup. */
+  private static readonly WIDE = "(min-width: 72em)";
+  private wide: MediaQueryList | null = null;
+
+  private setupRoles(): void {
+    if (!this.menu || typeof window.matchMedia !== "function") return; // no popup, or no layout (jsdom)
+    this.wide = window.matchMedia(SiteNav.WIDE);
+    this.wide.addEventListener("change", this.applyRoles);
+    this.applyRoles();
+  }
+
+  private readonly applyRoles = (): void => {
+    const list = this.list;
+    const moreList = this.moreItem?.querySelector<HTMLElement>("ul.nav-more-list") ?? null;
+    if (!list) return;
+    const wide = this.wide?.matches ?? true;
+    // items=true: menu roles; items=false: back to the plain list the HTML declares.
+    const setRoles = (ul: HTMLElement, role: "menu" | "group" | "list", items: boolean): void => {
+      ul.setAttribute("role", role);
+      for (const li of ul.querySelectorAll(":scope > li")) {
+        if (items) li.setAttribute("role", "presentation");
+        else li.removeAttribute("role");
+      }
+      for (const a of ul.querySelectorAll(":scope > li > a")) {
+        if (items) a.setAttribute("role", "menuitem");
+        else a.removeAttribute("role");
+      }
+    };
+    if (wide) {
+      // The bar is a list of links; the More list is the one popup.
+      setRoles(list, "list", false);
+      if (moreList) setRoles(moreList, "menu", true);
+    } else {
+      // The whole list is the phone menu; the More list is a group of six inside it.
+      setRoles(list, "menu", true);
+      if (moreList) setRoles(moreList, "group", true);
+    }
+  };
 
   /** The phone Menu button: the element is in the HTML; wire it to the list. */
   private setupMenu(list: HTMLElement): void {

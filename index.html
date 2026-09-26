@@ -848,7 +848,7 @@
               <figcaption>
                 Slack calls one Bolt app over HTTP. Feature modules register their own commands, interactions, and
                 events. Shared services book appointments, and cron jobs read Firestore to send reminders back as
-                direct messages. Dashed lines are scheduled, not user-triggered.
+                direct messages. Dashed lines mark scheduled work rather than user-triggered work.
               </figcaption>
             </figure>
 
@@ -857,14 +857,13 @@
                 <h4>How a screenshot becomes an appointment</h4>
                 <ol>
                   <li>
-                    Someone @mentions the bot with an image. The handler checks the sender against an owner plus an
-                    allowlist of trusted uploaders from the environment; anyone else gets a polite refusal, and the
-                    image is never downloaded.
+                    Someone @mentions the bot with an image. The handler checks the sender against the owner and an allowlist of trusted uploaders set in the
+                    environment. Anyone else receives a polite refusal message, and the bot never downloads the image.
                   </li>
                   <li>
-                    One channel receives several kinds of screenshot (appointments, referrals, lab orders), so the
+                    One channel receives several kinds of screenshots (appointments, referrals, and lab orders), so the
                     image is <strong>classified before it is routed</strong>: a cheap Gemini vision call returns a
-                    type, and each type's handler either claims the mention or lets it fall through.
+                    type, and each type's handler either claims the mention or lets it pass through.
                   </li>
                   <li>
                     The claiming handler asks Gemini for a typed JSON shape (title, date, times, category, doctor
@@ -873,26 +872,27 @@
                   </li>
                   <li>
                     The doctor hint is matched against the directory with a fuzzy matcher: substring or
-                    Levenshtein distance for whole names, then per-token matching that ignores titles like
-                    "Dr." so they can't match every doctor at once. <strong>No match means the bot asks</strong>,
+                    Levenshtein distance for whole names, then per-token matching that ignores titles such as
+                    "Dr.," which would otherwise match every doctor at once. <strong>No match means the bot asks</strong>,
                     with a one-click "add this doctor" flow, rather than booking with the wrong clinician.
                   </li>
                   <li>
                     A single <code>bookAppointment</code> service creates the Google Calendar event, writes the
                     Firestore record with the event ID, and formats the Slack card. The slash command and the
-                    mention path both call it, so there is one place where booking can be wrong.
+                    mention path both call it, so booking can go wrong in only one place.
                   </li>
                 </ol>
 
                 <h4>Scheduled jobs</h4>
                 <ul>
                   <li>
-                    <strong>40-minute reminders</strong> run every five minutes and pick appointments in a 35 to 45
-                    minute window. Each record stores <code>reminderSentAt</code>, so the job is idempotent across
-                    restarts and never DMs twice.
+                    <strong>40-minute reminders</strong> run every five minutes and pick up appointments in a
+                    35-to-45-minute window. Each record stores <code>reminderSentAt</code>, so the job is idempotent across
+                    restarts and never sends a duplicate message.
                   </li>
                   <li>
-                    <strong>Next-day follow-up</strong> at 11:00 America/New_York asks how yesterday's visit went and
+                    <strong>Next-day follow-up</strong> at 11:00 a.m. Eastern (America/New_York) asks how the
+                    previous day's visit went and
                     opens the record for visit notes and next steps.
                   </li>
                   <li>
@@ -930,14 +930,14 @@
                   </dd>
                   <dt>Runtime</dt>
                   <dd>
-                    Node in a Docker image on Railway, restart-on-failure. Unhandled rejections and exceptions are
-                    logged with a prefix per module so production logs can be grepped by feature.
+                    Node in a Docker image on Railway, with restart on failure. Unhandled rejections and exceptions are
+                  logged with a per-module prefix, so production logs can be grepped by feature.
                   </dd>
                 </dl>
 
                 <h4>Decisions I'd defend</h4>
                 <ul>
-                  <li>Classify before parse, because the channel is not a reliable signal of content.</li>
+                  <li>Classify before parsing, because the channel is not a reliable signal of content.</li>
                   <li>Never invent a doctor. Ambiguity becomes a question with a button, not a best guess.</li>
                   <li>Idempotency lives on the record, not in process memory, so restarts are safe.</li>
                   <li>Slow work is visible work: the bot replies "Reading that referral…" immediately, then posts the result, so nobody wonders whether the mention landed.</li>

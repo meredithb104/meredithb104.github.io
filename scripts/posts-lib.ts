@@ -283,11 +283,11 @@ export function archivePage(posts: Post[]): string {
   const main = `      <p class="eyebrow">Writing</p>
       <h1>Posts</h1>
       <p class="lede measure">
-        These are notes on accessibility engineering: what audits keep finding, how I fix each problem, and how I
-        maintain that fix. Subscribe with the <a href="/feed.xml" type="application/atom+xml">Atom feed</a>.
+        These are notes on accessibility engineering and other ventures: what audits keep finding, how I fix each
+        problem and maintain that fix, and the people and projects that have shaped my work. Subscribe with the <a href="/feed.xml" type="application/atom+xml">Atom feed</a>.
       </p>
       ${list}`;
-  return page({ title: "Writing, by Meredith Boyce", description: "Posts on accessibility engineering by Meredith Boyce: audits, remediation, and code.", path: "/posts/", main, current: "posts" });
+  return page({ title: "Writing, by Meredith Boyce", description: "Posts on accessibility engineering and other ventures by Meredith Boyce: audits, remediation, code, and mentorship.", path: "/posts/", main, current: "posts" });
 }
 
 /** One entry, shared by the archive (h2 under the page h1) and the landing block (h3 under the section h2). */
@@ -324,7 +324,7 @@ export function atomFeed(posts: Post[], now: string): string {
   return `<?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Meredith Boyce: writing</title>
-  <subtitle>Notes on accessibility engineering</subtitle>
+  <subtitle>Notes on accessibility engineering and other ventures</subtitle>
   <link href="${SITE}/feed.xml" rel="self" />
   <link href="${SITE}/posts/" />
   <id>${SITE}/posts/</id>

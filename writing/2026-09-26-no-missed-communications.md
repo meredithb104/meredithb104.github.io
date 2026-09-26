@@ -1,5 +1,5 @@
 ---
-title: Missed Communications (In Context)
+title: No missed communications
 date: 2026-09-26
 description: In 2015, I ignored the emails telling me that I had won a trip to the White House. My mentor made sure that I didn't miss the moment. Now I mentor students at the ND Project.
 tags: mentorship, disability, STEM equity, The ND Project

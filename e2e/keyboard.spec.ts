@@ -161,9 +161,15 @@ test("a fragment is cleared from the address once it has done its job", async ({
 
 test("every fragment lands: a heading with no tabindex takes focus, on a link, on hashchange, and on load", async ({ page }) => {
   // Post headings have ids but no tabindex. A link to one (from anywhere) must still land focus there.
+  // Not every post has headings (an essay may be all prose), so take the newest one that does.
   await page.goto("/posts/");
-  const postHref = await page.locator("main a[href^='/posts/']").first().getAttribute("href");
-  await page.goto(postHref!);
+  const hrefs = await page.locator("main a[href^='/posts/']").evaluateAll((as) => as.map((a) => a.getAttribute("href")!));
+  let postHref = "";
+  for (const href of hrefs) {
+    await page.goto(href);
+    if ((await page.locator("main h2[id]").count()) > 0) { postHref = href; break; }
+  }
+  expect(postHref).toBeTruthy();
   const headingId = await page.locator("main h2[id]").last().getAttribute("id");
   expect(headingId).toBeTruthy();
 

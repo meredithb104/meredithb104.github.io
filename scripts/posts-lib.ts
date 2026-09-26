@@ -262,7 +262,7 @@ export function postPage(post: Post): string {
           <p class="eyebrow"><a href="/posts/">Writing</a></p>
           <h1 id="post-h">${escapeHtml(post.title)}</h1>
           <p class="post-meta">
-            <time datetime="${post.date}">${formatDate(post.date)}</time> · ${post.minutes} minute read
+            <time datetime="${post.date}">${formatDate(post.date)}</time> · ${post.minutes}-minute read
           </p>
           <p class="lede measure">${escapeHtml(post.description)}</p>
           ${tags}
@@ -283,8 +283,8 @@ export function archivePage(posts: Post[]): string {
   const main = `      <p class="eyebrow">Writing</p>
       <h1>Posts</h1>
       <p class="lede measure">
-        Notes on accessibility engineering: what audits keep finding, how I fix it, and how I keep it fixed. Subscribe
-        with the <a href="/feed.xml" type="application/atom+xml">Atom feed</a>.
+        These are notes on accessibility engineering: what audits keep finding, how I fix each problem, and how I
+        maintain that fix. Subscribe with the <a href="/feed.xml" type="application/atom+xml">Atom feed</a>.
       </p>
       ${list}`;
   return page({ title: "Writing, by Meredith Boyce", description: "Posts on accessibility engineering by Meredith Boyce: audits, remediation, and the code that keeps it fixed.", path: "/posts/", main, current: "posts" });
@@ -294,7 +294,7 @@ export function archivePage(posts: Post[]): string {
 export function postListItem(post: Post, level: 2 | 3 = 3): string {
   return `          <li class="post-item">
             <h${level} class="post-item-title"><a href="/posts/${post.slug}/">${escapeHtml(post.title)}</a></h${level}>
-            <p class="post-item-meta"><time datetime="${post.date}">${formatDate(post.date)}</time> · ${post.minutes} minute read</p>
+            <p class="post-item-meta"><time datetime="${post.date}">${formatDate(post.date)}</time> · ${post.minutes}-minute read</p>
             <p class="post-item-desc">${escapeHtml(post.description)}</p>
           </li>`;
 }

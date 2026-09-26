@@ -1,11 +1,11 @@
 ---
 title: TalkOver, revisited
 date: 2026-09-17
-description: Years ago I wanted to rewrite TalkBack to behave like VoiceOver. I finally read the TalkBack source. Most of the rewrite already ships as a settings screen.
+description: Years ago, I wanted to rewrite TalkBack to behave like VoiceOver. I finally read the TalkBack source. Most of the "rewrite" already ships as a settings screen.
 tags: TalkBack, VoiceOver, Android, screen readers
 ---
 
-Once upon a time, long before the age of AI, I suggested a rewrite of the Android TalkBack code so that it would function close to how VoiceOver works for Apple devices. My invention was to be called "TalkOver."
+Once upon a time, long before the age of AI, I proposed rewriting Android's TalkBack code so that it would work more like VoiceOver on Apple devices. My grand invention was to be called "TalkOver."
 
 I never got past the name. The idea stayed with me long enough that I finally asked the question properly: how far apart are these two gesture models? Would TalkOver have needed a rewrite, or was the gap smaller than it looked from the outside?
 
@@ -20,7 +20,7 @@ Several of VoiceOver's core gestures are already TalkBack's defaults under diffe
 | Swipe right or left moves to the next or previous item | Identical: `NEXT` and `PREVIOUS` |
 | Swipe up or down adjusts the rotor's current setting | Same idea: `SELECTED_SETTING_NEXT_ACTION` and `SELECTED_SETTING_PREVIOUS_ACTION` |
 | Two-finger tap pauses or resumes speech | Identical: `PAUSE_OR_RESUME_FEEDBACK` |
-| Two-finger double-tap is the "magic tap" (play, pause, answer the call) | Identical intent: `MEDIA_CONTROL_OR_VOICE_INPUT` on the same gesture |
+| Two-finger double-tap is the "magic tap" (play, pause, or answer a call) | Identical intent: `MEDIA_CONTROL_OR_VOICE_INPUT` on the same gesture |
 
 The younger engineer who named TalkOver would have rewritten four gestures that needed no rewriting.
 

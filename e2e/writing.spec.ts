@@ -12,7 +12,7 @@ test("the landing page lists the newest posts and links to the archive and feed"
   await page.goto("/");
   const section = page.getByRole("region", { name: "Writing" });
   await expect(section.getByRole("link", { name: "Accessibility is a build error, not a review comment" })).toBeVisible();
-  await expect(section.getByRole("link", { name: /archive has all of them/ })).toHaveAttribute("href", "/posts/");
+  await expect(section.getByRole("link", { name: /archive holds all of them/ })).toHaveAttribute("href", "/posts/");
   await expect(section.getByRole("link", { name: "Atom feed" })).toHaveAttribute("href", "/feed.xml");
   await openMore(page, "Sections");
   await expect(page.getByRole("navigation", { name: "Sections" }).getByRole("menuitem", { name: "Writing" })).toHaveAttribute("href", "#writing");

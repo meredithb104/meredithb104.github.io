@@ -952,12 +952,11 @@
             <p class="eyebrow">Discord bot · Node · Firestore · Gemini · Google Calendar · Meta Graph API</p>
             <h3 id="plannerbot-h">PlannerBot: a nonprofit's planning system, inside its Discord</h3>
             <p class="measure">
-              The NDProj is run by two volunteers, and its plans lived in chat scrollback. PlannerBot turns the
+              The NDProj is run by two volunteers, and its plans used to live in chat scrollback. PlannerBot turns the
               Discord server itself into the planning system: you speak to it in sentences, it keeps the record,
-              and the record comes back as a card with buttons wherever the conversation is. I held it to the
-              rules I hold a product to in an audit. Nothing goes out without alt text. Every action confirms in
-              one message, not three. Nothing lives where the wrong person could reply to it. Nothing is deleted
-              without its deliverables surviving.
+              and the record comes back as a card with buttons wherever the conversation happens. I held it to the same
+                rules that I apply to a product in an audit. Nothing goes out without alt text. Every action confirms in
+              one message, not three. Nothing lives where the wrong person could reply to it. Nothing is deleted unless its deliverables survive.
             </p>
           </div>
 
@@ -1064,9 +1063,9 @@
                 <path class="edge edge--dashed" style="marker-end:url(#arrow-pb-n)" d="M330 178 C 352 178, 352 769, 332 769" />
                 </svg>
               <figcaption>
-                The same shape as MedConnect with discord.js in place of Bolt, plus an instance lock: each
-                deployment claims a Firestore document on start and the previous one goes quiet when the claim
-                changes. Dashed lines are scheduled or infrastructural.
+                PlannerBot has the same shape as MedConnect, with discord.js in place of Bolt, plus an instance lock:
+                  each deployment claims a Firestore document on start, and the previous deployment goes quiet when the
+                  claim changes. Dashed lines mark scheduled or infrastructure work.
               </figcaption>
             </figure>
 
@@ -1076,24 +1075,23 @@
                 <p>
                   A to-do starts as a sentence. "@PlannerBot review the treasurer résumé Ila emailed me, @Ila to
                   handle" becomes a record with a title, the details, who thought of it, who owns it, and a due date
-                  read from "by Friday". A slash form is the alternative for anyone who prefers one.
+                  read from "by Friday." A slash form is the alternative for anyone who prefers one.
                 </p>
                 <ol>
                   <li>
                     <strong>Assigned work is invisible to everyone else.</strong> Assignment opens a private thread
                     for the assignee and the assigner, posts the card there, and removes the public one. Only the
-                    originator or the owner can close a to-do; being the assignee does not let you hand it on.
+                    originator or the owner can close a to-do; being the assignee does not let you reassign it.
                   </li>
                   <li>
                     <strong>Subtasks go one level deep, on purpose.</strong> A subtask is a full to-do with its own
                     thread, card, notes, and files, opened by a mention in the parent's thread, a button on the
-                    card, or the form. A subtask cannot have subtasks; asking for one is refused with a pointer to
-                    the parent. The parent's card shows progress: "Subtasks (1/3 done)".
+                    card, or the form. A subtask cannot have subtasks; a request for one is refused with a pointer to the parent. The parent's card shows progress: "Subtasks (1/3 done)".
                   </li>
                   <li>
                     <strong>Closing a parent settles everything under it.</strong> Open subtasks close with credit
                     to their assignees, their notes and files roll up onto the parent, a full Deliverables message is
-                    left in the thread, and the thread is locked and archived. Reopen restores it.
+                    left in the thread, and the thread is locked and archived. Reopening restores it.
                   </li>
                   <li>
                     <strong>Deliverables are reachable from the interface, not a command.</strong> Every card has a
@@ -1101,13 +1099,14 @@
                     a private Deliverables thread that receives the list when a to-do closes.
                   </li>
                   <li>
-                    <strong>Names resolve to people.</strong> "Ila", "ila :)", or a username, ignoring case, spaces,
-                    and punctuation, so forms that cannot carry an @mention still assign the right person.
+                    <strong>Names resolve to people.</strong> Matching ignores case, spaces, and punctuation, so "Ila,"
+                  "ila :)," and a username all resolve to the same person, and forms that cannot carry an @mention still
+                  assign the right one.
                   </li>
                 </ol>
                 <p>
                   Cards are sticky: while a to-do is open, every note, reply, or edit brings its card back to the
-                  bottom of the thread, and duplicates in one channel collapse to one. Any private thread whose item
+                  bottom of the thread, and duplicates in one channel collapse into one. Any private thread whose item
                   is deleted or reassigned is removed, so nobody replies into a dead thread.
                 </p>
 
@@ -1121,19 +1120,20 @@
                 <ol>
                   <li>
                     <strong>Readiness is checked, not assumed.</strong> "Request review" runs a pre-flight checklist.
-                    A missing caption or a leftover <code>[placeholder]</code> blocks submission; missing hashtags,
-                    graphic, alt text, pillar, or date are warnings. Approve and Request Changes notify the owner in
+                    A missing caption or a leftover <code>[placeholder]</code> blocks submission; missing hashtags, a missing graphic, alt text, pillar, or date
+                  produce warnings instead. Approve and Request Changes notify the owner in
                     a private thread, and a caption edited after approval goes back to review.
                   </li>
                   <li>
                     <strong>Alt text is required to count.</strong> A post counts as "written with graphics" only
                     when it has both an image and alt text, and the writing-week coach says exactly which is
-                    missing. The Graphic button nudges when the alt text reads like a caption.
+                    missing. The Graphic button nudges the writer when the alt text reads like
+                  a caption.
                   </li>
                   <li>
                     <strong>Drafting is assisted, never automatic.</strong> Gemini writes in the organization's
-                    documented voice, with Shorter, Warmer, More direct, and Another go; nothing is saved until
-                    someone chooses it, and facts that were not supplied come back as placeholders, never invented.
+                    documented voice, with Shorter, Warmer, More direct, and Another go options; nothing is saved until someone
+                  chooses a version, and facts that were not supplied come back as placeholders, never invented.
                     Content pillars, a Saturday balance nudge, and five ideas that lean toward whichever pillars are
                     running dry keep the calendar honest.
                   </li>
@@ -1141,11 +1141,11 @@
                     <strong>Metrics come from the platform.</strong> Pressing Metrics on a posted Instagram card reads
                     likes, comments, shares, saves, and reach through Meta's Graph API from the post's link and offers
                     Save or Edit first; nothing is written until you choose. A nightly job re-reads them 3, 7, and 30
-                    days after posting and never overwrites a newer manual entry. LinkedIn exposes no such API, so
-                    it stays by hand, and the form says so.
+                    days after posting and never overwrites a newer manual entry. LinkedIn exposes no such API, so its metrics are entered by hand, but the
+                  form warns of this.
                   </li>
                   <li>
-                    <strong>Copy works on a phone.</strong> "Copy caption" sends caption, hashtags, and alt text as
+                    <strong>Copy works on a phone.</strong> "Copy caption" sends the caption, hashtags, and alt text as
                     three separate plain messages, because Discord mobile copies a whole message at a time.
                   </li>
                 </ol>
@@ -1155,8 +1155,8 @@
                   "Create event: body doubling this Saturday 2–4pm in Quiet Study 1, I'll host" lands as a forum post
                   and on the organization's Google Calendar, and edits sync both ways. <code>/event find</code> ranks
                   free slots across four shared calendars using only busy intervals, never titles, with weekday
-                  evenings and weekends first, a fifteen-minute buffer, and at most two picks a day. Creating or
-                  moving an event onto someone's busy time warns, with Move-to buttons.
+                  evenings and weekends first, a fifteen-minute buffer, and at most two picks a day. Creating or moving an event onto someone's busy time triggers a warning with
+                  Move-to buttons.
                 </p>
               </div>
 
@@ -1172,8 +1172,8 @@
                   <dt>Interactions</dt>
                   <dd>
                     Buttons, selects, and modals are keyed by <code>customId</code> prefix
-                    (<code>prefix:arg1:arg2</code>). A registry holds three handler maps; each feature module
-                    registers into them; one dispatcher splits the ID and calls the handler with its arguments.
+                    (<code>prefix:arg1:arg2</code>). A registry holds three handler maps, each feature module registers its handlers in
+                  them, and one dispatcher splits the ID and calls the handler with its arguments.
                   </dd>
                   <dt>Jobs</dt>
                   <dd>
@@ -1202,15 +1202,15 @@
                 <div class="callout">
                   <p>
                     <strong>Overlapping deploys.</strong> Railway starts the new container before stopping the old
-                    one, and for those seconds Discord delivers every message and cron tick to both. A subtask once
-                    got two threads and a delete cascade ran halfway. The fix is an instance lock: on start, each
+                    one, and for those few seconds, Discord delivers every message and cron tick to both. Once, a subtask got
+                  two threads, and a delete cascade ran only halfway. The fix is an instance lock: on start, each
                     instance writes its ID to a settings document and subscribes to it, and the moment a newer
                     instance claims it, the older one ignores messages, interactions, and cron until it is stopped.
                     The lock is per bot user, so a dev bot beside prod never silences prod.
                   </p>
                   <p>
                     <strong>A client that died and reported ready.</strong> A Discord gateway outage showed that a
-                    destroyed client could still fire its ready event. Login now retries with exponential back-off
+                    destroyed client could still fire its ready event. Login now retries with exponential backoff
                     and a fresh client on every attempt.
                   </p>
                   <p>

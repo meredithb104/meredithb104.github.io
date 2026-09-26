@@ -151,16 +151,16 @@
       <section id="lab" class="section" tabindex="-1" aria-labelledby="lab-h">
         <h2 id="lab-h">Lab</h2>
         <p class="section-lede measure">
-          Here are three small things from this page's own source. All are plain custom elements around native form
-          controls, and the HTML works before the JavaScript arrives.
+          Here are three small tools from this page's own source. Each is a plain custom element wrapped around
+          native form controls, and the HTML works before any JavaScript loads.
         </p>
         <div class="lab-grid">
           <div class="panel">
             <h3>Theme</h3>
             <p>
-              Three themes come from one token file, and every pair is contrast-checked at build. Your choice is
-              remembered and applied before first paint next time. Windows high-contrast mode is handled separately
-              with system colors.
+              All three themes come from a single token file, and every color pair is checked for contrast at build
+              time. The site remembers your choice and applies it before the first paint on your next visit. Windows
+              high-contrast mode is handled separately, with system colors.
             </p>
             <theme-picker>
               <fieldset>
@@ -178,10 +178,10 @@
           <div class="panel">
             <h3>Typeface</h3>
             <p>
-              Public Sans, the U.S. Web Design System typeface, is the default. Atkinson Hyperlegible Next is the
-              Braille Institute's typeface, drawn so that similar letters stay distinct, and loads only when chosen.
-              System uses your device's own font and no web font at all. Your choice is remembered and applied
-              before first paint next time.
+              Public Sans, the U.S. Web Design System typeface, is the default. Atkinson Hyperlegible Next, the
+              Braille Institute's typeface, is drawn so that similar letters stay distinct, and it loads only when you
+              choose it. The System option uses your device's own font and loads no web font at all. As with the
+              theme, the site remembers your choice and applies it before the first paint on your next visit.
             </p>
             <font-picker>
               <fieldset>
@@ -198,8 +198,8 @@
           <div class="panel">
             <h3>Contrast checker</h3>
             <p>
-              This is the same WCAG math the build runs, computed live. Results are words, not just colors, and the
-              summary is announced once you stop typing.
+              This checker runs the same WCAG contrast calculation as the build, but live. Results appear as words,
+              not just colors, and the summary is announced once you stop typing.
             </p>
             <contrast-checker>
               <form aria-label="Contrast checker">
@@ -239,10 +239,10 @@
           <div class="panel panel--wide">
             <h3>Tabs and a carousel</h3>
             <p>
-              These two patterns go wrong more often than they go right, so both are built to the WAI-ARIA
-              Authoring Practices. The tabs below are the demo: one holds the carousel, and the others explain it and
-              show the markup as authored. Without JavaScript, the tabs are a list of links above stacked sections,
-              and the carousel is twelve stacked cards. Nothing auto-rotates.
+              Tabs and carousels go wrong more often than they go right, so I built both to the WAI-ARIA Authoring
+              Practices. The tabs below are the demo itself: the first holds the carousel, the second explains how it
+              works, and the third shows the markup as authored. Without JavaScript, the tabs become a list of links
+              above stacked sections, and the carousel becomes twelve stacked cards. Nothing rotates automatically.
             </p>
             <cui-tabs label="Carousel demo">
               <ul data-tabs>
@@ -267,12 +267,12 @@
                     </section>
                     <section data-slide>
                       <h4>3. Focus dropped on close</h4>
-                      <p>The dialog closes and focus lands on <code>&lt;body&gt;</code>. For a screen reader user that is a trip back to the top of the page.</p>
-                      <p><strong>Instead,</strong> return focus to the control that opened the dialog. The native <code>&lt;dialog&gt;</code> does this for free.</p>
+                      <p>The dialog closes, and focus lands on <code>&lt;body&gt;</code>. For a screen reader user, that means a trip back to the top of the page.</p>
+                      <p><strong>Instead,</strong> return focus to the control that opened the dialog. The native <code>&lt;dialog&gt;</code> element does this automatically.</p>
                     </section>
                     <section data-slide>
                       <h4>4. Color as the only signal</h4>
-                      <p>Red border for error, green for success, and nothing else. That is invisible to a screen reader and to a lot of sighted people.</p>
+                      <p>A red border signals an error, a green one signals success, and nothing else does. That is invisible to a screen reader and to many sighted people.</p>
                       <p><strong>Instead,</strong> add text. Color can reinforce a state, but it can never carry one alone.</p>
                     </section>
                     <section data-slide>
@@ -292,28 +292,28 @@
                     </section>
                     <section data-slide>
                       <h4>8. The focus ring, removed</h4>
-                      <p><code>outline: none</code> with nothing in its place means keyboard users cannot see where they are. It is usually done to hide the ring from mouse users.</p>
+                      <p><code>outline: none</code> with nothing in its place means keyboard users cannot see where they are. Developers usually do this to hide the ring from mouse users.</p>
                       <p><strong>Instead,</strong> style <code>:focus-visible</code>. Mouse users never see it, and keyboard users always do.</p>
                     </section>
                     <section data-slide>
                       <h4>9. Skipped heading levels</h4>
-                      <p>An <code>h2</code> followed by an <code>h4</code> because the <code>h3</code> looked too big. Screen reader users navigate by heading level; the outline now has a hole in it.</p>
+                      <p>An <code>h2</code> is followed by an <code>h4</code> because the <code>h3</code> looked too big. Screen reader users navigate by heading level, so the outline now has a gap.</p>
                       <p><strong>Instead,</strong> treat heading levels as structure and fix the size in CSS.</p>
                     </section>
                     <section data-slide>
                       <h4>10. Errors nowhere near the field</h4>
-                      <p>A red list at the top of the form, no link to the field, and the field itself says nothing when you land on it.</p>
+                      <p>The errors sit in a red list at the top of the form with no link to each field, and the field itself says nothing when a user reaches it.</p>
                       <p><strong>Instead,</strong> connect the message with <code>aria-describedby</code>, mark the field <code>aria-invalid</code>, and link each summary item to its input.</p>
                     </section>
                     <section data-slide>
                       <h4>11. Hover-only tooltips</h4>
-                      <p>If it only appears on hover, keyboard and touch users never see it, and it disappears the moment a magnifier user moves toward it.</p>
+                      <p>If a tooltip appears only on hover, keyboard and touch users never see it, and it disappears the moment a magnifier user moves toward it.</p>
                       <p><strong>Instead,</strong> show the tooltip on focus as well, let Escape dismiss it, and never put essential information inside it (WCAG 1.4.13).</p>
                     </section>
                     <section data-slide>
-                      <h4>12. Motion with no off switch</h4>
-                      <p>Auto-playing carousels, parallax, and animated counters with no pause control and no <code>prefers-reduced-motion</code> check.</p>
-                      <p><strong>Instead,</strong> let nothing move unless the user asks. This carousel does not auto-rotate, and its one fade lasts 0ms under reduced motion.</p>
+                      <h4>12. Motion without an off switch</h4>
+                      <p>Autoplaying carousels, parallax effects, and animated counters ship with no pause control and no <code>prefers-reduced-motion</code> check.</p>
+                      <p><strong>Instead,</strong> let nothing move unless the user asks. This carousel does not rotate automatically, and its one fade lasts 0&nbsp;ms under reduced motion.</p>
                     </section>
                   </div>
                 </carousel-slider>

@@ -693,15 +693,15 @@
 
       <section id="approach" class="section" tabindex="-1" aria-labelledby="approach-h">
         <h2 id="approach-h">My approach</h2>
-        <p class="section-lede measure">These five rules govern every project I show here and the source of this page.</p>
+        <p class="section-lede measure">These five rules govern every project shown here, as well as the source code of this page.</p>
         <ol class="principles">
           <li>
             <div>
               <strong>Accessibility is a build error, not a review comment.</strong>
-              The tokens on this site declare which colors sit on which backgrounds. The build computes every pair
-              and refuses to emit CSS if one fails. While I was building this page, the check caught me asking a
-              focus ring to contrast with both the page and a dark button. The button is not the ring's adjacent
-              color, and the build said so before any reviewer saw it.
+              The tokens on this site declare which colors sit on which backgrounds. The build checks every pair
+              and refuses to emit CSS if any pair fails. While I was building this page, the check caught me
+              requiring a focus ring to contrast with both the page and a dark button. The button is not the ring's
+              adjacent color, and the build flagged the mistake before any reviewer saw it.
             </div>
           </li>
           <li>
@@ -715,24 +715,25 @@
           <li>
             <div>
               <strong>Focus goes where the user's attention should go.</strong>
-              Skip links land on a focusable main. In-page links move focus to the section. Error summaries take
-              focus. Nothing is <code>disabled</code> while it works, because disabled controls vanish from the tab
-              order and go silent.
+              Skip links land on a focusable main element. In-page links move focus to their section. Error
+              summaries take focus. Nothing is <code>disabled</code> while it is working, because disabled controls
+              vanish from the tab order and go silent.
             </div>
           </li>
           <li>
             <div>
               <strong>Never rely on color alone.</strong>
-              Every state is also text: "Pass" and "Fail", a check mark on the pressed filter, an underline on the
-              current section. Icons are hidden from assistive tech and sit next to a visible label.
+              Every state has a cue beyond color: the words "Pass" and "Fail," a check mark on the pressed filter,
+              and an underline on the current section. Icons are hidden from assistive technology and sit next to a
+              visible label.
             </div>
           </li>
           <li>
             <div>
               <strong>Test the behavior, not just the markup.</strong>
-              axe-core catches missing names and bad roles; it cannot tell you that focus went nowhere on submit.
-              This site runs axe in a real browser on every deploy, and it also tabs through the page, resizes it to
-              320 pixels, and checks that nothing scrolls sideways.
+              The axe-core engine catches missing names and bad roles, but it cannot tell you that focus went
+              nowhere on submit. On every deploy, the test suite runs axe in a real browser, tabs through the page,
+              resizes it to 320 pixels wide, and checks that nothing scrolls sideways, ever.
             </div>
           </li>
         </ol>

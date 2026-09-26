@@ -11,7 +11,7 @@ I am done writing that finding. On this site, it cannot exist.
 
 ## The rule
 
-Every color in my design tokens can say what it sits on and the ratio it owes:
+Every color in my design tokens can declare which backgrounds it sits on and what ratio it owes against each one:
 
 ```json
 "textMuted": {
@@ -21,17 +21,17 @@ Every color in my design tokens can say what it sits on and the ratio it owes:
 }
 ```
 
-When the tokens compile, a script checks every pair with the WCAG 2.x formula. If one pair is short, the script prints the pair, the ratio it got, and the ratio it needed, and it exits. No CSS is written. The site does not build. Eighty-one pairs, three themes, every deploy.
+When the tokens compile, a script checks every pair with the WCAG 2.x formula. If any pair falls short, the script prints the pair, the ratio it got, and the ratio it needed, and then it exits. No CSS is written, and the site does not build. There are eighty-one pairs across three themes, checked on every deploy.
 
 ## What it caught on day one
 
-I asked the focus ring to hit 3:1 against the page and against the primary button. The build stopped me: 1.55:1 against the button in the light theme.
+I required the focus ring to reach 3:1 against both the page and the primary button. The build stopped me: 1.55:1 against the button in the light theme.
 
 The build was right. The ring sits two pixels outside the control, so the color next to it is the page, not the button. I had written a requirement that does not exist in WCAG, and the build would not let me ship it. Nobody reviewed that mistake. Nobody had to.
 
 ## Why tokens and not a linter
 
-A linter looks at a rendered page. It cannot see the theme that is not active, the state nobody triggered, or the component that is not on the page it was pointed at. I know this because I run linters for a living, and then I test by hand, because the linter missed something.
+A linter looks at a rendered page. It cannot see the theme that is not active, the state nobody triggered, or the component that is absent from the page it is checking. I know this because I run linters for a living, and then I test by hand, because linters miss things.
 
 A token file is the one place where every color and every background exist together before any of them is drawn. Check there, and you have checked all of it, in milliseconds, before a human looks.
 

@@ -62,14 +62,14 @@
         I'm a blind accessibility engineer, so this page is the one I care most about getting right. This statement names the
         standard to which the site conforms, explains how I checked, lists what I know is imperfect, and tells you
         how to reach me when something is wrong.
-        Last reviewed: <time datetime="2026-09-17">17 September 2026</time>.
+        Last reviewed: <time datetime="2026-09-26">September 26, 2026</time>.
       </p>
 
       <h2>Conformance</h2>
       <p>
         <a href="https://meredithb104.github.io/">meredithb104.github.io</a> is intended to conform to the
         <a href="https://www.w3.org/TR/WCAG22/">Web Content Accessibility Guidelines (WCAG) 2.2</a> at Level AA,
-        and meets several AAA criteria where they were cheap to meet: body text contrast of 7:1 or better in every
+        and meets several AAA criteria where they were straightforward to meet: body text contrast of 7:1 or better in every
         theme (1.4.6), 44-pixel targets (2.5.5), and no time limits or motion beyond short transitions that stop
         entirely under <code>prefers-reduced-motion</code> (2.3.3).
       </p>
@@ -78,18 +78,18 @@
       <ul>
         <li>Semantic HTML with one <code>h1</code> per page, landmarks for header, navigation, main, and footer, and a skip link that lands on a focusable main.</li>
         <li>A single visible focus indicator on every interactive element, 3 pixels wide with a 2-pixel offset, contrast-checked against every background it can appear on (2.4.7, 2.4.11, 2.4.13).</li>
-        <li>The section menu shows About, Contact, Experience, and Skills, with the other six sections behind a "More information" button. Both it and the phone menu's button are the Commons UI MenuButton, used here as its framework-free custom element, with the same menu button pattern from the WAI-ARIA Authoring Practices: <code>aria-haspopup="menu"</code>, <code>aria-expanded</code>, and <code>aria-controls</code> describe the button; opening moves focus onto the first item; Up and Down move between items, Home and End jump to the ends, and the list wraps; Escape closes it and returns focus to the button; a click outside or focus leaving closes it; and choosing a link closes it. The popup list carries <code>role="menu"</code> and its links <code>role="menuitem"</code>, because JAWS hands the arrow keys to the page only inside a widget it recognises; on the phone the whole ten-row list is the menu and the More list is a group within it, and from 72em the top four are plain links on the bar and only the More list is a menu. Without JavaScript the custom element renders nothing and the six links simply show, and inside the phone menu the button is hidden and the list is flat, so that menu is one list of ten links. The current section is marked on its link and, when that link is inside More information, on the button too.</li>
-        <li>In-page navigation moves keyboard focus to the target section, and the fragment is then removed from the address, because a fragment that lingers pulls a screen reader's reading cursor back to its target whenever the page restyles. Below 72em the navigation collapses behind a "Menu" button that opens a panel anchored beneath it (the same menu button pattern as above: focus lands on the first row, the arrow keys walk the rows, Escape closes it and returns focus; a click elsewhere or tabbing past the last row closes it). Every row in the panel is a full-width target at least 44 pixels tall. The header is not sticky at these widths, and without JavaScript the full list simply shows. At 72em and above the header is sticky only because the full navigation fits on one row, so it cannot obscure a focused element (2.4.11).</li>
-        <li>Three themes (light, dark, high contrast) compiled from one token file; the build fails if any text/background pair drops below its required ratio. The palette is cake batter, white, monaco blue, yearbook blue, and royal navy. On the light theme the navy is the text (15:1 on the cake-batter page), the monogram tile, the header rule, and the focus ring (2px outside every control; buttons are the lighter yearbook blue, so a ring is never lost against the thing it rings), the yearbook blue is links, buttons, and eyebrow text (7:1), and the monaco blue is the box for callouts and diagram stores with the navy on it. On the dark theme the royal navy is the page, the monaco blue is links, buttons, the tile, and the rule, the cake batter is eyebrow text, and the focus ring is white (15:1). Errors on both themes use a plain red outside the palette, because an error colour is functional, and every error also carries an icon and the word. Windows forced-colors mode is styled with system colors rather than overridden.</li>
-        <li>Every state is expressed in text as well as color: Pass and Fail in the contrast checker, a check mark and a filled background on the active filter, an underline on the current section (1.4.1).</li>
-        <li>Nothing here is disabled while it works, and no control requires dragging, a specific pointer, or a path-based gesture (2.5.1, 2.5.7).</li>
+        <li>The section menu shows About, Contact, Experience, and Skills, with the other six sections behind a "More information" button. Both it and the phone menu's button are the Commons UI MenuButton, used here as its framework-free custom element, with the same menu button pattern from the WAI-ARIA Authoring Practices: <code>aria-haspopup="menu"</code>, <code>aria-expanded</code>, and <code>aria-controls</code> describe the button; opening moves focus onto the first item; Up and Down move between items, Home and End jump to the ends, and the list wraps; Escape closes it and returns focus to the button; a click outside or focus leaving closes it; and choosing a link closes it. The popup list carries <code>role="menu"</code> and its links <code>role="menuitem"</code>, because JAWS hands the arrow keys to the page only inside a widget it recognizes; on the phone, the whole ten-row list is the menu and the More list is a group within it, and from 72em up, the top four are plain links on the bar and only the More list is a menu. Without JavaScript, the custom element renders nothing and the six links simply appear; inside the phone menu, the button is hidden and the list is flat, so that menu is one list of ten links. The current section is marked on its link and, when that link is inside More information, on the button too.</li>
+        <li>In-page navigation moves keyboard focus to the target section, and the fragment is then removed from the address, because a fragment that lingers pulls a screen reader's reading cursor back to its target whenever the page restyles. Below 72em, the navigation collapses behind a "Menu" button that opens a panel anchored beneath it (the same menu button pattern as above: focus lands on the first row, the arrow keys walk the rows, Escape closes it and returns focus; a click elsewhere or tabbing past the last row closes it). Every row in the panel is a full-width target at least 44 pixels tall. The header is not sticky at these widths, and without JavaScript, the full list simply appears. At 72em and above, the header is sticky only because the full navigation fits on one row, so it cannot obscure a focused element (2.4.11).</li>
+        <li>Three themes (light, dark, high contrast) compiled from one token file; the build fails if any text/background pair drops below its required ratio. The palette is cake batter, white, monaco blue, yearbook blue, and royal navy. On the light theme, the navy is the text (15:1 on the cake-batter page), the monogram tile, the header rule, and the focus ring (2px outside every control; buttons are the lighter yearbook blue, so a ring is never lost against the thing it rings), the yearbook blue is links, buttons, and eyebrow text (7:1), and the monaco blue is the box for callouts and diagram stores with the navy on it. On the dark theme, the royal navy is the page, the monaco blue is links, buttons, the tile, and the rule, the cake batter is eyebrow text, and the focus ring is white (15:1). Errors on both themes use a plain red outside the palette, because an error color is functional, and every error also carries an icon and the word. Windows forced-colors mode is styled with system colors rather than overridden.</li>
+        <li>Every state has a cue beyond color: Pass and Fail in the contrast checker, a check mark and a filled background on the active filter, and an underline on the current section (1.4.1).</li>
+        <li>Nothing here is disabled while it is working, and no control requires dragging, a specific pointer, or a path-based gesture (2.5.1, 2.5.7).</li>
         <li>Content reflows to a 320-pixel-wide viewport with no horizontal scrolling, survives 200% zoom and user text-spacing overrides, and line length is capped at 68 characters (1.4.4, 1.4.10, 1.4.12, 1.4.8).</li>
         <li>Diagrams are inline SVG with a title and long description, plus a caption that says the same thing in prose. Each diagram has two drawings, a wide one and a stacked one for phones; only one is rendered at a time, so assistive technology meets exactly one image.</li>
         <li>Previous section, Next section, and Back to top sit in one small landmark (the "Page" navigation) after the main content, hidden until you scroll past the introduction. They are not hidden from assistive technology: a focusable control that is hidden from the accessibility tree is a silent tab stop, and the Tab key is shared by screen reader users and sighted keyboard users alike. Screen reader users have their own heading and landmark keys and can skip the landmark in one keystroke.</li>
-        <li>The tabs and the carousel in the Lab follow the WAI-ARIA Authoring Practices: one tab stop per tablist with arrow keys, focusable panels, and a carousel that never rotates by itself. The tabs, like the menu buttons, the contrast checker's text fields, the live region, the buttons, and the skip link, are Commons UI components used as framework-free custom elements, so the pattern tested there is the pattern that runs here. Its slides are not interactive, so focus stays on the Previous and Next buttons and a polite live region announces only the slide's position and heading.</li>
+        <li>The tabs and the carousel in the Lab follow the WAI-ARIA Authoring Practices: one tab stop per tablist with arrow keys, focusable panels, and a carousel that never rotates by itself. The tabs, like the menu buttons, the contrast checker's text fields, the live region, the buttons, and the skip link, are Commons UI components used as framework-free custom elements, so the pattern tested there is the pattern that runs here. The carousel's slides are not interactive, so focus stays on the Previous and Next buttons, and a polite live region announces only the slide's position and heading.</li>
         <li>Posts are written in Markdown and rendered to static HTML at build time. The build refuses a post whose images lack alt text, whose headings skip a level, or whose body contains a second <code>h1</code>. Every post carries a dated byline, and the Atom feed carries the full text.</li>
         <li>The résumé is a tagged PDF with a document title and language set, and every fact in it also appears as HTML in the Experience section, so the PDF is never the only route to the information.</li>
-        <li>No cookies, analytics, or third-party scripts. The theme and typeface choices are saved in your browser's local storage and never leave it. The typeface is Public Sans, served from this site; Atkinson Hyperlegible Next loads from this site only when chosen, and System uses no web font.</li>
+        <li>No cookies, analytics, or third-party scripts. The theme and typeface choices are saved in your browser's local storage and never leave it. The default typeface is Public Sans, served from this site; Atkinson Hyperlegible Next loads from this site only when chosen, and the System option uses no web font.</li>
       </ul>
 
       <h2>How it was tested</h2>
@@ -104,15 +104,13 @@
       </ol>
       <p>
         Beyond the automated checks, I use the site the way I use everything else: with a screen reader and a
-        braille display, keyboard only. Automated tools find roughly a third of accessibility problems; the rest is
-        judgment, which is why the case studies describe behavior and not just markup.
+        braille display, keyboard only. Automated tools find roughly a third of accessibility problems; the rest require judgment, which is why the case studies describe behavior and not just markup.
       </p>
 
       <h2>Known limitations</h2>
       <ul>
         <li>
-          The native color picker (<code>&lt;input type="color"&gt;</code>) in the contrast checker is a browser
-          control and its accessibility varies by browser. The adjacent hex text field does everything the picker
+          The native color picker (<code>&lt;input type="color"&gt;</code>) in the contrast checker is a browser control, and its accessibility varies by browser. The adjacent hex text field does everything the picker
           does, and the two stay in sync.
         </li>
         <li>
@@ -126,7 +124,7 @@
         </li>
         <li>
           Contrast is enforced for colors defined in the token file. If you override the theme with a browser
-          extension or a user stylesheet, the site will respect it but can't vouch for the result.
+          extension or a user stylesheet, the site will respect your choice but cannot guarantee the result.
         </li>
       </ul>
 
@@ -493,8 +491,9 @@
 
       <h2>Technical details</h2>
       <p class="measure">
-        HTML, CSS, and TypeScript compiled with Vite. No framework runtime. Tested in Chromium via Playwright, and
-        used daily by me with a screen reader (mostly JAWS) and a braille display on Windows. Source, tests, and this statement are in the
+        The site is built from HTML, CSS, and TypeScript, compiled with Vite, with no framework runtime. It is tested in
+        Chromium through Playwright, and I use it daily with a screen reader (mostly JAWS) and a braille display on
+        Windows. The source, the tests, and this statement are in the
         <a href="https://github.com/meredithb104/meredithb104.github.io">public repository</a>.
       </p>
     </main>

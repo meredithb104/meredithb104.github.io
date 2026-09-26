@@ -365,8 +365,8 @@
       <section id="work" class="section" tabindex="-1" aria-labelledby="work-h">
         <h2 id="work-h">Work</h2>
         <p class="section-lede measure">
-          Filter by the role you are filling. Public projects link to their repositories; private ones link to
-          their case studies.
+          Filter the projects by the role you are filling. Public projects link to their repositories, and private
+          ones link to their case studies.
         </p>
         <work-filter>
           <div class="chip-row" data-filters data-order="accessibility design-systems front-end back-end ai-integration testing" role="group" aria-label="Filter projects"></div>
@@ -380,10 +380,11 @@
               </p>
               <p>
                 Commons UI provides accessible-by-default React components for organizers, advocates, and mutual-aid
-                networks. Its design tokens declare which colors sit on which backgrounds; the build computes every
-                pair with the WCAG formula and refuses to emit CSS if one fails. It includes an accordion, tabs, a
-                dialog, a switch, form errors, live regions, and a menu button that also ships as a framework-free
-                custom element, each with keyboard tests and an axe scan. This site's two menus use that element.
+                networks. Its design tokens declare which colors sit on which backgrounds, and the build checks every pair
+                with the WCAG contrast formula and refuses to emit CSS if any pair fails. The library includes an accordion,
+                tabs, a dialog, a switch, form errors, live regions, and a menu button, and each component has keyboard
+                tests and an axe scan. The menu button also ships as a framework-free custom element, which powers both
+                menus on this site.
               </p>
               <p class="card-links">
                 <a href="https://meredithb104.github.io/commons-ui/">Live demo<span class="cui-visually-hidden"> of Commons UI</span></a>
@@ -412,10 +413,10 @@
                 ><span class="tag">Gemini</span><span class="tag">node-cron</span>
               </p>
               <p>
-                PlannerBot is a Discord bot that turns a nonprofit's Discord into its planning system: to-dos with
-                subtasks and private assignment threads, projects, events scheduled across four calendars, and a
-                social media pipeline that reads its own Instagram metrics and treats alt text as a hard
-                requirement. 7,749 lines of TypeScript across 78 modules; the repository is private.
+                PlannerBot is a Discord bot that turns a nonprofit's server into its planning system: to-dos with subtasks
+                and private assignment threads, projects, events scheduled across four calendars, and a social media
+                pipeline that reads its own Instagram metrics and treats alt text as a hard requirement. It contains 7,749
+                lines of TypeScript across 78 modules, and its repository is private.
               </p>
               <p class="card-links">
                 <a href="#plannerbot">Read the case study<span class="cui-visually-hidden"> for PlannerBot</span></a>
@@ -427,10 +428,9 @@
                 <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">Headless Chrome</span>
               </p>
               <p>
-                The logo, LinkedIn covers, and post templates for a nonprofit are written as HTML and CSS and
-                rendered to PNG with headless Chrome, so every asset is reproducible from source. The palette is
-                sampled from the logo and documented with its contrast ratios, including the colors that are never
-                allowed for text.
+                I wrote the logo, LinkedIn covers, and post templates for a nonprofit in HTML and CSS, and headless Chrome
+                renders them to PNG, so every asset can be reproduced from its source. The palette is sampled from the logo
+                and documented with its contrast ratios, including the colors that are never allowed for text.
               </p>
             </li>
             <li class="card" data-tags="front-end accessibility design-systems testing">
@@ -440,11 +440,11 @@
                 ><span class="tag">Web Components</span><span class="tag">Playwright</span>
               </p>
               <p>
-                This site runs no framework. It is static HTML, cascade layers, container queries, and seven small
-                custom elements of its own. The parts that are Commons UI's are Commons UI's, installed from that
-                repository as framework-free custom elements and their stylesheets: both menu buttons, the Lab's
-                tabs, the contrast checker's fields, the live region, the buttons, and the skip link. The Commons UI
-                token pipeline runs here ported to TypeScript. axe-core audits it in a real browser on every deploy.
+                This site uses no framework. It is built from static HTML, cascade layers, container queries, and seven
+                small custom elements of its own. Several parts come directly from Commons UI, installed from that
+                repository as framework-free custom elements with their stylesheets: both menu buttons, the Lab's tabs, the
+                contrast checker's fields, the live region, the buttons, and the skip link. The Commons UI token pipeline
+                also runs here, ported to TypeScript. On every deploy, axe-core audits the site in a real browser.
               </p>
               <p class="card-links">
                 <a href="https://github.com/meredithb104/meredithb104.github.io">Source on GitHub<span class="cui-visually-hidden"> (this site)</span></a>

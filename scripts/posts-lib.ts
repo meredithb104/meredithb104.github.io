@@ -199,7 +199,7 @@ const FOOTER = `
           <li><a href="/accessibility.html">Accessibility statement</a></li>
           <li><a href="https://github.com/meredithb104/meredithb104.github.io">Source for this site</a></li>
         </ul>
-        <p>Built by Meredith Boyce with HTML, CSS, and TypeScript. No analytics, no cookies, no tracking.</p>
+        <p>Built by Meredith Boyce with HTML, CSS, and TypeScript. The site uses no analytics, cookies, or tracking.</p>
       </div>
     </footer>`;
 
@@ -287,7 +287,7 @@ export function archivePage(posts: Post[]): string {
         maintain that fix. Subscribe with the <a href="/feed.xml" type="application/atom+xml">Atom feed</a>.
       </p>
       ${list}`;
-  return page({ title: "Writing, by Meredith Boyce", description: "Posts on accessibility engineering by Meredith Boyce: audits, remediation, and the code that keeps it fixed.", path: "/posts/", main, current: "posts" });
+  return page({ title: "Writing, by Meredith Boyce", description: "Posts on accessibility engineering by Meredith Boyce: audits, remediation, and code.", path: "/posts/", main, current: "posts" });
 }
 
 /** One entry, shared by the archive (h2 under the page h1) and the landing block (h3 under the section h2). */
